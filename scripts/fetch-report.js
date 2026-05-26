@@ -32,14 +32,16 @@ const KR_STOCKS = [
   { symbol: '443250.KS', name: 'HD현대일렉트릭 (443250)', type: '개별 종목' }
 ];
 
-// Define the target US / Space innovation stocks to fetch live
+// Define the target US / Space innovation & Commodity stocks to fetch live
 const US_STOCKS = [
   { symbol: 'TSLA', name: 'Tesla, Inc. (TSLA)', type: '미국 주식' },
   { symbol: 'RKLB', name: 'Rocket Lab USA (RKLB)', type: '미국 주식' },
   { symbol: 'ASTS', name: 'AST SpaceMobile (ASTS)', type: '미국 주식' },
   { symbol: 'LUNR', name: 'Intuitive Machines (LUNR)', type: '미국 주식' },
   { symbol: 'ARKX', name: 'ARK Space Exploration ETF (ARKX)', type: '미국 상장 ETF' },
-  { symbol: 'UFO', name: 'Procure Space ETF (UFO)', type: '미국 상장 ETF' }
+  { symbol: 'UFO', name: 'Procure Space ETF (UFO)', type: '미국 상장 ETF' },
+  { symbol: 'URA', name: 'Global X Uranium ETF (URA)', type: '미국 상장 ETF' },
+  { symbol: 'CL=F', name: 'WTI 원유 선물 (CL=F)', type: '원자재 선물' }
 ];
 
 async function fetchLiveStockData(symbol, currencySymbol = '원') {
@@ -79,8 +81,8 @@ async function fetchLiveStockData(symbol, currencySymbol = '원') {
 
 async function fetchRealNews(isGlobal = false) {
   const url = isGlobal 
-    ? 'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en'
-    : 'https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko';
+    ? 'https://news.google.com/rss/search?q=crude+oil+OR+geopolitical+war+OR+uranium+OR+nuclear+energy+OR+tesla+OR+space+exploration&hl=en-US&gl=US&ceid=US:en'
+    : 'https://news.google.com/rss/search?q=국제유가+OR+전쟁+OR+우라늄+OR+원자력+OR+반도체+OR+테슬라+OR+우주&hl=ko&gl=KR&ceid=KR:ko';
   try {
     const res = await fetch(url);
     const text = await res.text();
@@ -255,7 +257,13 @@ JSON Schema:
 }
 
 For the stock recommendations section ("stocks"): You must recommend exactly the 5 Korean stocks provided in the KOREAN PORTFOLIO context.
-For the US stock recommendations section ("usStocks"): You must recommend exactly the 6 US/Space stocks provided in the US & SPACE INNOVATION PORTFOLIO context (Tesla, Rocket Lab, AST SpaceMobile, Intuitive Machines, ARK Space Exploration ETF, Procure Space ETF).
+For the US stock recommendations section ("usStocks"): You must recommend exactly the 8 US/Space/Commodity stocks/ETFs provided in the US & SPACE INNOVATION PORTFOLIO context (Tesla, Rocket Lab, AST SpaceMobile, Intuitive Machines, ARK Space Exploration ETF, Procure Space ETF, Global X Uranium ETF, WTI Crude Oil Futures).
+
+For the news sections ("news"), you MUST actively prioritize selecting and analyzing articles regarding:
+1. 국제 유가 (Crude oil price/energy trends)
+2. 지정학적 리스크 및 전쟁 (Geopolitical conflicts/war risks in Middle East or globally)
+3. 우라늄 공급 및 원자력 에너지 (Uranium mining, supply chain, and nuclear energy trends)
+along with investor's portfolio-related technology and space articles.
 
 You MUST populate their "price", "high52", and "low52" fields with the EXACT values supplied in the live prices context.
 Then, use your financial analysis intelligence to generate realistic and precise quant comments, valuations, supply trends, and news items for ${formattedDate}.
