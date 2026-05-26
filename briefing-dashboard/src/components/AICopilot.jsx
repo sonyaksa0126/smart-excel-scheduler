@@ -54,12 +54,11 @@ const formatResponseText = (text) => {
       if (trimmed === '---') {
         resultHtml.push('<hr class="chat-hr" />');
       } 
-      // Numbered lists e.g. "1. Item"
       else if (/^\d+\.\s/.test(trimmed)) {
         const index = trimmed.indexOf(' ');
         const num = trimmed.substring(0, index);
         const itemContent = parseBoldAndInline(trimmed.substring(index + 1));
-        resultHtml.push(`<div class="chat-numbered-item"><span class="chat-num-label">${num}</span> ${itemContent}</div>`);
+        resultHtml.push(`<div class="chat-numbered-item"><span class="chat-num-label">${num}</span><span class="chat-item-content">${itemContent}</span></div>`);
       } 
       // Headings e.g. "### Heading" or "## Heading"
       else if (trimmed.startsWith('### ')) {

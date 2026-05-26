@@ -429,13 +429,22 @@
 .chat-numbered-item {
   margin-bottom: 8px;
   display: flex;
+  align-items: flex-start;
   gap: 6px;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .chat-num-label {
   font-weight: bold;
   color: var(--colors-sig-coral, #aa2d00);
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.chat-item-content {
+  flex: 1;
+  word-break: keep-all;
+  word-wrap: break-word;
 }
 
 .chat-h3 {
