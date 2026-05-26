@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Antigravity Intro - HyperFrames</title>
+    <!-- Modern Google Fonts: Outfit for clean English, Inter for numbers, Noto Sans KR for premium Korean text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
+    <!-- Load GSAP Rendering Library -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --neon-purple: #a855f7;
+        --neon-cyan: #06b6d4;
+        --neon-green: #10b981;
+        --neon-rose: #f43f5e;
+        --bg-dark: #070512;
+        --bg-navy: #151130;
+        --card-bg: rgba(255, 255, 255, 0.04);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --text-main: #f3f4f6;
+        --text-sub: #9ca3af;
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background-color: var(--bg-dark);
+        font-family: "Outfit", "Noto Sans KR", sans-serif;
+        color: var(--text-main);
+      }
+
+      #main-composition {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(circle at center, var(--bg-navy) 0%, var(--bg-dark) 100%);
+      }
+
+      /* Animated Background Elements */
+      .ambient-glow {
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(6, 182, 212, 0.05) 50%, rgba(0,0,0,0) 70%);
+        filter: blur(80px);
+        top: 10%;
+        left: 20%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .ambient-glow-2 {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(244, 63, 94, 0.1) 0%, rgba(168, 85, 247, 0.02) 60%, rgba(0,0,0,0) 80%);
+        filter: blur(100px);
+        bottom: 10%;
+        right: 15%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* Grid overlay */
+      .grid-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        background-size: 80px 80px;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      /* Center Branding Content */
+      .branding-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        z-index: 10;
+      }
+
+      /* Glowing Abstract Logo */
+      .logo-wrapper {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        margin-bottom: 40px;
+      }
+
+      .logo-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 4px dashed var(--neon-purple);
+        border-radius: 50%;
+        filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.5));
+      }
+
+      .logo-inner-ring {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 140px;
+        height: 140px;
+        border: 4px solid var(--neon-cyan);
+        border-radius: 50%;
+        filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.6));
+      }
+
+      .logo-core {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, var(--neon-purple) 0%, var(--neon-cyan) 100%);
+        border-radius: 24px;
+        transform: rotate(45deg);
+        box-shadow: 0 0 35px rgba(168, 85, 247, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo-icon {
+        width: 45px;
+        height: 45px;
+        transform: rotate(-45deg);
+        fill: #ffffff;
+      }
+
+      /* Logo expansion energy ring */
+      .energy-ring {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        width: 190px;
+        height: 190px;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0.6);
+        pointer-events: none;
+      }
+
+      /* Typography Styles */
+      .brand-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 100px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        background: linear-gradient(to right, #ffffff, #d8b4fe, #a5f3fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0 0 10px 0;
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+      }
+
+      .brand-subtitle {
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        color: var(--neon-cyan);
+        letter-spacing: 1px;
+        margin: 0;
+        text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+      }
+
+      .cta-text {
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 40px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-top: 30px;
+        opacity: 0;
+        letter-spacing: 2px;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+      }
+
+      /* Glassmorphic Floating Cards */
+      .glass-card {
+        position: absolute;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-radius: 32px;
+        padding: 30px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        z-index: 5;
+        opacity: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      /* Card 1: Calendar Card */
+      .calendar-card {
+        width: 580px;
+        height: 520px;
+        top: 280px;
+        right: 120px;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 15px;
+      }
+
+      .card-title {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 12px;
+        text-align: center;
+        font-family: "Inter", sans-serif;
+        margin-bottom: 25px;
+      }
+
+      .calendar-day-label {
+        font-size: 14px;
+        color: var(--text-sub);
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .calendar-day {
+        font-size: 18px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        color: var(--text-sub);
+        transition: all 0.3s;
+      }
+
+      .calendar-day.active {
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      .calendar-day.highlight {
+        background: linear-gradient(135deg, var(--neon-cyan) 0%, rgba(6, 182, 212, 0.2) 100%);
+        border: 1px solid var(--neon-cyan);
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+      }
+
+      .event-banner {
+        background: rgba(168, 85, 247, 0.1);
+        border: 1px dashed rgba(168, 85, 247, 0.4);
+        border-radius: 16px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .event-dot {
+        width: 14px;
+        height: 14px;
+        background: var(--neon-purple);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--neon-purple);
+      }
+
+      .event-info {
+        flex: 1;
+      }
+
+      .event-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0;
+      }
+
+      .event-time {
+        font-size: 14px;
+        color: var(--text-sub);
+        margin: 2px 0 0 0;
+      }
+
+      /* Card 2: Task List Card */
+      .task-card {
+        width: 580px;
+        height: 480px;
+        top: 300px;
+        right: 120px;
+      }
+
+      .task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .task-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 20px 24px;
+        border-radius: 20px;
+        transition: all 0.5s ease;
+      }
+
+      .task-item.completed {
+        background: rgba(16, 185, 129, 0.05);
+        border-color: rgba(16, 185, 129, 0.2);
+      }
+
+      .checkbox-wrapper {
+        position: relative;
+        width: 32px;
+        height: 32px;
+      }
+
+      .checkbox-box {
+        width: 100%;
+        height: 100%;
+        border: 2px solid var(--text-sub);
+        border-radius: 10px;
+        background: transparent;
+        box-sizing: border-box;
+        transition: all 0.3s;
+      }
+
+      .task-item.completed .checkbox-box {
+        border-color: var(--neon-green);
+        background: var(--neon-green);
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+      }
+
+      .checkmark-svg {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: #ffffff;
+        stroke-width: 3px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 40;
+        stroke-dashoffset: 40;
+        transition: stroke-dashoffset 0.4s ease;
+      }
+
+      .task-item.completed .checkmark-svg {
+        stroke-dashoffset: 0;
+      }
+
+      .task-text {
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--text-main);
+        transition: all 0.3s;
+      }
+
+      .task-item.completed .task-text {
+        color: var(--text-sub);
+        text-decoration: line-through;
+      }
+
+      /* Cinema widescreen cinematic borders */
+      .border-line-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 15px;
+        background: linear-gradient(to right, var(--neon-purple), var(--neon-cyan), var(--neon-rose));
+        z-index: 100;
+        opacity: 0.8;
+      }
+
+      .border-line-bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 15px;
+        background: linear-gradient(to right, var(--neon-rose), var(--neon-cyan), var(--neon-purple));
+        z-index: 100;
+        opacity: 0.8;
+      }
+
+      /* Cinematic fade cover */
+      #fade-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
+        z-index: 999;
+        pointer-events: none;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="main-composition"
+      data-composition-id="antigravity-video"
+      data-width="1920"
+      data-height="1080"
+      data-start="0"
+      data-duration="10"
+    >
+      <!-- Background and Overlays -->
+      <div class="ambient-glow"></div>
+      <div class="ambient-glow-2"></div>
+      <div class="grid-overlay"></div>
+      <div class="border-line-top"></div>
+      <div class="border-line-bottom"></div>
+      <div id="fade-overlay"></div>
+
+      <!-- Main Branding Center Container -->
+      <div class="branding-container">
+        <div class="logo-wrapper">
+          <div class="logo-ring"></div>
+          <div class="logo-inner-ring"></div>
+          <div class="logo-core">
+            <svg class="logo-icon" viewBox="0 0 24 24">
+              <path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2zm1 17.93V13h5v-2h-5V4.07c3.95.49 7 3.85 7 7.93s-3.05 7.44-7 7.93zM10 4.07V11H5v2h5v6.93c-3.95-.49-7-3.85-7-7.93s3.05-7.44 7-7.93z" />
+            </svg>
+          </div>
+          <div class="energy-ring"></div>
+        </div>
+        <h1 class="brand-title">ANTIGRAVITY</h1>
+        <p class="brand-subtitle">스마트 캘린더 & 할 일 관리</p>
+        <div class="cta-text">지금 시작하세요</div>
+      </div>
+
+      <!-- Glassmorphic Calendar Card -->
+      <div class="glass-card calendar-card" id="cal-card">
+        <div class="card-header">
+          <span class="card-title">Calendar</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--neon-cyan);"><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+        </div>
+        <div class="calendar-grid">
+          <span class="calendar-day-label">S</span>
+          <span class="calendar-day-label">M</span>
+          <span class="calendar-day-label">T</span>
+          <span class="calendar-day-label">W</span>
+          <span class="calendar-day-label">T</span>
+          <span class="calendar-day-label">F</span>
+          <span class="calendar-day-label">S</span>
+          
+          <span class="calendar-day">24</span>
+          <span class="calendar-day">25</span>
+          <span class="calendar-day">26</span>
+          <span class="calendar-day">27</span>
+          <span class="calendar-day active highlight" id="pulse-day">28</span>
+          <span class="calendar-day active">29</span>
+          <span class="calendar-day active">30</span>
+
+          <span class="calendar-day active">1</span>
+          <span class="calendar-day active">2</span>
+          <span class="calendar-day active">3</span>
+          <span class="calendar-day active">4</span>
+          <span class="calendar-day active">5</span>
+          <span class="calendar-day active">6</span>
+          <span class="calendar-day active">7</span>
+        </div>
+        <div class="event-banner">
+          <div class="event-dot"></div>
+          <div class="event-info">
+            <h4 class="event-title">Antigravity Launch Event</h4>
+            <p class="event-time">10:00 AM - 11:30 AM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glassmorphic Task List Card -->
+      <div class="glass-card task-card" id="tsk-card">
+        <div class="card-header">
+          <span class="card-title">Tasks</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--neon-green);"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div class="task-list">
+          <div class="task-item completed" id="task-1">
+            <div class="checkbox-wrapper">
+              <div class="checkbox-box"></div>
+              <svg class="checkmark-svg" viewBox="0 0 24 24">
+                <path d="M20 6L9 17L4 12" />
+              </svg>
+            </div>
+            <span class="task-text">디자인 피드백 반영</span>
+          </div>
+
+          <div class="task-item" id="task-2">
+            <div class="checkbox-wrapper">
+              <div class="checkbox-box"></div>
+              <svg class="checkmark-svg" viewBox="0 0 24 24">
+                <path d="M20 6L9 17L4 12" />
+              </svg>
+            </div>
+            <span class="task-text">10초 인트로 비디오 렌더링</span>
+          </div>
+
+          <div class="task-item" id="task-3">
+            <div class="checkbox-wrapper">
+              <div class="checkbox-box"></div>
+              <svg class="checkmark-svg" viewBox="0 0 24 24">
+                <path d="M20 6L9 17L4 12" />
+              </svg>
+            </div>
+            <span class="task-text">프로젝트 배포 완료</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GSAP Animation Scripts -->
+      <script>
+        const tl = gsap.timeline({ paused: true });
+        window.__timelines = window.__timelines || {};
+        window.__timelines["antigravity-video"] = tl;
+
+        // Initialize branding-container positioning to avoid CSS transform conflicts
+        gsap.set(".branding-container", {
+          xPercent: -50,
+          yPercent: -50,
+          x: 0,
+          y: 0
+        });
+
+        // --- 0.0s - 1.2s : Intro Burst ---
+        // Animate ambient light leak
+        tl.to(".ambient-glow", {
+          scale: 1.5,
+          duration: 3,
+          ease: "sine.inOut"
+        }, 0);
+
+        // Logo animations
+        tl.from(".logo-wrapper", {
+          scale: 0,
+          rotation: -180,
+          duration: 1.2,
+          ease: "elastic.out(1, 0.75)"
+        }, 0.2);
+
+        // Infinite loop replaced with finite repeat count matching the 10s composition duration
+        tl.to(".logo-ring", {
+          rotation: 360,
+          duration: 10,
+          repeat: 0,
+          ease: "none"
+        }, 0);
+
+        tl.to(".logo-inner-ring", {
+          rotation: -360,
+          duration: 8,
+          repeat: 1,
+          ease: "none"
+        }, 0);
+
+        // Burst energy ring
+        tl.fromTo(".energy-ring", {
+          scale: 0.6,
+          opacity: 1
+        }, {
+          scale: 1.8,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out"
+        }, 0.7);
+
+        // Title and subtitle reveal
+        tl.from(".brand-title", {
+          y: 40,
+          opacity: 0,
+          duration: 1.0,
+          ease: "power3.out"
+        }, 0.6);
+
+        tl.from(".brand-subtitle", {
+          y: 20,
+          opacity: 0,
+          duration: 1.0,
+          ease: "power3.out"
+        }, 0.9);
+
+        // --- 1.2s - 4.5s : Calendar Card Showcase ---
+        // Brand logo/text shifts to left side
+        tl.to(".branding-container", {
+          x: -450,
+          scale: 0.8,
+          duration: 1.0,
+          ease: "power3.inOut"
+        }, 1.5);
+
+        // Bring Calendar card in with 3D tilt
+        tl.set("#cal-card", { transformPerspective: 1000 });
+        tl.fromTo("#cal-card", {
+          opacity: 0,
+          x: 1200,
+          rotationY: 25,
+          rotationZ: -5,
+          scale: 0.9
+        }, {
+          opacity: 1,
+          x: 950,
+          rotationY: -15,
+          rotationZ: -2,
+          scale: 1,
+          duration: 1.2,
+          ease: "power3.out"
+        }, 1.7);
+
+        // Subtitle dynamic text shift (shifted to 1.9s to avoid overlap with intro fade-in ending at 1.9s)
+        tl.to(".brand-subtitle", {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            document.querySelector(".brand-subtitle").innerText = "시간을 지배하는 스마트 캘린더";
+          }
+        }, 1.9)
+        .to(".brand-subtitle", {
+          opacity: 1,
+          color: "var(--neon-cyan)",
+          duration: 0.3
+        }, 2.2);
+
+        // Active day pulse
+        tl.to("#pulse-day", {
+          scale: 1.15,
+          backgroundColor: "rgba(6, 182, 212, 0.4)",
+          boxShadow: "0 0 30px rgba(6, 182, 212, 0.8)",
+          duration: 0.6,
+          yoyo: true,
+          repeat: 3,
+          ease: "sine.inOut"
+        }, 2.5);
+
+        // --- 4.5s - 7.5s : Tasks Card Showcase ---
+        // Dismiss Calendar Card
+        tl.to("#cal-card", {
+          opacity: 0,
+          x: 1300,
+          rotationY: 45,
+          scale: 0.8,
+          duration: 0.8,
+          ease: "power3.in"
+        }, 4.2);
+
+        // Bring Tasks Card in
+        tl.set("#tsk-card", { transformPerspective: 1000 });
+        tl.fromTo("#tsk-card", {
+          opacity: 0,
+          x: 1200,
+          rotationY: -25,
+          rotationZ: 5,
+          scale: 0.9
+        }, {
+          opacity: 1,
+          x: 950,
+          rotationY: 15,
+          rotationZ: 2,
+          scale: 1,
+          duration: 1.2,
+          ease: "power3.out"
+        }, 4.5);
+
+        // Subtitle dynamic text shift
+        tl.to(".brand-subtitle", {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            document.querySelector(".brand-subtitle").innerText = "할 일을 완벽하게 관리하는 비결";
+          }
+        }, 4.6)
+        .to(".brand-subtitle", {
+          opacity: 1,
+          color: "var(--neon-green)",
+          duration: 0.3
+        }, 4.9);
+
+        // Perform Checkbox animation on task 2
+        tl.to("#task-2", {
+          className: "task-item completed",
+          duration: 0.8,
+          ease: "power2.out"
+        }, 5.5);
+
+        // Perform Checkbox animation on task 3
+        tl.to("#task-3", {
+          className: "task-item completed",
+          duration: 0.8,
+          ease: "power2.out"
+        }, 6.3);
+
+        // --- 7.5s - 9.0s : branding peak & CTA ---
+        // Dismiss Task Card
+        tl.to("#tsk-card", {
+          opacity: 0,
+          x: 1300,
+          rotationY: -45,
+          scale: 0.8,
+          duration: 0.8,
+          ease: "power3.in"
+        }, 7.2);
+
+        // Shift branding container back to center
+        tl.to(".branding-container", {
+          x: 0,
+          scale: 1.1,
+          duration: 1.0,
+          ease: "power3.inOut"
+        }, 7.5);
+
+        // Subtitle dynamic text final reset
+        tl.to(".brand-subtitle", {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            document.querySelector(".brand-subtitle").innerText = "스마트 캘린더 & 할 일 관리";
+          }
+        }, 7.6)
+        .to(".brand-subtitle", {
+          opacity: 1,
+          color: "#ffffff",
+          duration: 0.3
+        }, 7.9);
+
+        // CTA text slide up & fade in
+        tl.fromTo(".cta-text", {
+          y: 40,
+          opacity: 0
+        }, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "back.out(1.5)"
+        }, 8.0);
+
+        // Neon border line pulse
+        tl.to([".border-line-top", ".border-line-bottom"], {
+          opacity: 1,
+          height: 25,
+          duration: 0.5,
+          yoyo: true,
+          repeat: 1,
+          ease: "sine.inOut"
+        }, 8.2);
+
+        // --- 9.0s - 10.0s : Cinematic Outro ---
+        tl.to("#fade-overlay", {
+          opacity: 1,
+          duration: 1.0,
+          ease: "power2.in"
+        }, 9.0);
+      </script>
+    </div>
+  </body>
+</html>

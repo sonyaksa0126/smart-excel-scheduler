@@ -1,0 +1,9 @@
+{
+  "name": "antigravity-motion-graphics",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "hyperframes preview",
+    "render": "hyperframes render -o dist/output.mp4"
+  }
+}

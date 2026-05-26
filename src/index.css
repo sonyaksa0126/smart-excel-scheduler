@@ -1,0 +1,518 @@
+/* Pretendard & system-ui typography setup */
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #1d1d1f;
+  background-color: #f5f5f7; /* Parchment Off-white background */
+  font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", Pretendard, system-ui, sans-serif;
+  font-size: 17px; /* Apple standard body font size */
+  line-height: 1.47; /* Apple standard line-height */
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+/* Scrollbars customized to look clean and neat */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f7;
+}
+::-webkit-scrollbar-thumb {
+  background: #d2d2d7;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #86868b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header style - Space optimized for whitespace */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title-group {
+  display: flex;
+  align-items: center;
+  max-width: 60%;
+  flex: 1;
+}
+
+.scheduler-title-text {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px; /* Apple tight headline spacing */
+  color: #1d1d1f;
+  line-height: 1.2;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.scheduler-title-text:hover {
+  color: #0066cc;
+}
+
+.title-edit-icon {
+  color: #86868b;
+  opacity: 0.4;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.scheduler-title-text:hover .title-edit-icon {
+  opacity: 1;
+  color: #0066cc;
+}
+
+.title-input-field {
+  font-family: inherit;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #1d1d1f;
+  background-color: #f5f5f7;
+  border: 1px solid #d2d2d7;
+  border-radius: 8px;
+  padding: 0.1rem 0.5rem;
+  outline: none;
+  max-width: 100%;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.title-input-field:focus {
+  background-color: #ffffff;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+}
+
+
+/* Month navigation */
+.navigation-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.current-month-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px; /* Apple tight headline spacing */
+  color: #1d1d1f;
+  min-width: 160px;
+  text-align: center;
+}
+
+.nav-btn {
+  background-color: #ffffff;
+  border: 1px solid #d2d2d7;
+  border-radius: 9999px; /* Capsule */
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #0066cc; /* Apple Action Blue */
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nav-btn:hover {
+  background-color: #f5f5f7;
+  border-color: #86868b;
+}
+
+.nav-btn:active {
+  transform: scale(0.95); /* Active press micro-animation */
+}
+
+.today-btn {
+  background-color: #0066cc; /* Action Blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px; /* Capsule */
+  padding: 0 1.5rem;
+  height: 42px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.today-btn:hover {
+  background-color: #0055b3;
+}
+
+.today-btn:active {
+  transform: scale(0.95); /* Active press micro-animation */
+}
+
+/* Excel Spreadsheet Table Layout */
+.excel-table-container {
+  width: 100%;
+  background-color: #ffffff; /* Pure White Canvas */
+  border: 1px solid #e0e0e0; /* 1px Hairline border */
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.excel-table {
+  width: 100%;
+  border-collapse: collapse; /* Collapsed borders just like Excel */
+  table-layout: fixed;
+}
+
+/* Header Cells styling */
+.excel-th {
+  height: 44px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  border: 1px solid #e0e0e0; /* Hairline borders */
+  letter-spacing: -0.2px;
+}
+
+/* Header Columns specific backgrounds */
+.excel-th.sun {
+  background-color: #e53935; /* Sunday Red */
+}
+
+.excel-th.weekday {
+  background-color: #4f8bc9; /* Calm Blue */
+}
+
+.excel-th.sat {
+  background-color: #0066cc; /* Saturday Action Blue */
+}
+
+.excel-th.memo {
+  background-color: #8e8e93; /* Neutral Slate Gray */
+}
+
+/* Table body rows & cells */
+.excel-row {
+  height: auto; /* Dynamic height based on content wrap */
+}
+
+.excel-td {
+  border: 1px solid #e0e0e0; /* 1px Hairline borders */
+  vertical-align: top;
+  padding: 0;
+  background-color: #ffffff; /* Pure White cell background */
+}
+
+/* Outside month cells are disabled or muted */
+.excel-td.outside-month {
+  background-color: #f5f5f7; /* Parchment Off-white background */
+}
+
+/* Today highlight */
+.excel-td.today {
+  background-color: rgba(0, 102, 204, 0.02);
+}
+
+/* Cell grid content wrappers */
+.cell-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 120px; /* Uniform height when empty, expands on content */
+  width: 100%;
+  padding: 0.5rem;
+}
+
+/* Header inside a cell */
+.cell-header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.4rem;
+  padding: 0 0.2rem;
+  flex-wrap: wrap;
+}
+
+.cell-date-num {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.cell-holiday-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Date colors */
+.excel-td.sun .cell-date-num,
+.excel-td.holiday .cell-date-num,
+.excel-td.holiday .cell-holiday-label {
+  color: #e53935; /* Red highlighting */
+}
+
+.excel-td.sat .cell-date-num {
+  color: #0066cc; /* Saturday Blue */
+}
+
+.excel-td.weekday .cell-date-num {
+  color: #1d1d1f; /* Weekdays Charcoal */
+}
+
+.excel-td.outside-month .cell-date-num {
+  opacity: 0.3;
+}
+
+/* Today badge indicator */
+.today-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #0066cc;
+  padding: 0.1rem 0.4rem;
+  background-color: rgba(0, 102, 204, 0.08);
+  border-radius: 4px;
+}
+
+/* Task Item List inside Date Cell */
+.task-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.todo-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  position: relative;
+  group: hover;
+}
+
+/* Circular Checklist toggles - Apple spec status cycle */
+.status-indicator-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1rem;
+  margin-top: 0.2rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.status-circle {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+/* 1. 진행 전: ⚪ (Gray outline) */
+.status-circle.not-started {
+  border: 1.5px solid #d2d2d7;
+  background-color: #ffffff;
+}
+
+.status-circle.not-started:hover {
+  border-color: #0066cc;
+}
+
+/* 2. 진행 중: 🔵 (Action Blue solid circle) */
+.status-circle.in-progress {
+  border: 1.5px solid #0066cc;
+  background-color: #0066cc;
+}
+
+/* 3. 완료: ✅ (Action Blue filled checkmark circle) */
+.status-circle.completed {
+  border: 1.5px solid #0066cc;
+  background-color: #0066cc;
+  color: #ffffff;
+}
+
+/* Word-wrapping Borderless Textareas for todo items */
+.todo-textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  resize: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #1d1d1f;
+  line-height: 1.4;
+  padding: 0.15rem 0.2rem;
+  outline: none;
+  overflow: hidden; /* Hide scrollbars, expand dynamically */
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.todo-textarea:focus {
+  background-color: #f5f5f7;
+  border-radius: 4px;
+}
+
+/* Ink Muted gray coloring & Strikethrough for Completed state */
+.todo-item-row.completed .todo-textarea {
+  color: #7a7a7a; /* Ink Muted */
+  text-decoration: line-through; /* Strikethrough */
+}
+
+/* Delete Task Button inside day cell */
+.delete-todo-btn {
+  background: transparent;
+  border: none;
+  color: #86868b;
+  cursor: pointer;
+  opacity: 0; /* Hidden by default, visible on hover */
+  transition: opacity 0.2s ease, color 0.2s ease;
+  padding: 0.1rem;
+  margin-top: 0.15rem;
+}
+
+.todo-item-row:hover .delete-todo-btn {
+  opacity: 1; /* Show on hover */
+}
+
+.delete-todo-btn:hover {
+  color: #ff3b30;
+}
+
+/* Capsule-shaped "+ 추가" button */
+.add-todo-btn {
+  background-color: #f5f5f7;
+  border: none;
+  border-radius: 9999px; /* Capsule shape */
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0066cc; /* Action Blue */
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.add-todo-btn:hover {
+  background-color: #e8e8ed;
+}
+
+.add-todo-btn:active {
+  transform: scale(0.95); /* Scale animation */
+}
+
+/* Weekly Memo styling (H column) */
+.excel-td.memo-cell {
+  background-color: #fcfcfd;
+}
+
+.memo-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 120px;
+  padding: 0.5rem;
+}
+
+.memo-header-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #86868b;
+  margin-bottom: 0.35rem;
+}
+
+.memo-textarea {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: transparent;
+  resize: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #333333;
+  line-height: 1.45;
+  outline: none;
+  padding: 0.2rem;
+  word-break: break-all;
+}
+
+.memo-textarea:focus {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+}
+
+/* Focus highlighting in Excel grid cell */
+.excel-td:focus-within {
+  box-shadow: inset 0 0 0 1.5px rgba(0, 102, 204, 0.25);
+}
+
+/* Animation */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustment */
+@media (max-width: 960px) {
+  .app-container {
+    padding: 1rem;
+  }
+  .excel-table-container {
+    overflow-x: auto;
+  }
+  .excel-table {
+    min-width: 900px;
+  }
+}

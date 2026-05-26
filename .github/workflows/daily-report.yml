@@ -1,0 +1,54 @@
+name: Daily Intelligence Briefing
+
+on:
+  schedule:
+    # Runs at 22:00 UTC every day, which is 07:00 AM KST (UTC+9)
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+    # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push to the repository
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Briefing Scraper Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/fetch-report.js
+
+      - name: Commit and Push Report to 'data' Branch
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Temporarily store the generated JSON report
+          cp data/daily-report.json ../daily-report-temp.json
+          
+          # Fetch repository state
+          git fetch origin
+          
+          # Switch to 'data' branch (create orphan if it doesn't exist)
+          git checkout -b data origin/data || git checkout --orphan data
+          
+          # Clean all existing files in this branch to keep it lightweight
+          git rm -rf . || true
+          
+          # Recreate data directory and restore the report
+          mkdir -p data
+          cp ../daily-report-temp.json data/daily-report.json
+          
+          # Commit and force-push to 'data' branch
+          git add data/daily-report.json
+          git commit -m "daily briefing: $(date '+%Y-%m-%d %H:%M:%S')"
+          git push origin data --force
