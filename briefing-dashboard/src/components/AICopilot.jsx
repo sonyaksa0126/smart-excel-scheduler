@@ -30,6 +30,8 @@ const formatResponseText = (text) => {
     escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     // Render inline code or highlight: `text` -> <code class="chat-code">text</code>
     escaped = escaped.replace(/`(.*?)`/g, '<code class="chat-code">$1</code>');
+    // Render markdown links: [Link Text](URL) -> <a href="$2" target="_blank" rel="noreferrer" class="chat-link">$1</a>
+    escaped = escaped.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noreferrer" class="chat-link">$1</a>');
     return escaped;
   };
 
@@ -188,10 +190,15 @@ Here is the exact real-time portfolio data and macroeconomic briefing generated 
 ${JSON.stringify(report, null, 2)}
 --------------------------------------------------
 
+[IMPORTANT NEWS SOURCES AND CITATIONS]
+- When asked about news or stock events, you MUST refer to the specific news items and their actual clickable reference URLs provided in the JSON data above.
+- You must cite them beautifully using standard markdown link format: [Source Name](URL) (e.g. [네이버 뉴스](https://news.naver.com/...) or [CNBC](https://www.cnbc.com/...)) so the user can easily click them to verify and explore.
+- Always use the exact URLs present in today's report JSON. Do NOT guess or hallucinate any link URLs.
+
 [IMPORTANT COMPLIANCE GUIDELINES]
-- Ground your analysis heavily in the stock prices, news, PBR/PER, and supply trends provided in the JSON data above.
-- When referring to prices, use the exact prices (e.g. 2,682 KOSPI, $426.01 Tesla, $135.76 Rocket Lab, etc.) presented in the briefing.
-- Provide professional, insightful, and strategic investment opinions. Keep a humble, expert, and warm tone.
+- Avoid giving definitive individual financial predictions or direct advisory statements (which might trigger safety blocks and cause mid-sentence truncation). 
+- Instead, present the objective data, risk factors, multiple perspectives (e.g. bulls vs bears), and institutional opinions in a balanced, highly educational, and analytical manner.
+- Ground your analysis heavily in the stock prices, PBR/PER, and supply trends provided in the JSON data above.
 - Format your output beautifully with markdown (headers, bolding, bullet points, horizontal lines) to make it visually engaging and readable.
 - All responses MUST be written in Korean. Use clear terms and separate paragraphs with spaces.
 `;
@@ -216,7 +223,25 @@ ${JSON.stringify(report, null, 2)}
       generationConfig: {
         temperature: 0.25,
         maxOutputTokens: 2048
-      }
+      },
+      safetySettings: [
+        {
+          category: "HARM_CATEGORY_HARASSMENT",
+          threshold: "BLOCK_NONE"
+        },
+        {
+          category: "HARM_CATEGORY_HATE_SPEECH",
+          threshold: "BLOCK_NONE"
+        },
+        {
+          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+          threshold: "BLOCK_NONE"
+        },
+        {
+          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+          threshold: "BLOCK_NONE"
+        }
+      ]
     };
 
     try {

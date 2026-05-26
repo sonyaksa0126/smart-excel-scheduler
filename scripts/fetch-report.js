@@ -77,7 +77,66 @@ async function fetchLiveStockData(symbol, currencySymbol = '원') {
   }
 }
 
+async function fetchRealNews(isGlobal = false) {
+  const url = isGlobal 
+    ? 'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en'
+    : 'https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko';
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    
+    // Parse items using regex to extract title, link, source
+    const items = [];
+    const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+    let match;
+    while ((match = itemRegex.exec(text)) !== null && items.length < 15) {
+      const itemContent = match[1];
+      const titleMatch = itemContent.match(/<title>(.*?)<\/title>/);
+      const linkMatch = itemContent.match(/<link>(.*?)<\/link>/);
+      const sourceMatch = itemContent.match(/<source[^>]*>(.*?)<\/source>/);
+      
+      if (titleMatch && linkMatch) {
+        let title = titleMatch[1].replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1');
+        let link = linkMatch[1].replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1');
+        let source = sourceMatch ? sourceMatch[1].replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1') : 'Google News';
+        
+        // Clean title from source suffix (e.g. "Title - Source")
+        const suffixIndex = title.lastIndexOf(' - ');
+        if (suffixIndex !== -1) {
+          title = title.substring(0, suffixIndex);
+        }
+        
+        items.push({ title, link, source });
+      }
+    }
+    return items;
+  } catch (err) {
+    console.error("⚠️ Failed to fetch RSS news:", err.message);
+    return [];
+  }
+}
+
 async function runScraper() {
+  console.log("📰 Scraping real-time Google News RSS...");
+  const rawKrNews = await fetchRealNews(false);
+  const rawGlobalNews = await fetchRealNews(true);
+  
+  let liveNewsContext = `
+Here is a list of real-time, actual news items and their active link URLs from Google News for today (${formattedDate}). 
+You MUST select exactly the 3 items that are most relevant to the investor's portfolio (e.g. Samsung Electronics, semiconductor supply, HL Mando, high dividend, Tesla, Rocket Lab, AST SpaceMobile, Space exploration, crypto macro).
+Summarize them, and keep their exact "url" fields in your output JSON. Do NOT hallucinate URLs or titles!
+
+[ACTUAL KOREAN NEWS FEED]
+`;
+  rawKrNews.forEach((n, idx) => {
+    liveNewsContext += `${idx + 1}. Title: "${n.title}", Source: "${n.source}", URL: "${n.link}"\n`;
+  });
+
+  liveNewsContext += `\n[ACTUAL GLOBAL / SPACE / CRYPTO NEWS FEED]\n`;
+  rawGlobalNews.forEach((n, idx) => {
+    liveNewsContext += `${idx + 1}. Title: "${n.title}", Source: "${n.source}", URL: "${n.link}"\n`;
+  });
+
   console.log("📈 Fetching KOSPI stock prices...");
   const liveKrData = {};
   for (const s of KR_STOCKS) {
@@ -129,7 +188,8 @@ JSON Schema:
         "title": "Korean News Title",
         "summary": "2-3 sentence summary of the news",
         "impact": "Direct/indirect impact on investor's portfolio",
-        "source": "News source name"
+        "source": "News source name",
+        "url": "Actual valid search-grounded URL of the news article (MUST be real)"
       }
     ],
     "global": [
@@ -137,7 +197,8 @@ JSON Schema:
         "title": "Global / Crypto / Space News Title",
         "summary": "2-3 sentence summary of global macro, crypto, or space industry news (e.g. SpaceX, Rocket Lab, Tesla, NASA)",
         "impact": "Impact on QQQM, QLD, SOXL, Tesla, Google, Bitcoin, RKLB, ARKX",
-        "source": "Global source name"
+        "source": "Global source name",
+        "url": "Actual valid search-grounded URL of the news article (MUST be real)"
       }
     ]
   },
@@ -209,7 +270,7 @@ Then, use your financial analysis intelligence to generate realistic and precise
       {
         parts: [
           {
-            text: `${livePricesContext}\n\nPlease generate the daily briefing JSON using these exact live stock prices and high/low ranges.`
+            text: `${livePricesContext}\n\n${liveNewsContext}\n\nPlease generate the daily briefing JSON selecting from these actual news items and using the exact stock prices and ranges.`
           }
         ]
       }
@@ -224,7 +285,25 @@ Then, use your financial analysis intelligence to generate realistic and precise
     generationConfig: {
       responseMimeType: "application/json",
       temperature: 0.15
-    }
+    },
+    safetySettings: [
+      {
+        category: "HARM_CATEGORY_HARASSMENT",
+        threshold: "BLOCK_NONE"
+      },
+      {
+        category: "HARM_CATEGORY_HATE_SPEECH",
+        threshold: "BLOCK_NONE"
+      },
+      {
+        category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        threshold: "BLOCK_NONE"
+      },
+      {
+        category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+        threshold: "BLOCK_NONE"
+      }
+    ]
   };
 
   try {

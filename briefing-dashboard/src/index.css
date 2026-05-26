@@ -394,6 +394,28 @@ body, html {
   white-space: nowrap;
 }
 
+.news-link-btn {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--colors-link);
+  background: var(--colors-canvas);
+  border: 1px solid rgba(27, 97, 201, 0.2);
+  padding: 2.5px 8px;
+  border-radius: var(--rounded-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+.news-link-btn:hover {
+  background: rgba(27, 97, 201, 0.08);
+  border-color: var(--colors-link);
+  color: var(--colors-ink);
+  transform: translateY(-0.5px);
+}
+
 .db-news-summary {
   font-size: 15px; /* Enlarged font size */
   color: var(--colors-body);

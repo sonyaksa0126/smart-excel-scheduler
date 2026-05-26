@@ -513,7 +513,20 @@ function App() {
                   <div key={idx} className="db-news-card">
                     <div className="db-news-header">
                       <h4 className="db-news-title">{item.title}</h4>
-                      <span className="db-news-source">{item.source}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                        <span className="db-news-source">{item.source}</span>
+                        {item.url && (
+                          <a 
+                            href={item.url} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="news-link-btn"
+                            title="뉴스 원본 사이트로 이동"
+                          >
+                            원본 보기 <ArrowUpRight size={12} />
+                          </a>
+                        )}
+                      </div>
                     </div>
                     <p className="db-news-summary">{item.summary}</p>
                     <div className="db-news-impact">

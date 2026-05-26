@@ -665,3 +665,14 @@
     right: -100%;
   }
 }
+
+.chat-link {
+  color: var(--colors-link, #1b61c9);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.chat-link:hover {
+  opacity: 0.85;
+}
