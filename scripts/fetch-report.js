@@ -23,8 +23,8 @@ const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${to
 
 console.log(`🚀 Starting daily briefing generation for: ${formattedDate}`);
 
-// Define the 5 target Korean stocks to fetch live from Yahoo Finance
-const STOCKS_TO_FETCH = [
+// Define the 5 target Korean stocks to fetch live
+const KR_STOCKS = [
   { symbol: '005930.KS', name: '삼성전자 (005930)', type: '개별 종목' },
   { symbol: '000660.KS', name: 'SK하이닉스 (000660)', type: '개별 종목' },
   { symbol: '204320.KS', name: 'HL만도 (204320)', type: '개별 종목' },
@@ -32,7 +32,17 @@ const STOCKS_TO_FETCH = [
   { symbol: '443250.KS', name: 'HD현대일렉트릭 (443250)', type: '개별 종목' }
 ];
 
-async function fetchLiveStockData(symbol) {
+// Define the target US / Space innovation stocks to fetch live
+const US_STOCKS = [
+  { symbol: 'TSLA', name: 'Tesla, Inc. (TSLA)', type: '미국 주식' },
+  { symbol: 'RKLB', name: 'Rocket Lab USA (RKLB)', type: '미국 주식' },
+  { symbol: 'ASTS', name: 'AST SpaceMobile (ASTS)', type: '미국 주식' },
+  { symbol: 'LUNR', name: 'Intuitive Machines (LUNR)', type: '미국 주식' },
+  { symbol: 'ARKX', name: 'ARK Space Exploration ETF (ARKX)', type: '미국 상장 ETF' },
+  { symbol: 'UFO', name: 'Procure Space ETF (UFO)', type: '미국 상장 ETF' }
+];
+
+async function fetchLiveStockData(symbol, currencySymbol = '원') {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`;
   try {
     const response = await fetch(url);
@@ -41,10 +51,16 @@ async function fetchLiveStockData(symbol) {
     const meta = data.chart.result[0].meta;
     
     // Format values nicely
-    const currentPrice = Math.round(meta.regularMarketPrice).toLocaleString('ko-KR') + '원';
-    const high52 = Math.round(meta.fiftyTwoWeekHigh).toLocaleString('ko-KR') + '원';
-    const low52 = Math.round(meta.fiftyTwoWeekLow).toLocaleString('ko-KR') + '원';
-    const prevClose = Math.round(meta.previousClose).toLocaleString('ko-KR') + '원';
+    const isUSD = currencySymbol === '$';
+    const fmt = (val) => {
+      if (isUSD) return '$' + Number(val).toFixed(2);
+      return Math.round(val).toLocaleString('ko-KR') + '원';
+    };
+    
+    const currentPrice = fmt(meta.regularMarketPrice);
+    const high52 = fmt(meta.fiftyTwoWeekHigh);
+    const low52 = fmt(meta.fiftyTwoWeekLow);
+    const prevClose = fmt(meta.previousClose);
     
     return {
       success: true,
@@ -62,29 +78,39 @@ async function fetchLiveStockData(symbol) {
 }
 
 async function runScraper() {
-  console.log("📈 Fetching live real-time stock prices from Yahoo Finance API...");
-  const liveStockData = {};
-  
-  for (const s of STOCKS_TO_FETCH) {
-    console.log(` - Fetching ${s.name} (${s.symbol})...`);
-    const data = await fetchLiveStockData(s.symbol);
-    if (data.success) {
-      liveStockData[s.symbol] = data;
-    }
+  console.log("📈 Fetching KOSPI stock prices...");
+  const liveKrData = {};
+  for (const s of KR_STOCKS) {
+    const data = await fetchLiveStockData(s.symbol, '원');
+    if (data.success) liveKrData[s.symbol] = data;
   }
 
-  // Build the live prices prompt injection
+  console.log("📈 Fetching US & Space stock prices...");
+  const liveUsData = {};
+  for (const s of US_STOCKS) {
+    const data = await fetchLiveStockData(s.symbol, '$');
+    if (data.success) liveUsData[s.symbol] = data;
+  }
+
+  // Build the live prices prompt context
   let livePricesContext = `
 Here are the absolute 100% correct, real-time live stock prices and 52-week high/low data we fetched from the live exchange API for ${formattedDate}. You MUST use these exact prices and high/low values for the stocks in your JSON response. Do NOT guess or hallucinate these values:
+
+[KOREAN PORTFOLIO]
 `;
 
-  STOCKS_TO_FETCH.forEach(s => {
-    const live = liveStockData[s.symbol];
+  KR_STOCKS.forEach(s => {
+    const live = liveKrData[s.symbol];
     if (live) {
       livePricesContext += `- ${s.name}: current price = ${live.currentPrice}, 52-week high = ${live.high52}, 52-week low = ${live.low52}, previous close = ${live.prevClose}\n`;
-    } else {
-      // Fallbacks in case Yahoo Finance is temporarily down
-      livePricesContext += `- ${s.name}: current price = (Use a realistic current 2026 price), 52-week high = (Use realistic), 52-week low = (Use realistic)\n`;
+    }
+  });
+
+  livePricesContext += `\n[US & SPACE INNOVATION PORTFOLIO]\n`;
+  US_STOCKS.forEach(s => {
+    const live = liveUsData[s.symbol];
+    if (live) {
+      livePricesContext += `- ${s.name}: current price = ${live.currentPrice}, 52-week high = ${live.high52}, 52-week low = ${live.low52}, previous close = ${live.prevClose}\n`;
     }
   });
 
@@ -102,15 +128,15 @@ JSON Schema:
       {
         "title": "Korean News Title",
         "summary": "2-3 sentence summary of the news",
-        "impact": "Direct/indirect impact on investor's portfolio (e.g., HL Mando, high-dividend, quantum computing)",
+        "impact": "Direct/indirect impact on investor's portfolio",
         "source": "News source name"
       }
     ],
     "global": [
       {
-        "title": "Global / Crypto News Title",
-        "summary": "2-3 sentence summary of global macro or crypto news",
-        "impact": "Impact on QQQM, QLD, SOXL, Tesla, Google, Bitcoin, URA, etc.",
+        "title": "Global / Crypto / Space News Title",
+        "summary": "2-3 sentence summary of global macro, crypto, or space industry news (e.g. SpaceX, Rocket Lab, Tesla, NASA)",
+        "impact": "Impact on QQQM, QLD, SOXL, Tesla, Google, Bitcoin, RKLB, ARKX",
         "source": "Global source name"
       }
     ]
@@ -122,15 +148,15 @@ JSON Schema:
       "reason": "1-sentence core reason for today's recommendation",
       "price": "Current price in KRW (Use the exact live price provided in the prompt context)",
       "per": "PER value (e.g., 14.5배)",
-      "perComment": "Evaluation based on PER (under 10x is undervalued, 15-25x is normal growth, 30x+ is overvalued)",
+      "perComment": "Evaluation based on PER",
       "pbr": "PBR value (e.g., 0.85배)",
-      "pbrComment": "Evaluation based on PBR (under 1x is undervalued, 1-3x is normal, 5x+ is high evaluation)",
+      "pbrComment": "Evaluation based on PBR",
       "dividendYield": "Dividend Yield percentage (e.g., 5.4%) or 분배율 for ETF",
-      "dividendComment": "Dividend yield evaluation (5%+ is high dividend, 1-3% is balanced growth)",
+      "dividendComment": "Dividend yield evaluation",
       "valuationState": "Overall valuation state description",
-      "high52": "52-week high price (Use the exact live high52 provided)",
-      "low52": "52-week low price (Use the exact live low52 provided)",
-      "targetPrice": "Target price or upper resistance line (Should be realistic relative to current price)",
+      "high52": "52-week high price",
+      "low52": "52-week low price",
+      "targetPrice": "Target price or upper resistance line",
       "supply": {
         "foreigner": "Foreign investor net trend",
         "institution": "Institutional investor net trend",
@@ -139,15 +165,36 @@ JSON Schema:
         "total": "Supply overall judgment"
       }
     }
+  ],
+  "usStocks": [
+    {
+      "name": "Stock/ETF Name (Ticker/Code)",
+      "type": "미국 주식" or "미국 상장 ETF",
+      "reason": "1-sentence core reason for today's recommendation",
+      "price": "Current price in USD (Use the exact live price provided in the prompt context, e.g. $426.01)",
+      "per": "PER value (e.g. 54.2배 or N/A for pre-earnings)",
+      "perComment": "Evaluation based on PER",
+      "pbr": "PBR value (e.g. 8.4배)",
+      "pbrComment": "Evaluation based on PBR",
+      "dividendYield": "Dividend Yield percentage or N/A",
+      "dividendComment": "Dividend yield evaluation",
+      "valuationState": "Overall valuation state description",
+      "high52": "52-week high price in USD (Use the exact live high52 provided)",
+      "low52": "52-week low price in USD (Use the exact live low52 provided)",
+      "targetPrice": "Target price in USD (Should be realistic relative to current price)",
+      "supply": {
+        "foreigner": "Foreign / Major Institutional net trend in US market",
+        "institution": "Wall Street analysts/funds net trend",
+        "individual": "Retail investor interest",
+        "program": "Quantitative/algorithmic trading state",
+        "total": "US market supply overall judgment"
+      }
+    }
   ]
 }
 
-For the stock recommendations section: You must analyze and recommend exactly the 5 Korean stocks provided in the live prices context:
-1. 삼성전자 (005930)
-2. SK하이닉스 (000660)
-3. HL만도 (204320)
-4. KB금융 (105560)
-5. HD현대일렉트릭 (443250)
+For the stock recommendations section ("stocks"): You must recommend exactly the 5 Korean stocks provided in the KOREAN PORTFOLIO context.
+For the US stock recommendations section ("usStocks"): You must recommend exactly the 6 US/Space stocks provided in the US & SPACE INNOVATION PORTFOLIO context (Tesla, Rocket Lab, AST SpaceMobile, Intuitive Machines, ARK Space Exploration ETF, Procure Space ETF).
 
 You MUST populate their "price", "high52", and "low52" fields with the EXACT values supplied in the live prices context.
 Then, use your financial analysis intelligence to generate realistic and precise quant comments, valuations, supply trends, and news items for ${formattedDate}.
