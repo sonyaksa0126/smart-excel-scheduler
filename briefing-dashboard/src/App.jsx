@@ -12,6 +12,8 @@ import {
   Award,
   Rocket
 } from 'lucide-react';
+import AICopilot from './components/AICopilot';
+import './components/AICopilot.css';
 
 // Premium Korean fallback mock data for seamless out-of-the-box experience
 const FALLBACK_REPORT = {
@@ -785,6 +787,9 @@ function App() {
           Powered by Gemini 2.5 Flash Cloud Scraper & Airtable Editorial Framework
         </p>
       </footer>
+
+      {/* 7. AI Portfolio Co-pilot Conversation Drawer & FAB */}
+      <AICopilot report={report || FALLBACK_REPORT} />
 
     </div>
   );
