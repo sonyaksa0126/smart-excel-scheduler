@@ -584,6 +584,8 @@ function App() {
   const krStocks = report?.stocks || FALLBACK_REPORT.stocks;
   const usStocks = report?.usStocks || FALLBACK_REPORT.usStocks;
 
+  const activeReport = report || FALLBACK_REPORT;
+
   const getNewsFeed = () => {
     const news = report?.news || FALLBACK_REPORT.news;
     return news[activeNewsTab] || FALLBACK_REPORT.news[activeNewsTab] || [];
