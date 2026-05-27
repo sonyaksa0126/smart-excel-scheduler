@@ -295,7 +295,7 @@ const FALLBACK_REPORT = {
       "per": "N/A",
       "perComment": "NASA 프로젝트 수주에 따른 매출 본격화 단계로 흑자 전환 기대",
       "pbr": "6.8배",
-      "pbrComment": "달 탐사 및 우주 인프라 독점 기술력 대비 성장 매력도 우수",
+      "pbrComment": "달 탐사 및 우주 인프 전력망 대비 성장 매력도 우수",
       "dividendYield": "N/A",
       "dividendComment": "성장 단계로 우주 탐사 프로젝트 재투자 진행",
       "valuationState": "NASA 프로젝트 핵심 수혜주로서 성장 및 실적 턴어라운드 구간",
@@ -470,6 +470,61 @@ function getValuationLabel(comment) {
   return '적정 성장';
 }
 
+// Sub-component: Mini Monthly Calendar Grid
+const CalendarGrid = ({ calendarData, onSelectEvent, expandedCalendarIndex }) => {
+  const [calendarMonth, setCalendarMonth] = useState(5); // 5 for May, 6 for June 2026
+  
+  const daysInMonth = calendarMonth === 5 ? 31 : 30;
+  const startDayOfWeek = calendarMonth === 5 ? 5 : 1; // May starts on Fri (5), June starts on Mon (1)
+  const monthName = calendarMonth === 5 ? '2026년 5월' : '2026년 6월';
+  
+  const blanks = Array(startDayOfWeek).fill(null);
+  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const gridCells = [...blanks, ...days];
+  
+  return (
+    <div className="mini-calendar-card">
+      <div className="mini-calendar-header">
+        <button className="month-toggle-btn" onClick={() => setCalendarMonth(5)}>5월</button>
+        <span className="month-title">{monthName}</span>
+        <button className="month-toggle-btn" onClick={() => setCalendarMonth(6)}>6월</button>
+      </div>
+      
+      <div className="calendar-grid-header">
+        <div style={{ color: 'var(--colors-sig-coral)' }}>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div style={{ color: 'var(--colors-link)' }}>토</div>
+      </div>
+      
+      <div className="calendar-grid-cells">
+        {gridCells.map((day, idx) => {
+          if (day === null) return <div key={`blank-${idx}`} className="calendar-cell blank"></div>;
+          
+          const dayStr = day.toString().padStart(2, '0');
+          const monthStr = calendarMonth.toString().padStart(2, '0');
+          const dateMatch = `${monthStr}월 ${dayStr}일`;
+          
+          const dayEventIndex = calendarData.findIndex(item => item.date === dateMatch);
+          const hasEvent = dayEventIndex !== -1;
+          const event = hasEvent ? calendarData[dayEventIndex] : null;
+          const isSelected = expandedCalendarIndex === dayEventIndex;
+          
+          return (
+            <div 
+              key={`day-${day}`} 
+              className={`calendar-cell day ${hasEvent ? 'has-event' : ''} ${isSelected ? 'selected' : ''}`}
+              onClick={() => hasEvent && onSelectEvent(dayEventIndex)}
+            >
+              <span className="day-number">{day}</span>
+              {hasEvent && (
+                <span className={`event-dot ${event.importance.toLowerCase()}`}></span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -482,6 +537,9 @@ function App() {
   const [activeAppTab, setActiveAppTab] = useState('home'); // 'home', 'news', 'calendar', 'copilot'
   const [isCopilotOpen, setIsCopilotOpen] = useState(false);
   const [expandedCalendarIndex, setExpandedCalendarIndex] = useState(-1);
+
+  // Web Top Tabs for clean editorial division (Solves single-page clutter)
+  const [activeWebTab, setActiveWebTab] = useState('dashboard'); // 'dashboard', 'valuation', 'news', 'calendar'
 
   // Clock update effect
   useEffect(() => {
@@ -628,7 +686,7 @@ function App() {
           자산 포트폴리오 계량 밸류에이션 종합 비교 표 (Valuation Table)
         </h3>
         <p className="db-stock-reason" style={{ color: 'var(--colors-muted)', marginBottom: '16px' }}>
-          보유하신 한국 및 미국 상장 종목들의 현재가, PER, PBR, 배당 수익률 및 저평가 강도를 한눈에 계량 비교해 드립니다.
+          보유하신 모든 종목들의 현재가, PER, PBR, 배당 수익률 및 저평가 강도를 한눈에 격자비교해 드립니다.
         </p>
         <div style={{ overflowX: 'auto' }}>
           <table className="quant-table">
@@ -671,18 +729,25 @@ function App() {
     );
   };
 
-  // Toss-style Chronological Accordion Calendar
+  // Toss-style Chronological Accordion Calendar with Mini Grid Calendar integrated!
   const renderTossEconCalendar = () => (
     <div className="calendar-section-card">
       <h2 className="section-title">
         <Calendar size={22} color="var(--colors-sig-coral)" />
-        토스 스타일 에디토리얼 증시 캘린더
+        종합 에디토리얼 증시 & 지표 캘린더
       </h2>
-      <p className="db-stock-reason" style={{ marginBottom: '8px', color: 'var(--colors-muted)' }}>
-        향후 1달간 포트폴리오와 시장 판도를 뒤흔들 핵심 일정과, 10년 차 주/미 전문가의 실전 대응 전술을 펼쳐보세요.
+      <p className="db-stock-reason" style={{ marginBottom: '16px', color: 'var(--colors-muted)', textAlign: 'left' }}>
+        아래 달력에서 하이라이트된 날짜를 누르시거나 타임라인 아코디언을 클릭하여 주/미 경제 용어사전과 10년 차 전문가 전략 팁을 확인하세요.
       </p>
 
-      <div className="calendar-timeline">
+      {/* Monthly Interactive Calendar Grid Component! */}
+      <CalendarGrid 
+        calendarData={calendarData} 
+        onSelectEvent={(eventIdx) => setExpandedCalendarIndex(eventIdx)}
+        expandedCalendarIndex={expandedCalendarIndex}
+      />
+
+      <div className="calendar-timeline" style={{ marginTop: '24px' }}>
         {calendarData.map((item, idx) => {
           const isExpanded = expandedCalendarIndex === idx;
           const impClass = item.importance.toLowerCase();
@@ -799,9 +864,6 @@ function App() {
                   거시경제 핵심 지표 4대 천왕
                 </h3>
                 {renderMacroIndicatorsBoard()}
-
-                {/* Quant Valuation Table */}
-                {renderValuationTable()}
 
                 {/* Stock lists */}
                 <h3 className="section-title" style={{ fontSize: '16px', margin: '24px 0 8px 0' }}>
@@ -980,7 +1042,7 @@ function App() {
               </div>
             )}
 
-            {/* Tab 4: COPILOT Landing (with button to launch slideout drawer) */}
+            {/* Tab 4: COPILOT Landing */}
             {activeAppTab === 'copilot' && (
               <div className="column-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '32px 16px', border: 'none', background: 'transparent' }}>
                 <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--colors-sig-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px', boxShadow: '0 4px 12px rgba(24, 29, 38, 0.05)' }}>
@@ -1000,28 +1062,6 @@ function App() {
                   <MessageSquare size={16} />
                   AI 코파일럿과 채팅 시작하기
                 </button>
-
-                <div className="quick-prompts-area" style={{ marginTop: '32px', width: '100%', textAlign: 'left' }}>
-                  <span className="quick-title" style={{ fontSize: '12.5px' }}>💡 추천 질문 목록</span>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
-                    <button 
-                      onClick={() => {
-                        setIsCopilotOpen(true);
-                      }}
-                      className="btn-quick"
-                      style={{ fontSize: '12.5px', textAlign: 'left', padding: '10px' }}
-                    >
-                      🔥 오늘 수급 쏠림 국내종목 요약해줘
-                    </button>
-                    <button 
-                      onClick={() => setIsCopilotOpen(true)}
-                      className="btn-quick"
-                      style={{ fontSize: '12.5px', textAlign: 'left', padding: '10px' }}
-                    >
-                      🚀 테슬라/우주자산 바벨 전략 제언해줘
-                    </button>
-                  </div>
-                </div>
               </div>
             )}
 
@@ -1104,62 +1144,228 @@ function App() {
         </div>
       </header>
 
-      {/* 2. Brand Voltage - Airtable Signature Coral Band */}
-      <section className="sig-coral-band">
-        <h2>Production-Grade Quant Market Briefing</h2>
-        <p>
-          본 경제 인텔리전스 대시보드는 사용자님의 멀티 자산 포트폴리오(HL만도, QQQM, SOXL, 테슬라, 우주항공, 비트코인 등)의 실시간 변동성을 
-          자동 감지하고, 개장 전 반드시 체크해야 할 팩트 체크 및 수급 핵심 지표를 계량 분석하여 제공합니다. 
-          불필요한 노이즈를 제거한 잡지식 편집 디자인으로 고해상도 투자 인사이트를 읽어보세요.
-        </p>
-      </section>
-
-      {/* 3. Top Indices Ticker */}
-      {renderIndicesTicker()}
-
-      {/* 4. Global Macro 4 Key Indicators Board (Wall Street Terminals) */}
-      <div className="canvas-panel" style={{ border: 'none', background: 'transparent' }}>
-        <h3 className="section-title" style={{ margin: '0 0 var(--spacing-sm) 0' }}>
-          <Activity size={22} color="var(--colors-primary)" />
-          글로벌 거시경제 핵심 지표 4대 천왕
-        </h3>
-        {renderMacroIndicatorsBoard()}
+      {/* 2. Top Segmented Navigation Tabs (Solves Single Page Clutter!) */}
+      <div className="web-top-tabs">
+        <button 
+          className={`web-tab-btn ${activeWebTab === 'dashboard' ? 'active' : ''}`}
+          onClick={() => setActiveWebTab('dashboard')}
+        >
+          📊 실시간 대시보드
+        </button>
+        <button 
+          className={`web-tab-btn ${activeWebTab === 'valuation' ? 'active' : ''}`}
+          onClick={() => setActiveWebTab('valuation')}
+        >
+          📈 계량 밸류에이션 비교 표
+        </button>
+        <button 
+          className={`web-tab-btn ${activeWebTab === 'news' ? 'active' : ''}`}
+          onClick={() => setActiveWebTab('news')}
+        >
+          🌍 글로벌 시황 & 뉴스
+        </button>
+        <button 
+          className={`web-tab-btn ${activeWebTab === 'calendar' ? 'active' : ''}`}
+          onClick={() => setActiveWebTab('calendar')}
+        >
+          📅 증시 & 지표 캘린더
+        </button>
       </div>
 
-      {/* 5. Stunning Bloomberg Valuation comparison Table (Web view) */}
-      {renderValuationTable()}
-
-      {/* 6. Brand Voltage - Airtable Signature Cream Band for Global Market Summary */}
-      <section className="sig-cream-band" style={{ marginTop: '24px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: 'var(--colors-ink)', marginBottom: '4px', fontSize: '15px' }}>
-          <Award size={18} />
-          금일 마켓 뷰 및 투자 바벨 전략 제언
-        </div>
-        <p style={{ margin: 0, fontSize: '14.5px', lineHeight: 1.5, color: 'var(--colors-body)' }}>
-          반도체 공급 해소(TSMC Blackwell 수율 안정화) 및 테슬라 FSD 시범 돌입으로 글로벌 고성장 기술주의 강한 탄력이 기대됩니다. 
-          특히 **테슬라(TSLA)**와 우주 수송 분야 최강 주도주인 **로켓랩(RKLB)**, **우주 항공 탐사 ETF(ARKX)**의 강력한 모멘텀이 포착되고 있습니다.
-          국내 HL만도 및 금융 지주 고배당주의 하방 지지력을 바벨 축으로 삼아, 미국 핵심 미래 우주/AI 자산을 바벨 반대편에 적극 배치하여 상방 수익률을 극대화하는 포지션을 권장합니다.
-        </p>
-      </section>
-
-      {/* 7. Dashboard Core Layout */}
+      {/* 3. Dynamic Section Rendering based on Active Web Tab */}
       {loading ? (
         <div className="canvas-panel loading-box">
           <div className="spinner"></div>
           <p style={{ fontSize: '16px', fontWeight: 500, color: 'var(--colors-ink)' }}>금융 인텔리전스 분석 중...</p>
         </div>
       ) : (
-        <main className="db-main-layout">
-          
-          {/* Left Column: Economic News */}
-          <div className="news-column">
-            <div className="column-card">
+        <>
+          {/* TAB 1: Real-time Dashboard */}
+          {activeWebTab === 'dashboard' && (
+            <>
+              {/* Indices Ticker */}
+              {renderIndicesTicker()}
+
+              {/* Macro Indicators */}
+              <div className="canvas-panel" style={{ border: 'none', background: 'transparent', marginTop: '16px' }}>
+                <h3 className="section-title" style={{ margin: '0 0 var(--spacing-sm) 0' }}>
+                  <Activity size={22} color="var(--colors-primary)" />
+                  글로벌 거시경제 핵심 지표 4대 천왕
+                </h3>
+                {renderMacroIndicatorsBoard()}
+              </div>
+
+              {/* Expert Advice cream band */}
+              <section className="sig-cream-band" style={{ marginTop: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: 'var(--colors-ink)', marginBottom: '4px', fontSize: '15px' }}>
+                  <Award size={18} />
+                  금일 마켓 뷰 및 투자 바벨 전략 제언
+                </div>
+                <p style={{ margin: 0, fontSize: '14.5px', lineHeight: 1.5, color: 'var(--colors-body)' }}>
+                  반도체 공급 해소(TSMC Blackwell 수율 안정화) 및 테슬라 FSD 시범 돌입으로 글로벌 고성장 기술주의 강한 탄력이 기대됩니다. 
+                  국내 HL만도 및 금융 지주 고배당주의 하방 지지력을 바벨 축으로 삼아, 미국 핵심 미래 우주/AI 자산을 바벨 반대편에 적극 배치하여 상방 수익률을 극대화하는 포지션을 권장합니다.
+                </p>
+              </section>
+
+              {/* Two Column Stock Lists */}
+              <main className="db-main-layout" style={{ marginTop: '24px' }}>
+                
+                {/* Left Column: Korean Stocks */}
+                <div className="stocks-column">
+                  <div className="column-card">
+                    <h2 className="section-title">
+                      <TrendingUp size={22} />
+                      국내 자산 추천 및 퀀트 분석 ({krStocks.length}選)
+                    </h2>
+                    <div className="db-stocks-list">
+                      {krStocks.map((stock, idx) => {
+                        const isExpanded = expandedStock === idx;
+                        return (
+                          <div 
+                            key={idx} 
+                            className="db-stock-card"
+                            onClick={() => setExpandedStock(isExpanded ? -1 : idx)}
+                          >
+                            <div className="db-stock-header">
+                              <div className="db-stock-name-wrap">
+                                <h3>
+                                  {stock.name}
+                                  {isExpanded ? <ChevronUp size={18} color="var(--colors-ink)" /> : <ChevronDown size={18} color="var(--colors-muted)" />}
+                                </h3>
+                                <span className="db-stock-type">{stock.type}</span>
+                              </div>
+                              <div className="db-stock-price-box">
+                                <span className="db-stock-price">{stock.price}</span>
+                                <div>
+                                  <span className={`db-stock-valuation-label ${getValuationClass(stock.perComment)}`}>
+                                    {getValuationLabel(stock.perComment)}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <p className="db-stock-reason" style={{ fontWeight: isExpanded ? 500 : 400, color: isExpanded ? 'var(--colors-ink)' : 'var(--colors-body)' }}>
+                              💡 {stock.reason}
+                            </p>
+
+                            {isExpanded && (
+                              <div className="db-stock-expanded" onClick={(e) => e.stopPropagation()}>
+                                <div className="db-metrics-grid">
+                                  <div className="db-metric-item">
+                                    <span className="db-metric-label">PER</span>
+                                    <span className="db-metric-value">{stock.per}</span>
+                                    <span className="db-metric-comment">{stock.perComment}</span>
+                                  </div>
+                                  <div className="db-metric-item">
+                                    <span className="db-metric-label">PBR</span>
+                                    <span className="db-metric-value">{stock.pbr}</span>
+                                    <span className="db-metric-comment">{stock.pbrComment}</span>
+                                  </div>
+                                  <div className="db-metric-item db-full-width-metric">
+                                    <span className="db-metric-label">배당 수익률</span>
+                                    <span className="db-metric-value" style={{ color: 'var(--colors-success)' }}>{stock.dividendYield}</span>
+                                    <span className="db-metric-comment">{stock.dividendComment}</span>
+                                  </div>
+                                </div>
+                                <div className="db-supply-area">
+                                  <div className="db-supply-total">{stock.supply.total}</div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: US / Space Stocks */}
+                <div className="stocks-column">
+                  <div className="column-card">
+                    <h2 className="section-title">
+                      <Rocket size={22} color="var(--colors-sig-coral)" />
+                      미국 및 우주 혁신 자산 분석 ({usStocks.length}선)
+                    </h2>
+                    <div className="db-stocks-list">
+                      {usStocks.map((stock, idx) => {
+                        const actualIdx = idx + 10;
+                        const isExpanded = expandedStock === actualIdx;
+                        return (
+                          <div 
+                            key={actualIdx} 
+                            className="db-stock-card"
+                            onClick={() => setExpandedStock(isExpanded ? -1 : actualIdx)}
+                            style={{ borderLeft: '3px solid var(--colors-sig-coral)' }}
+                          >
+                            <div className="db-stock-header">
+                              <div className="db-stock-name-wrap">
+                                <h3>
+                                  {stock.name}
+                                  {isExpanded ? <ChevronUp size={18} color="var(--colors-ink)" /> : <ChevronDown size={18} color="var(--colors-muted)" />}
+                                </h3>
+                                <span className="db-stock-type">{stock.type}</span>
+                              </div>
+                              <div className="db-stock-price-box">
+                                <span className="db-stock-price" style={{ color: 'var(--colors-sig-coral)' }}>{stock.price}</span>
+                                <div>
+                                  <span className={`db-stock-valuation-label ${getValuationClass(stock.perComment)}`}>
+                                    {getValuationLabel(stock.perComment)}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <p className="db-stock-reason" style={{ fontWeight: isExpanded ? 500 : 400, color: isExpanded ? 'var(--colors-ink)' : 'var(--colors-body)' }}>
+                              💡 {stock.reason}
+                            </p>
+
+                            {isExpanded && (
+                              <div className="db-stock-expanded" onClick={(e) => e.stopPropagation()}>
+                                <div className="db-metrics-grid">
+                                  <div className="db-metric-item">
+                                    <span className="db-metric-label">PER</span>
+                                    <span className="db-metric-value">{stock.per}</span>
+                                    <span className="db-metric-comment">{stock.perComment}</span>
+                                  </div>
+                                  <div className="db-metric-item">
+                                    <span className="db-metric-label">PBR</span>
+                                    <span className="db-metric-value">{stock.pbr}</span>
+                                    <span className="db-metric-comment">{stock.pbrComment}</span>
+                                  </div>
+                                  <div className="db-metric-item db-full-width-metric">
+                                    <span className="db-metric-label">배당 수익률</span>
+                                    <span className="db-metric-value" style={{ color: 'var(--colors-sig-coral)' }}>{stock.dividendYield}</span>
+                                    <span className="db-metric-comment">{stock.dividendComment}</span>
+                                  </div>
+                                </div>
+                                <div className="db-supply-area">
+                                  <div className="db-supply-total">{stock.supply.total}</div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+              </main>
+            </>
+          )}
+
+          {/* TAB 2: Bloomberg-style Quant Valuation Table */}
+          {activeWebTab === 'valuation' && renderValuationTable()}
+
+          {/* TAB 3: Global News Partition */}
+          {activeWebTab === 'news' && (
+            <div className="column-card" style={{ maxWidth: '1000px', margin: '0 auto' }}>
               <h2 className="section-title">
                 <Globe size={22} />
-                보유 자산 연계 핵심 뉴스
+                보유 자산 및 매크로 연계 뉴스 스크랩
               </h2>
               
-              {/* News Tab Headers - Expanded to 3 Tabs */}
+              {/* 3 news categories */}
               <div className="news-tab-headers">
                 <button 
                   className={`news-tab-btn ${activeNewsTab === 'korean' ? 'active' : ''}`}
@@ -1181,7 +1387,7 @@ function App() {
                 </button>
               </div>
 
-              {/* News List */}
+              {/* News cards list */}
               <div className="db-news-list">
                 {getNewsFeed().map((item, idx) => (
                   <div key={idx} className="db-news-card">
@@ -1195,7 +1401,6 @@ function App() {
                             target="_blank" 
                             rel="noreferrer" 
                             className="news-link-btn"
-                            title="뉴스 원본 사이트로 이동"
                           >
                             원본 보기 <ArrowUpRight size={12} />
                           </a>
@@ -1213,264 +1418,18 @@ function App() {
                 ))}
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Right Column: Tailored Stocks & ETFs */}
-          <div className="stocks-column">
-            <div className="column-card">
-              
-              {/* Korean Stocks Section */}
-              <h2 className="section-title">
-                <TrendingUp size={22} />
-                국내 자산 추천 및 퀀트 분석 ({krStocks.length}選)
-              </h2>
-
-              <div className="db-stocks-list">
-                {krStocks.map((stock, idx) => {
-                  const isExpanded = expandedStock === idx;
-                  return (
-                    <div 
-                      key={idx} 
-                      className="db-stock-card"
-                      onClick={() => setExpandedStock(isExpanded ? -1 : idx)}
-                    >
-                      <div className="db-stock-header">
-                        <div className="db-stock-name-wrap">
-                          <h3>
-                            {stock.name}
-                            {isExpanded ? <ChevronUp size={18} color="var(--colors-ink)" /> : <ChevronDown size={18} color="var(--colors-muted)" />}
-                          </h3>
-                          <span className="db-stock-type">{stock.type}</span>
-                        </div>
-                        <div className="db-stock-price-box">
-                          <span className="db-stock-price">{stock.price}</span>
-                          <div>
-                            <span className={`db-stock-valuation-label ${getValuationClass(stock.perComment)}`}>
-                              {getValuationLabel(stock.perComment)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <p className="db-stock-reason" style={{ fontWeight: isExpanded ? 500 : 400, color: isExpanded ? 'var(--colors-ink)' : 'var(--colors-body)' }}>
-                        💡 {stock.reason}
-                      </p>
-
-                      {/* Expanded stock card metrics */}
-                      {isExpanded && (
-                        <div className="db-stock-expanded" onClick={(e) => e.stopPropagation()}>
-                          
-                          {/* Valuation metrics */}
-                          <div className="db-metrics-grid">
-                            <div className="db-metric-item">
-                              <span className="db-metric-label">PER (주가수익비율)</span>
-                              <span className="db-metric-value">{stock.per}</span>
-                              <span className="db-metric-comment">{stock.perComment}</span>
-                            </div>
-                            <div className="db-metric-item">
-                              <span className="db-metric-label">PBR (주가순자산비율)</span>
-                              <span className="db-metric-value">{stock.pbr}</span>
-                              <span className="db-metric-comment">{stock.pbrComment}</span>
-                            </div>
-                            <div className="db-metric-item db-full-width-metric">
-                              <span className="db-metric-label">배당 수익률 (분배율)</span>
-                              <span className="db-metric-value" style={{ color: 'var(--colors-success)' }}>{stock.dividendYield}</span>
-                              <span className="db-metric-comment">{stock.dividendComment}</span>
-                            </div>
-                          </div>
-
-                          {/* 52 week price ranges */}
-                          <div className="db-price-range">
-                            <div className="range-box">
-                              <span className="range-title">52주 최저</span>
-                              <span className="range-price" style={{ color: 'var(--colors-sig-coral)' }}>{stock.low52}</span>
-                            </div>
-                            <div className="range-box" style={{ textAlign: 'center' }}>
-                              <span className="range-title">목표가/저항선</span>
-                              <span className="range-price" style={{ color: 'var(--colors-link)' }}>{stock.targetPrice}</span>
-                            </div>
-                            <div className="range-box" style={{ textAlign: 'right' }}>
-                              <span className="range-price" style={{ color: 'var(--colors-success)' }}>{stock.high52}</span>
-                              <span className="range-title">52주 최고</span>
-                            </div>
-                          </div>
-
-                          {/* Supply analysis */}
-                          <div className="db-supply-area">
-                            <div className="db-supply-title">
-                              <Activity size={16} color="var(--colors-ink)" />
-                              최근 거래일 메이저 주체 수급
-                            </div>
-                            <div className="db-supply-grid">
-                              <div className="db-supply-col">
-                                <span className="db-supply-label">외국인</span>
-                                <span className={`db-supply-val ${stock.supply.foreigner.includes('매수') || stock.supply.foreigner.includes('유입') ? 'buy' : 'sell'}`}>
-                                  {stock.supply.foreigner.includes('매수') ? '매수 🟢' : '매도 🔴'}
-                                </span>
-                              </div>
-                              <div className="db-supply-col">
-                                <span className="db-supply-label">기관</span>
-                                <span className={`db-supply-val ${stock.supply.institution.includes('매수') || stock.supply.institution.includes('유입') ? 'buy' : 'sell'}`}>
-                                  {stock.supply.institution.includes('매수') ? '매수 🟢' : '매도 🔴'}
-                                </span>
-                              </div>
-                              <div className="db-supply-col">
-                                <span className="db-supply-label">개인</span>
-                                <span className={`db-supply-val ${stock.supply.individual.includes('매도') ? 'sell' : 'buy'}`}>
-                                  {stock.supply.individual.includes('매도') ? '매도 🔴' : '매수 🟢'}
-                                </span>
-                              </div>
-                              <div className="db-supply-col">
-                                <span className="db-supply-label">프로그램</span>
-                                <span className={`db-supply-val ${stock.supply.program.includes('매수') || stock.supply.program.includes('유입') ? 'buy' : 'sell'}`}>
-                                  {stock.supply.program.includes('매수') ? '유입 🟢' : '유출 🔴'}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="db-supply-total">
-                              {stock.supply.total}
-                            </div>
-                          </div>
-
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* US & Space Innovation Stocks Section */}
-              <h2 className="section-title" style={{ marginTop: '48px', borderTop: '1px solid var(--colors-hairline)', paddingTop: '32px' }}>
-                <Rocket size={22} color="var(--colors-sig-coral)" />
-                미국 및 우주 혁신 자산 분석 ({usStocks.length}선)
-              </h2>
-
-              <div className="db-stocks-list">
-                {usStocks.map((stock, idx) => {
-                  const actualIdx = idx + 10;
-                  const isExpanded = expandedStock === actualIdx;
-                  return (
-                    <div 
-                      key={actualIdx} 
-                      className="db-stock-card"
-                      onClick={() => setExpandedStock(isExpanded ? -1 : actualIdx)}
-                      style={{ borderLeft: '3px solid var(--colors-sig-coral)' }}
-                    >
-                      <div className="db-stock-header">
-                        <div className="db-stock-name-wrap">
-                          <h3>
-                            {stock.name}
-                            {isExpanded ? <ChevronUp size={18} color="var(--colors-ink)" /> : <ChevronDown size={18} color="var(--colors-muted)" />}
-                          </h3>
-                          <span className="db-stock-type">{stock.type}</span>
-                        </div>
-                        <div className="db-stock-price-box">
-                          <span className="db-stock-price" style={{ color: 'var(--colors-sig-coral)' }}>{stock.price}</span>
-                          <div>
-                            <span className={`db-stock-valuation-label ${getValuationClass(stock.perComment)}`}>
-                              {getValuationLabel(stock.perComment)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <p className="db-stock-reason" style={{ fontWeight: isExpanded ? 500 : 400, color: isExpanded ? 'var(--colors-ink)' : 'var(--colors-body)' }}>
-                        💡 {stock.reason}
-                      </p>
-
-                      {/* Expanded stock card metrics */}
-                      {isExpanded && (
-                        <div className="db-stock-expanded" onClick={(e) => e.stopPropagation()}>
-                          
-                          {/* Valuation metrics */}
-                          <div className="db-metrics-grid">
-                            <div className="db-metric-item">
-                              <span className="db-metric-label">PER (주가수익비율)</span>
-                              <span className="db-metric-value">{stock.per}</span>
-                              <span className="db-metric-comment">{stock.perComment}</span>
-                            </div>
-                            <div className="db-metric-item">
-                              <span className="db-metric-label">PBR (주가순자산비율)</span>
-                              <span className="db-metric-value">{stock.pbr}</span>
-                              <span className="db-metric-comment">{stock.pbrComment}</span>
-                            </div>
-                            <div className="db-metric-item db-full-width-metric">
-                              <span className="db-metric-label">배당 수익률 (분배율)</span>
-                              <span className="db-metric-value" style={{ color: 'var(--colors-sig-coral)' }}>{stock.dividendYield}</span>
-                              <span className="db-metric-comment">{stock.dividendComment}</span>
-                            </div>
-                          </div>
-
-                          {/* 52 week price ranges */}
-                          <div className="db-price-range">
-                            <div className="range-box">
-                              <span className="range-title">52주 최저</span>
-                              <span className="range-price" style={{ color: 'var(--colors-sig-coral)' }}>{stock.low52}</span>
-                            </div>
-                            <div className="range-box" style={{ textAlign: 'center' }}>
-                              <span className="range-title">목표가/저항선</span>
-                              <span className="range-price" style={{ color: 'var(--colors-link)' }}>{stock.targetPrice}</span>
-                            </div>
-                            <div className="range-box" style={{ textAlign: 'right' }}>
-                              <span className="range-price" style={{ color: 'var(--colors-success)' }}>{stock.high52}</span>
-                              <span className="range-title">52주 최고</span>
-                            </div>
-                          </div>
-
-                          {/* Supply analysis */}
-                          <div className="db-supply-area">
-                            <div className="db-supply-title">
-                              <Activity size={16} color="var(--colors-ink)" />
-                              미국 시장 거래일 메이저 주체 수급
-                            </div>
-                            <div className="db-supply-grid">
-                              <div className="db-supply-col">
-                                <span className="db-supply-label">외국인(메이저)</span>
-                                <span className={`db-supply-val ${stock.supply.foreigner.includes('매수') || stock.supply.foreigner.includes('유입') || stock.supply.foreigner.includes('매집') ? 'buy' : 'sell'}`}>
-                                  {stock.supply.foreigner.includes('매수') || stock.supply.foreigner.includes('매집') ? '매수 🟢' : '매도 🔴'}
-                                </span>
-                              </div>
-                              <div className="db-supply-col">
-                                <span className="db-supply-label">월가기관</span>
-                                <span className={`db-supply-val ${stock.supply.institution.includes('매수') || stock.supply.institution.includes('유입') || stock.supply.institution.includes('확대') ? 'buy' : 'sell'}`}>
-                                  {stock.supply.institution.includes('매수') || stock.supply.institution.includes('확대') ? '매수 🟢' : '매도 🔴'}
-                                </span>
-                              </div>
-                              <div className="db-supply-col">
-                                <span className="db-supply-label">개인</span>
-                                <span className={`db-supply-val ${stock.supply.individual.includes('매도') ? 'sell' : 'buy'}`}>
-                                  {stock.supply.individual.includes('매도') ? '매도 🔴' : '매수 🟢'}
-                                </span>
-                              </div>
-                              <div className="db-supply-col">
-                                <span className="db-supply-label">프로그램</span>
-                                <span className={`db-supply-val ${stock.supply.program.includes('매수') || stock.supply.program.includes('유입') ? 'buy' : 'sell'}`}>
-                                  {stock.supply.program.includes('매수') || stock.supply.program.includes('유입') ? '유입 🟢' : '유출 🔴'}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="db-supply-total">
-                              {stock.supply.total}
-                            </div>
-                          </div>
-
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-
+          {/* TAB 4: Toss-style Economic Calendar with mini month grid */}
+          {activeWebTab === 'calendar' && (
+            <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+              {renderTossEconCalendar()}
             </div>
-          </div>
-
-        </main>
+          )}
+        </>
       )}
 
-      {/* 8. Toss-style Econ Calendar (Full-width row at bottom of wide view) */}
-      {!loading && renderTossEconCalendar()}
-
-      {/* 9. Footer */}
+      {/* 4. Footer */}
       <footer className="db-footer">
         <p>© 2026 <span className="db-footer-brand">Smart Economic Intelligence System</span>. All rights reserved.</p>
         <p style={{ marginTop: '4px', fontSize: '12px', color: 'var(--colors-muted)' }}>
@@ -1478,7 +1437,7 @@ function App() {
         </p>
       </footer>
 
-      {/* 10. AI Portfolio Co-pilot Conversation Drawer & FAB */}
+      {/* 5. AI Portfolio Co-pilot Conversation Drawer & FAB */}
       <AICopilot report={activeReport} isOpen={isCopilotOpen} setIsOpen={setIsCopilotOpen} />
 
     </div>
