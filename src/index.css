@@ -302,7 +302,7 @@ body {
 .task-items-list {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.2rem;
   flex: 1;
 }
 
@@ -311,7 +311,15 @@ body {
   align-items: flex-start;
   gap: 0.35rem;
   position: relative;
-  group: hover;
+  border-bottom: 1px solid #efeff4; /* Subtle Apple hairline divider */
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.todo-item-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 /* Circular Checklist toggles - Apple spec status cycle */
@@ -504,15 +512,367 @@ body {
   }
 }
 
-/* Responsive adjustment */
-@media (max-width: 960px) {
-  .app-container {
-    padding: 1rem;
-  }
+/* Responsive weekday tag visible on all viewports for excellent scroll context */
+.mobile-weekday-label {
+  display: inline-block !important;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #86868b; /* Apple tertiary gray */
+  margin-left: 0.25rem;
+}
+
+/* Match date colors on Sundays/holidays and Saturdays */
+.excel-td.sun .mobile-weekday-label,
+.excel-td.holiday .mobile-weekday-label {
+  color: #e53935;
+  opacity: 0.8;
+}
+
+.excel-td.sat .mobile-weekday-label {
+  color: #0066cc;
+  opacity: 0.8;
+}
+
+/* Sticky Table Headers for dynamic scrolling */
+.excel-th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: inset 0 -1px 0 #e0e0e0; /* Clean border line beneath sticky header */
+}
+
+/* Responsive adjustment - Enable buttery horizontal scrolling for Excel table on mobile & narrow windows */
+.excel-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Momentum scrolling on iOS/Android */
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+@media (min-width: 801px) {
   .excel-table-container {
-    overflow-x: auto;
-  }
-  .excel-table {
-    min-width: 900px;
+    max-height: calc(100vh - 160px); /* Constrain desktop height to enable clean vertical scroll + sticky header */
+    overflow-y: auto;
   }
 }
+
+.excel-table {
+  width: 100%;
+  min-width: 1800px; /* Generous, comfortable column width (approx 216px - 288px each) for beautiful text layout */
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+@media (max-width: 800px) {
+  .app-container {
+    padding: 1.5rem 1rem;
+    height: auto;
+  }
+  
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  
+  .title-group {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .navigation-bar {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .current-month-display {
+    min-width: auto;
+    font-size: 1.35rem;
+  }
+
+  /* Reset layout constraints for mobile viewport */
+  .excel-row {
+    height: auto !important;
+  }
+  
+  .cell-wrapper {
+    min-height: 120px;
+    padding: 0.4rem;
+  }
+
+  .todo-textarea {
+    font-size: 0.85rem;
+  }
+}
+
+
+
+/* --- Apple Spec Device Real-time Sync Styles --- */
+.sync-btn-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sync-status-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px; /* Capsule */
+  background-color: rgba(52, 199, 89, 0.08); /* Apple light green */
+  color: #34c759;
+  border: 1px solid rgba(52, 199, 89, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sync-status-badge:hover {
+  background-color: rgba(52, 199, 89, 0.15);
+  transform: scale(0.98);
+}
+
+.sync-status-badge .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #34c759;
+  box-shadow: 0 0 6px #34c759;
+}
+
+.sync-btn {
+  background-color: #ffffff;
+  border: 1px solid #d2d2d7;
+  border-radius: 9999px; /* Capsule */
+  padding: 0 1.2rem;
+  height: 42px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #1d1d1f;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.sync-btn:hover {
+  background-color: #f5f5f7;
+  border-color: #0066cc;
+  color: #0066cc;
+}
+
+.sync-btn:active {
+  transform: scale(0.95);
+}
+
+/* Modal Overlay & Card blur */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 18px; /* rounded-lg */
+  width: 90%;
+  max-width: 400px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  color: #86868b;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn:hover {
+  background-color: #f5f5f7;
+  color: #1d1d1f;
+}
+
+.modal-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin-bottom: 0.5rem;
+  color: #1d1d1f;
+}
+
+.modal-description {
+  font-size: 0.95rem;
+  color: #86868b;
+  line-height: 1.45;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sync-code-box {
+  background: #f5f5f7;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  border: 1px dashed #d2d2d7;
+}
+
+.sync-code-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #86868b;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.sync-code-number {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #0066cc; /* Action Blue */
+}
+
+/* Modal Input & Buttons */
+.modal-input {
+  background: #f5f5f7;
+  border: 1px solid #d2d2d7;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 1.5px;
+  outline: none;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.modal-input:focus {
+  background: #ffffff;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+}
+
+.modal-primary-btn {
+  background-color: #0066cc; /* Action Blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px; /* Capsule */
+  padding: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.modal-primary-btn:hover {
+  background-color: #0055b3;
+}
+
+.modal-primary-btn:active {
+  transform: scale(0.95);
+}
+
+.modal-secondary-btn {
+  background-color: #f5f5f7;
+  color: #1d1d1f;
+  border: 1px solid #d2d2d7;
+  border-radius: 9999px; /* Capsule */
+  padding: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.modal-secondary-btn:hover {
+  background-color: #e8e8ed;
+}
+
+.modal-secondary-btn:active {
+  transform: scale(0.95);
+}
+
+.modal-danger-btn {
+  background-color: rgba(255, 59, 48, 0.08);
+  color: #ff3b30;
+  border: 1px solid rgba(255, 59, 48, 0.2);
+  border-radius: 9999px; /* Capsule */
+  padding: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+}
+
+.modal-danger-btn:hover {
+  background-color: rgba(255, 59, 48, 0.15);
+}
+
+.modal-danger-btn:active {
+  transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+

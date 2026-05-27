@@ -760,3 +760,550 @@ body, html {
   font-weight: 600;
   color: var(--colors-ink);
 }
+
+/* ==========================================
+   💡 PREMIUM EXTRA LAYOUTS & COMPONENT STYLES
+   ========================================== */
+
+/* 1. View Mode Toggle Widget */
+.view-mode-toggle-group {
+  display: flex;
+  background: var(--colors-surface-soft);
+  border: 1px solid var(--colors-hairline);
+  padding: 4px;
+  border-radius: var(--rounded-md);
+  gap: 2px;
+}
+
+.view-mode-toggle-group .toggle-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--colors-muted);
+  cursor: pointer;
+  border-radius: var(--rounded-sm);
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.view-mode-toggle-group .toggle-btn.active {
+  background: var(--colors-canvas);
+  color: var(--colors-ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--colors-hairline);
+}
+
+/* 2. Global Macro Indicators Board */
+.macro-board-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 900px) {
+  .macro-board-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .macro-board-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.macro-board-card {
+  background: var(--colors-canvas);
+  border: 1px solid var(--colors-hairline);
+  border-left: 4px solid var(--colors-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--rounded-md);
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.macro-board-card:nth-child(1) { border-left-color: #1b61c9; } /* Exchange Rate Blue */
+.macro-board-card:nth-child(2) { border-left-color: #aa2d00; } /* Yield Coral */
+.macro-board-card:nth-child(3) { border-left-color: #006400; } /* Semiconductor Green */
+.macro-board-card:nth-child(4) { border-left-color: #fcab79; } /* Oil Peach */
+
+.macro-board-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(24, 29, 38, 0.04);
+  border-color: var(--colors-ink);
+}
+
+.macro-board-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--colors-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.macro-board-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--colors-ink);
+  margin: 2px 0;
+}
+
+.macro-board-comment {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--colors-muted);
+}
+
+/* 3. Toss-style Accordion Economic Calendar Section */
+.calendar-section-card {
+  padding: var(--spacing-xl);
+  background: var(--colors-canvas);
+  border: 1px solid var(--colors-hairline);
+  border-radius: var(--rounded-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  text-align: left;
+}
+
+.calendar-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  position: relative;
+  padding-left: 8px;
+}
+
+.calendar-timeline::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 20px;
+  width: 1px;
+  border-left: 1px dashed var(--colors-hairline);
+}
+
+.calendar-item-row {
+  display: flex;
+  flex-direction: column;
+  background: var(--colors-canvas);
+  border: 1px solid var(--colors-hairline);
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.calendar-item-row:hover {
+  border-color: var(--colors-ink);
+}
+
+.calendar-item-header {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  gap: var(--spacing-md);
+  user-select: none;
+}
+
+.calendar-dot-marker {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--colors-canvas);
+  border: 2px solid var(--colors-hairline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: var(--transition-smooth);
+}
+
+.calendar-item-row.expanded .calendar-dot-marker {
+  border-color: var(--colors-primary);
+  background: var(--colors-primary);
+  color: white;
+}
+
+.calendar-date-col {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--colors-ink);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.calendar-importance-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--rounded-sm);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.calendar-importance-badge.high {
+  background: rgba(170, 45, 0, 0.1);
+  color: var(--colors-sig-coral);
+}
+
+.calendar-importance-badge.medium {
+  background: rgba(252, 171, 121, 0.15);
+  color: #c9510c;
+}
+
+.calendar-importance-badge.low {
+  background: var(--colors-surface-soft);
+  color: var(--colors-muted);
+}
+
+.calendar-event-title {
+  font-size: 15.5px;
+  font-weight: 500;
+  color: var(--colors-ink);
+  flex: 1;
+  text-align: left;
+}
+
+.calendar-arrow-icon {
+  color: var(--colors-muted);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.calendar-item-row.expanded .calendar-arrow-icon {
+  transform: rotate(180deg);
+  color: var(--colors-ink);
+}
+
+/* Calendar Accordion Drawer Content */
+.calendar-drawer-content {
+  padding: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  border-top: 1px dashed var(--colors-hairline);
+  background: var(--colors-surface-soft);
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+}
+
+.calendar-definition-box {
+  background: var(--colors-canvas);
+  border: 1px solid var(--colors-hairline);
+  border-radius: var(--rounded-md);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.calendar-box-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--colors-link);
+  margin-bottom: 6px;
+}
+
+.calendar-term-badge {
+  background: rgba(27, 97, 201, 0.08);
+  color: var(--colors-link);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+  font-weight: 700;
+}
+
+.calendar-definition-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--colors-body);
+  margin: 0;
+  word-break: keep-all;
+}
+
+.calendar-strategy-box {
+  background: var(--colors-sig-cream);
+  border: 1px solid rgba(24, 29, 38, 0.08);
+  border-radius: var(--rounded-md);
+  padding: var(--spacing-md);
+}
+
+.calendar-strategy-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--colors-sig-coral);
+  margin-bottom: 6px;
+}
+
+.calendar-strategy-text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--colors-ink);
+  margin: 0;
+  font-weight: 450;
+  word-break: keep-all;
+}
+
+/* 4. Interactive Phone Mockup Frame for App View (Desktop Only) */
+.phone-mockup-frame {
+  max-width: 440px;
+  width: 100%;
+  margin: var(--spacing-lg) auto;
+  background: #181d26; /* Dark slate bezel */
+  border: 12px solid #181d26;
+  border-radius: 40px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  position: relative;
+  transition: var(--transition-smooth);
+}
+
+/* Screen container inside mockup */
+.phone-screen-container {
+  background: var(--colors-canvas);
+  height: 760px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Status Bar simulation */
+.phone-status-bar {
+  background: var(--colors-canvas);
+  padding: 14px 20px 6px 20px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--colors-ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--colors-surface-soft);
+  z-index: 10;
+  position: sticky;
+  top: 0;
+}
+
+.phone-status-left {
+  font-family: 'Outfit', sans-serif;
+}
+
+.phone-status-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* App Header */
+.app-header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--colors-hairline);
+  background: var(--colors-canvas);
+  position: sticky;
+  top: 36px; /* Right under simulated status bar */
+  z-index: 9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header h1 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--colors-ink);
+  margin: 0;
+  letter-spacing: -0.4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Scrollable Container in Phone App view */
+.app-body-content {
+  flex: 1;
+  padding: var(--spacing-md) var(--spacing-md) 80px var(--spacing-md); /* Bottom padding for nav bar */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  overflow-x: hidden;
+}
+
+/* Bottom Navigation Bar in Phone App view */
+.mobile-bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--colors-hairline);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 15;
+}
+
+.nav-tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  color: var(--colors-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+  transition: var(--transition-smooth);
+  flex: 1;
+}
+
+.nav-tab-item.active {
+  color: var(--colors-primary);
+}
+
+.nav-tab-item svg {
+  transition: var(--transition-smooth);
+}
+
+.nav-tab-item.active svg {
+  transform: translateY(-1px);
+  stroke: var(--colors-primary);
+  fill: rgba(24, 29, 38, 0.05);
+}
+
+/* Mobile-adapted structures to override defaults inside mockup */
+.phone-screen-container .column-card {
+  padding: var(--spacing-md);
+  border-radius: var(--rounded-md);
+}
+
+.phone-screen-container .db-stock-card {
+  padding: var(--spacing-md);
+}
+
+.phone-screen-container .sig-coral-band {
+  padding: var(--spacing-md);
+  border-radius: var(--rounded-md);
+}
+
+.phone-screen-container .sig-coral-band h2 {
+  font-size: 18px;
+}
+
+.phone-screen-container .sig-coral-band p {
+  font-size: 13.5px;
+}
+
+.phone-screen-container .sig-cream-band {
+  padding: var(--spacing-md);
+  font-size: 13.5px;
+}
+
+.phone-screen-container .db-stock-name-wrap h3 {
+  font-size: 17px;
+}
+
+.phone-screen-container .db-stock-price {
+  font-size: 17px;
+}
+
+.phone-screen-container .db-metrics-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.phone-screen-container .db-full-width-metric {
+  grid-column: span 2;
+}
+
+.phone-screen-container .db-supply-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+/* 5. Mobile Layout Override on Real Mobile Browsers (width <= 768px) */
+@media (max-width: 768px) {
+  /* On actual phones, make sure the App View behaves like a native full-screen app, not a centered box with borders! */
+  .phone-mockup-frame {
+    max-width: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+  
+  .phone-screen-container {
+    height: 100vh !important;
+  }
+}
+
+/* 6. Custom responsive classes for better text presentation */
+.chat-item-content {
+  flex: 1;
+  word-break: keep-all;
+}
+
+/* Responsive adjustments */
+.btn-primary.view-mode-toggle {
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
+/* Simulated AI Copilot Mobile Sheet */
+.mobile-copilot-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--colors-canvas);
+  position: relative;
+}
+
+.mobile-copilot-header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--colors-hairline);
+  background: var(--colors-surface-soft);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile-copilot-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--colors-ink);
+}
+
+.mobile-copilot-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.mobile-copilot-footer {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-top: 1px solid var(--colors-hairline);
+  background: var(--colors-canvas);
+  position: sticky;
+  bottom: 0;
+}

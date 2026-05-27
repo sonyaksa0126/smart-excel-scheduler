@@ -54,15 +54,37 @@ async function fetchLiveStockData(symbol, currencySymbol = '원') {
     
     // Format values nicely
     const isUSD = currencySymbol === '$';
-    const fmt = (val) => {
-      if (isUSD) return '$' + Number(val).toFixed(2);
-      return Math.round(val).toLocaleString('ko-KR') + '원';
-    };
     
-    const currentPrice = fmt(meta.regularMarketPrice);
-    const high52 = fmt(meta.fiftyTwoWeekHigh);
-    const low52 = fmt(meta.fiftyTwoWeekLow);
-    const prevClose = fmt(meta.previousClose);
+    let currentPrice, high52, low52, prevClose;
+    
+    if (symbol === '^TNX') {
+      const fmtTNX = (val) => (Number(val) > 10 ? (Number(val) / 10).toFixed(2) : Number(val).toFixed(2)) + '%';
+      currentPrice = fmtTNX(meta.regularMarketPrice);
+      high52 = fmtTNX(meta.fiftyTwoWeekHigh);
+      low52 = fmtTNX(meta.fiftyTwoWeekLow);
+      prevClose = fmtTNX(meta.previousClose);
+    } else if (symbol === 'USDKRW=X') {
+      const fmtKRW = (val) => Number(val).toFixed(1) + '원';
+      currentPrice = fmtKRW(meta.regularMarketPrice);
+      high52 = fmtKRW(meta.fiftyTwoWeekHigh);
+      low52 = fmtKRW(meta.fiftyTwoWeekLow);
+      prevClose = fmtKRW(meta.previousClose);
+    } else if (symbol === '^SOX') {
+      const fmtSOX = (val) => Number(val).toLocaleString('ko-KR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' P';
+      currentPrice = fmtSOX(meta.regularMarketPrice);
+      high52 = fmtSOX(meta.fiftyTwoWeekHigh);
+      low52 = fmtSOX(meta.fiftyTwoWeekLow);
+      prevClose = fmtSOX(meta.previousClose);
+    } else {
+      const fmt = (val) => {
+        if (isUSD) return '$' + Number(val).toFixed(2);
+        return Math.round(val).toLocaleString('ko-KR') + '원';
+      };
+      currentPrice = fmt(meta.regularMarketPrice);
+      high52 = fmt(meta.fiftyTwoWeekHigh);
+      low52 = fmt(meta.fiftyTwoWeekLow);
+      prevClose = fmt(meta.previousClose);
+    }
     
     return {
       success: true,
@@ -79,10 +101,8 @@ async function fetchLiveStockData(symbol, currencySymbol = '원') {
   }
 }
 
-async function fetchRealNews(isGlobal = false) {
-  const url = isGlobal 
-    ? 'https://news.google.com/rss/search?q=crude+oil+OR+geopolitical+war+OR+uranium+OR+nuclear+energy+OR+tesla+OR+space+exploration&hl=en-US&gl=US&ceid=US:en'
-    : 'https://news.google.com/rss/search?q=국제유가+OR+전쟁+OR+우라늄+OR+원자력+OR+반도체+OR+테슬라+OR+우주&hl=ko&gl=KR&ceid=KR:ko';
+async function fetchRealNews(query, hl = 'ko', gl = 'KR', ceid = 'KR:ko') {
+  const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=${hl}&gl=${gl}&ceid=${ceid}`;
   try {
     const res = await fetch(url);
     const text = await res.text();
@@ -118,24 +138,37 @@ async function fetchRealNews(isGlobal = false) {
   }
 }
 
+const MACRO_TICKERS = [
+  { symbol: 'USDKRW=X', name: '원/달러 환율', currency: '원' },
+  { symbol: '^TNX', name: '미국 10년물 국채 금리', currency: '%' },
+  { symbol: '^SOX', name: '필라델피아 반도체 지수', currency: 'P' },
+  { symbol: 'CL=F', name: 'WTI 원유 선물', currency: '$' }
+];
+
 async function runScraper() {
   console.log("📰 Scraping real-time Google News RSS...");
-  const rawKrNews = await fetchRealNews(false);
-  const rawGlobalNews = await fetchRealNews(true);
+  const rawKrNews = await fetchRealNews('삼성전자 OR SK하이닉스 OR HL만도 OR KB금융 OR HD현대일렉트릭', 'ko', 'KR', 'KR:ko');
+  const rawGlobalNews = await fetchRealNews('Tesla OR "Rocket Lab" OR "SpaceMobile" OR "Intuitive Machines" OR Space Aerospace OR Uranium', 'en-US', 'US', 'US:en');
+  const rawMacroNews = await fetchRealNews('금리 OR 환율 OR 인플레이션 OR 미국증시 OR 뉴욕증시 OR 유가 OR 원자력', 'ko', 'KR', 'KR:ko');
   
   let liveNewsContext = `
 Here is a list of real-time, actual news items and their active link URLs from Google News for today (${formattedDate}). 
-You MUST select exactly the 3 items that are most relevant to the investor's portfolio (e.g. Samsung Electronics, semiconductor supply, HL Mando, high dividend, Tesla, Rocket Lab, AST SpaceMobile, Space exploration, crypto macro).
-Summarize them, and keep their exact "url" fields in your output JSON. Do NOT hallucinate URLs or titles!
+You MUST select exactly the 3 most relevant items for each of the three target news categories.
+Do NOT hallucinate URLs or titles! Keep their exact "url" fields in your output JSON.
 
-[ACTUAL KOREAN NEWS FEED]
+[ACTUAL KOREAN PORTFOLIO NEWS FEED]
 `;
   rawKrNews.forEach((n, idx) => {
     liveNewsContext += `${idx + 1}. Title: "${n.title}", Source: "${n.source}", URL: "${n.link}"\n`;
   });
 
-  liveNewsContext += `\n[ACTUAL GLOBAL / SPACE / CRYPTO NEWS FEED]\n`;
+  liveNewsContext += `\n[ACTUAL US & SPACE PORTFOLIO NEWS FEED]\n`;
   rawGlobalNews.forEach((n, idx) => {
+    liveNewsContext += `${idx + 1}. Title: "${n.title}", Source: "${n.source}", URL: "${n.link}"\n`;
+  });
+
+  liveNewsContext += `\n[ACTUAL MACRO & HEADLINE NEWS FEED]\n`;
+  rawMacroNews.forEach((n, idx) => {
     liveNewsContext += `${idx + 1}. Title: "${n.title}", Source: "${n.source}", URL: "${n.link}"\n`;
   });
 
@@ -153,9 +186,22 @@ Summarize them, and keep their exact "url" fields in your output JSON. Do NOT ha
     if (data.success) liveUsData[s.symbol] = data;
   }
 
+  console.log("📈 Fetching Macro board indicators...");
+  const liveMacroData = {};
+  for (const m of MACRO_TICKERS) {
+    const data = await fetchLiveStockData(m.symbol, m.currency);
+    if (data.success) liveMacroData[m.symbol] = data;
+  }
+
   // Build the live prices prompt context
   let livePricesContext = `
-Here are the absolute 100% correct, real-time live stock prices and 52-week high/low data we fetched from the live exchange API for ${formattedDate}. You MUST use these exact prices and high/low values for the stocks in your JSON response. Do NOT guess or hallucinate these values:
+Here are the absolute 100% correct, real-time live stock prices, indices, and macro indicators we fetched from the live exchange API for today (${formattedDate}). You MUST use these exact prices, values and ranges in your JSON response. Do NOT guess or hallucinate these values:
+
+[MACRO INDICATORS BOARD]
+- 원/달러 환율 (USDKRW=X): ${liveMacroData['USDKRW=X']?.currentPrice || '1,365.0원'}
+- 미국 10년물 국채 금리 (^TNX): ${liveMacroData['^TNX']?.currentPrice || '4.45%'}
+- 필라델피아 반도체 지수 (^SOX): ${liveMacroData['^SOX']?.currentPrice || '5,120.0 P'}
+- WTI 원유 선물 가격 (CL=F): ${liveMacroData['CL=F']?.currentPrice || '$78.50'}
 
 [KOREAN PORTFOLIO]
 `;
@@ -178,12 +224,18 @@ Here are the absolute 100% correct, real-time live stock prices and 52-week high
   console.log("🤖 Prepared live stock data context:\n", livePricesContext);
 
   const systemInstruction = `
-You are a highly precise financial analysis AI. Your goal is to gather today's key financial news and stock quant valuations grounded in reality for the date: ${formattedDate}.
+You are a highly precise financial analysis AI. Your goal is to gather today's key financial news, macro indicators and stock quant valuations grounded in reality for the date: ${formattedDate}.
 Please generate a structured JSON report. You must return ONLY a valid JSON object matching the exact schema below. No markdown wrapper, no extra text.
 
 JSON Schema:
 {
   "date": "YYYY년 MM월 DD일",
+  "macroIndicators": {
+    "exchangeRate": "원/달러 환율 값 (Use exact live value provided, e.g. 1,365.2원)",
+    "bondYield": "미국 10년물 국채 금리 값 (Use exact live value provided, e.g. 4.45%)",
+    "semiconductorIndex": "필라델피아 반도체 지수 값 (Use exact live value provided, e.g. 5,120.3 P)",
+    "crudeOil": "WTI 원유 선물 가격 값 (Use exact live value provided, e.g. $78.45)"
+  },
   "news": {
     "korean": [
       {
@@ -196,10 +248,19 @@ JSON Schema:
     ],
     "global": [
       {
-        "title": "Global / Crypto / Space News Title",
-        "summary": "2-3 sentence summary of global macro, crypto, or space industry news (e.g. SpaceX, Rocket Lab, Tesla, NASA)",
-        "impact": "Impact on QQQM, QLD, SOXL, Tesla, Google, Bitcoin, RKLB, ARKX",
+        "title": "Global / Space News Title",
+        "summary": "2-3 sentence summary of global space industry news (e.g. SpaceX, Rocket Lab, Tesla, NASA)",
+        "impact": "Impact on QQQM, QLD, SOXL, Tesla, Google, RKLB, ARKX",
         "source": "Global source name",
+        "url": "Actual valid search-grounded URL of the news article (MUST be real)"
+      }
+    ],
+    "macro": [
+      {
+        "title": "Macroeconomic Headline News Title",
+        "summary": "2-3 sentence summary of global macroeconomics, interest rates, inflation, exchange rates, or NY stock market headline news",
+        "impact": "Portfolio or market-wide strategic impact",
+        "source": "News source name",
         "url": "Actual valid search-grounded URL of the news article (MUST be real)"
       }
     ]
@@ -253,20 +314,26 @@ JSON Schema:
         "total": "US market supply overall judgment"
       }
     }
+  ],
+  "calendar": [
+    {
+      "date": "MM월 DD일",
+      "event": "Event name (e.g. 테슬라 2분기 실적 발표, 미 5월 소비자물가지수 CPI 발표, 구글 I/O 개발자 회의, FOMC 정례회의)",
+      "importance": "HIGH" or "MEDIUM" or "LOW",
+      "term": "어려운 경제 용어 (e.g. CPI (소비자물가지수), PCE 물가지수, M&A (합병), 실적발표(Earnings), 금리동결, 테이퍼링)",
+      "termDefinition": "주린이/초보 투자자가 1초 만에 완벽하게 납득할 수 있는 아주 쉽고 친절한 토스스타일 경제용어 번역 설명 (구어체로 친근하게 설명해주세요. e.g. '이것은 ~를 뜻해요')",
+      "impact": "10년 차 주식 전문가로서 이 이슈가 발생했을 때 사용자의 포트폴리오 자산(한국/미국주식)을 지키기 위한 구체적이고 스마트한 실전 대응 및 투자 전략 제언"
+    }
   ]
 }
 
 For the stock recommendations section ("stocks"): You must recommend exactly the 5 Korean stocks provided in the KOREAN PORTFOLIO context.
-For the US stock recommendations section ("usStocks"): You must recommend exactly the 8 US/Space/Commodity stocks/ETFs provided in the US & SPACE INNOVATION PORTFOLIO context (Tesla, Rocket Lab, AST SpaceMobile, Intuitive Machines, ARK Space Exploration ETF, Procure Space ETF, Global X Uranium ETF, WTI Crude Oil Futures).
+For the US stock recommendations section ("usStocks"): You must recommend exactly the 8 US/Space/Commodity stocks/ETFs provided in the US & SPACE INNOVATION PORTFOLIO context.
 
-For the news sections ("news"), you MUST actively prioritize selecting and analyzing articles regarding:
-1. 국제 유가 (Crude oil price/energy trends)
-2. 지정학적 리스크 및 전쟁 (Geopolitical conflicts/war risks in Middle East or globally)
-3. 우라늄 공급 및 원자력 에너지 (Uranium mining, supply chain, and nuclear energy trends)
-along with investor's portfolio-related technology and space articles.
-
-You MUST populate their "price", "high52", and "low52" fields with the EXACT values supplied in the live prices context.
-Then, use your financial analysis intelligence to generate realistic and precise quant comments, valuations, supply trends, and news items for ${formattedDate}.
+For the news sections ("news"), you MUST actively select the most relevant news.
+For the calendar ("calendar"), generate exactly 5 to 7 high-impact financial & economic events scheduled over the upcoming 30 days chronologically starting from today (${formattedDate}), specifically including key US corporate earnings (Google, Tesla) and macro-economic schedules (CPI, PPI, PCE, FOMC).
+Ensure the termDefinition is extremely clear and friendly like Toss app definitions.
+You MUST populate the macroIndicators and stock prices with the EXACT values supplied in the live prices context.
 `;
 
   console.log("⚡ Calling Gemini 2.5 Flash API with live prices context...");
@@ -278,7 +345,7 @@ Then, use your financial analysis intelligence to generate realistic and precise
       {
         parts: [
           {
-            text: `${livePricesContext}\n\n${liveNewsContext}\n\nPlease generate the daily briefing JSON selecting from these actual news items and using the exact stock prices and ranges.`
+            text: `${livePricesContext}\n\n${liveNewsContext}\n\nPlease generate the daily briefing JSON selecting from these actual news items and using the exact stock prices, macro indicators and ranges.`
           }
         ]
       }

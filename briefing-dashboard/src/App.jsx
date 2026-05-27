@@ -10,33 +10,47 @@ import {
   ChevronUp,
   Activity,
   Award,
-  Rocket
+  Rocket,
+  Calendar,
+  MessageSquare,
+  Home,
+  Newspaper,
+  BookOpen
 } from 'lucide-react';
 import AICopilot from './components/AICopilot';
 import './components/AICopilot.css';
 
-// Premium Korean fallback mock data for seamless out-of-the-box experience
+// Premium Korean fallback mock data for a seamless out-of-the-box experience
 const FALLBACK_REPORT = {
-  "date": "2026년 5월 26일",
+  "date": "2026년 5월 27일",
+  "macroIndicators": {
+    "exchangeRate": "1,368.2원",
+    "bondYield": "4.43%",
+    "semiconductorIndex": "5,115.8 P",
+    "crudeOil": "$78.15"
+  },
   "news": {
     "korean": [
       {
         "title": "HL만도, 완전 자율주행 순정 부품 탑재 비중 40% 돌파",
         "summary": "HL만도가 글로벌 전기차 업체의 차세대 자율주행 플랫폼에 핵심 조향 및 제동 부품을 공급하는 계약을 추가 성사시켰습니다. 자율주행 단계 상향에 따른 고부가가치 부품 믹스 개선 효과가 예상됩니다.",
         "impact": "HL만도 보유 자산 직접 수혜. 고마진 자율주행 부품군 납품 증가로 2분기 영업이익률 개선 전망.",
-        "source": "한국경제"
+        "source": "한국경제",
+        "url": "https://news.google.com"
       },
       {
-        "title": "정부 밸류업 프로그램 2차 가이드라인 발표... 고배당주 투심 자극",
-        "summary": "금융위원회가 상장사 밸류업 자율 공시 및 세제 혜택 방안을 발표했습니다. 배당 소득세 분리과세 추진 등 친주주 정책이 가시화되면서 자산운용업계의 배당 펀드로 자금이 급격히 유입되고 있습니다.",
-        "impact": "PLUS 고배당주 ETF 등 배당 섹터의 수급 개선 및 배당 확대를 통한 하방 안정성 강화.",
-        "source": "매일경제"
+        "title": "정부 밸류업 프로그램 2차 가이드라인 발표... 금융/고배당주 투심 자극",
+        "summary": "금융위원회가 상장사 밸류업 자율 공시 및 세제 혜택 방안을 공식 발표했습니다. 배당 소득세 분리과세 추진 등 친주주 정책이 가시화되면서 자산운용업계의 배당 펀드로 자금이 급격히 유입되고 있습니다.",
+        "impact": "KB금융 등 배당 섹터의 수급 개선 및 안정적인 주주환원 확대를 통한 하방 경직성 강화.",
+        "source": "매일경제",
+        "url": "https://news.google.com"
       },
       {
-        "title": "국내 연구진, 실온 양자컴퓨팅 플랫폼용 소재 신뢰성 검증 성공",
-        "summary": "국내 상용 양자 연구소에서 극저온이 아닌 섭씨 15도 내외에서도 양자 코헤런스를 유지할 수 있는 나노 구조 합성 공정을 시연했습니다. 대형 양자 컴퓨터 상용화 시점이 수년 이상 당겨질 것이라는 관측입니다.",
-        "impact": "보유 성장 섹터인 SOL 양자컴퓨팅 ETF 관련 중소형 기술주의 단기 모멘텀 자극 및 포트폴리오 가치 상승.",
-        "source": "동아사이언스"
+        "title": "삼성전자, 차세대 반도체 패키징 라인 증설 및 글로벌 빅테크 공급 협상 완료",
+        "summary": "삼성전자가 첨단 HBM3E 및 2.5D 패키징 설비 투자를 전년 대비 30% 확충하며 글로벌 최대 AI 가속기 제조사와의 공급 조율을 완료했습니다. 2분기 공급 병목 해소로 실적 서프라이즈 기대감이 돕니다.",
+        "impact": "삼성전자 및 반도체 소부장 밸류체인 장기 성장세 강화. 글로벌 수급 집중 유입 모멘텀 형성.",
+        "source": "디지털데일리",
+        "url": "https://news.google.com"
       }
     ],
     "global": [
@@ -44,25 +58,51 @@ const FALLBACK_REPORT = {
         "title": "테슬라, 완전 자율주행(FSD) V13 버전 북미 전역 무상 시범 서비스 돌입",
         "summary": "테슬라가 한층 진화한 엔드투엔드 AI 신경망 기반 FSD V13의 업그레이드를 출시하고 북미 고객 대상 한 달 무료 체험을 제공합니다. 이번 업데이트는 야간 시인성과 복잡한 로터리 회전 안정성을 대폭 개선했습니다.",
         "impact": "테슬라 보유 비중 증가 기대감 형성. 국내 HL만도 등 자율주행 밸류체인 전반에 긍정적 후광 효과.",
-        "source": "Bloomberg"
+        "source": "Bloomberg",
+        "url": "https://news.google.com"
       },
       {
-        "title": "엔비디아 차세대 AI 칩 '블랙웰' 글로벌 서버 제조사 공급 병목 완전 해소",
-        "summary": "TSMC가 코오스(CoWoS) 패키징 수율을 90% 이상으로 끌어올림에 따라 엔비디아의 차세대 AI GPU 블랙웰 공급 속도가 2배 빨라졌습니다. 마이크로소프트와 구글의 초대형 데이터센터 인프라 가동이 앞당겨질 전망입니다.",
-        "impact": "보유 레버리지 SOXL ETF(반도체 3배) 강세 요인. 알파벳(구글)의 클라우드 서비스 성장성 강화.",
-        "source": "CNBC"
+        "title": "로켓랩, 뉴트론(Neutron) 대형 중형 발사체 지상 연소 시험 완벽 성공",
+        "summary": "로켓랩이 독자 개발 중인 재사용 중형 발사체 '뉴트론'의 아르키메데스 엔진 종합 연소 시험에 성공했습니다. 미 국방성 우주군과의 수송 계약 확대 및 저궤도 위성망 진출의 주요 마일스톤을 달성한 것으로 파악됩니다.",
+        "impact": "로켓랩(RKLB) 기술 신뢰성 입증으로 멀티플 리레이팅 촉진. 우주항공 ETF(ARKX, UFO) 자산가치 극대화.",
+        "source": "SpaceNews",
+        "url": "https://news.google.com"
       },
       {
-        "title": "비트코인, 반감기 공급 쇼크 및 미 기관 연기금 자금 유입으로 9만 달러 안착",
-        "summary": "미국 대형 연기금인 위스콘신주 투자위원회를 비롯한 다수의 연기금에서 비트코인 현물 ETF 비중을 추가 확대했습니다. 장기 보유자들의 공급 부족과 시너지를 내며 안정적인 기관 장기 자금의 하방 경직성을 보이고 있습니다.",
-        "impact": "보유 크립토(BTC, ETH, SOL) 자산가치 극대화. 채굴 인프라 기업인 IREN, WULF의 매출 및 현금 흐름 개선.",
-        "source": "Reuters"
+        "title": "글로벌 지정학적 리스크 지속... 유가 $78선 안착 및 우라늄 공급 부족 가속화",
+        "summary": "중동 전쟁 갈등 지속과 원자자 공급 차질로 국제 유가가 WTI 기준 배럴당 $78선을 유지하고 있습니다. 한편 미국의 러시아산 우라늄 수입 금지 조치 공식 발효로 공급망 다변화가 가속화되고 있습니다.",
+        "impact": "WTI 원유 선물(CL=F) 및 글로벌 우라늄 ETF(URA) 장기 보유 포지션의 강한 가격 방어력 입증.",
+        "source": "Reuters",
+        "url": "https://news.google.com"
+      }
+    ],
+    "macro": [
+      {
+        "title": "미국 4월 개인소비지출(PCE) 물가 전년비 2.6% 상승... 금리 인하 청신호",
+        "summary": "미국 노동부가 발표한 4월 PCE 물가지수가 시장 예상치에 부합하는 전년 동월 대비 2.6% 상승을 기록했습니다. 인플레이션 둔화세가 이어지며 미 연준(Fed)의 9월 금리 인하 기대감이 한층 힘을 얻고 있습니다.",
+        "impact": "포트폴리오 전반의 매크로 리스크 감소. 미국채 금리 하락 안정화로 기술주 중심의 강력한 멀티플 재평가 예상.",
+        "source": "CNBC",
+        "url": "https://news.google.com"
+      },
+      {
+        "title": "원/달러 환율 1,360원대 박스권 움직임... 한국 반도체 수출 호조 영향",
+        "summary": "원/달러 환율이 한국의 반도체 및 변압기 수출 서프라이즈에 힘입어 외국인 투자자 자금 유입이 지속되며 1,360원대에서 하향 안정 흐름을 이어가고 있습니다. 이는 국내 증시의 수급 개선 요인으로 작용하고 있습니다.",
+        "impact": "삼성전자, SK하이닉스 및 HD현대일렉트릭 등 수출 중심 보유 종목들의 견조한 환차익 및 외인 순매수 지속 수혜.",
+        "source": "매일경제",
+        "url": "https://news.google.com"
+      },
+      {
+        "title": "미국 10년물 국채 금리 4.4%대 횡보... 5월 FOMC 의사록 발표 대기",
+        "summary": "미국 10년물 국채 금리가 연준 위원들의 매파적 발언 우려에도 불구, PCE 지표의 안정적 흐름에 힘입어 4.4%대 중반에서 단기 숨고르기에 들어갔습니다. 시장은 다가올 고용 지표 및 물가 지표에 주목하고 있습니다.",
+        "impact": "금리 추가 급등 리스크 해소로 중장기 자산(KB금융) 및 레버리지 상품(SOXL)의 심리적 저점 형성 유효.",
+        "source": "한국경제TV",
+        "url": "https://news.google.com"
       }
     ]
   },
   "stocks": [
     {
-      "name": "HL만도 (060980)",
+      "name": "HL만도 (204320)",
       "type": "개별 종목",
       "reason": "글로벌 완성차향 자율주행/전동화 부품 공급 증가로 실적 모멘텀 및 절대적 저평가 매력 부각",
       "price": "43,250원",
@@ -82,29 +122,6 @@ const FALLBACK_REPORT = {
         "individual": "개인 매수세 매물 소화 과정",
         "program": "프로그램 매수 대거 유입",
         "total": "외인·기관 쌍끌이 순매수 및 프로그램 매집 구간"
-      }
-    },
-    {
-      "name": "PLUS 고배당주 (161510)",
-      "type": "국내 상장 ETF",
-      "reason": "정부 밸류업 세제 개편 가시화에 따른 고배당 금융/지주사 수급 유입 및 배당 방어력 부각",
-      "price": "14,820원",
-      "per": "5.6배",
-      "perComment": "수익성 지표 극도의 안정성 대비 주가 매력 높음",
-      "pbr": "0.38배",
-      "pbrComment": "청산 가치의 3분의 1 수준으로 하방 안정성 극도로 강함",
-      "dividendYield": "6.4%",
-      "dividendComment": "6%대 중반의 초고배당 수익률로 금융시장 변동성 방어에 최적화",
-      "valuationState": "배당 수익률 매력 극대화 및 하방 경직성 확보 구간",
-      "high52": "16,200원",
-      "low52": "11,800원",
-      "targetPrice": "17,000원",
-      "supply": {
-        "foreigner": "외국인 지분율 21% 돌파 (최근 1개월 누적 매수)",
-        "institution": "투신 및 사모펀드 자금 꾸준한 유입",
-        "individual": "개인 일시적 차익실현 물량 출하",
-        "program": "안정적인 인덱스 매수 유입",
-        "total": "메이저 장기 자금 중심의 점진적 우상향 수급"
       }
     },
     {
@@ -131,26 +148,49 @@ const FALLBACK_REPORT = {
       }
     },
     {
-      "name": "SOL 양자컴퓨팅핵심시그널 (475360)",
-      "type": "국내 상장 ETF",
-      "reason": "글로벌 상용 양자 플랫폼 진척도 가속화 및 정부 국책 과제 선정 모멘텀 극대화",
-      "price": "10,250원",
-      "per": "24.2배",
-      "perComment": "양자 컴퓨팅 미래 성장성이 선반영되는 고성장 초입 영역",
-      "pbr": "2.8배",
-      "pbrComment": "차세대 기술 경쟁력을 감안하면 성장 밸류 수준으로 판단",
-      "dividendYield": "0.8%",
-      "dividendComment": "배당보다 미래 기업 가치 재평가에 초점",
-      "valuationState": "기술적 돌파 시도 및 성장 프리미엄 구간",
-      "high52": "12,900원",
-      "low52": "8,900원",
-      "targetPrice": "14,500원",
+      "name": "SK하이닉스 (000660)",
+      "type": "개별 종목",
+      "reason": "엔비디아 블랙웰 공급 본격화에 따른 HBM3E 독점적 점유율 유지 및 D램 마진 극대화",
+      "price": "188,400원",
+      "per": "18.2배",
+      "perComment": "실적 고속 성장을 감안할 때 여전히 매력적인 선행 멀티플 영역",
+      "pbr": "2.4배",
+      "pbrComment": "자기자본이익률(ROE) 20% 초과 구간 대비 타당한 프리미엄 수치",
+      "dividendYield": "1.1%",
+      "dividendComment": "실적 연계 주주환원 공식 배당 정책 유지",
+      "valuationState": "실적 성장성 기반 강한 기술적 우상향 구간",
+      "high52": "210,000원",
+      "low52": "112,000원",
+      "targetPrice": "230,000원",
       "supply": {
-        "foreigner": "외국인 소폭 순매수 유지",
-        "institution": "금융투자 주도로 바스켓 매집 중",
-        "individual": "개인의 관심 증대로 인한 수급 분산",
-        "program": "시장 변동성 영향 하의 중립 수준",
-        "total": "기관형 인덱스 자금 유입 및 시장 관심 집중 초기 단계"
+        "foreigner": "외국인 최근 1개월 누적 280만 주 순매수",
+        "institution": "투신 및 보험 펀드 꾸준한 지분 확대",
+        "individual": "개인의 차익실현 물량 출하 진행",
+        "program": "패시브 인덱스 연계 자금 대규모 유입",
+        "total": "메이저 장기 자금 중심의 완벽한 수급 지지 우상향"
+      }
+    },
+    {
+      "name": "KB금융 (105560)",
+      "type": "개별 종목",
+      "reason": "정부 밸류업 2차 세제 혜택 가시화 및 업계 최고 수준의 분기 균등배당 및 자사주 소각 추진",
+      "price": "76,800원",
+      "per": "6.1배",
+      "perComment": "실적 안정성 대비 극도의 저평가 영역으로 밸류업 랠리 지속 가능",
+      "pbr": "0.42배",
+      "pbrComment": "자산 청산 가치의 반 토막 이하 수준으로 하방 경직성 철벽 방어",
+      "dividendYield": "5.8%",
+      "dividendComment": "연 6%에 육박하는 고배당 및 적극적 주주환원으로 변동성 헤지 최적화",
+      "valuationState": "주주 환원 강화로 인한 밸류에이션 재평가 국면",
+      "high52": "84,000원",
+      "low52": "48,500원",
+      "targetPrice": "90,000원",
+      "supply": {
+        "foreigner": "외국인 지분율 61% 돌파 (사상 최고치)",
+        "institution": "연기금 및 사모펀드 금융섹터 비중 확대 지속",
+        "individual": "개인 일시적 매도세 지속",
+        "program": "안정적인 차익거래 순유입",
+        "total": "글로벌 밸류업 패시브 자금 주도의 강력한 수급 지탱"
       }
     },
     {
@@ -225,29 +265,6 @@ const FALLBACK_REPORT = {
       }
     },
     {
-      "name": "ARK Space Exploration ETF (ARKX)",
-      "type": "미국 상장 ETF",
-      "reason": "민간 양대 우주수송 기업 및 위성 통신 인프라 혁신 리더 기업에 투자하는 우주 전문 대표 ETF",
-      "price": "$35.42",
-      "per": "32.4배",
-      "perComment": "차세대 메가 트렌드(우주 항공) 평균 멀티플 반영 구간",
-      "pbr": "3.2배",
-      "pbrComment": "고성장 기술 하드웨어 기업으로 구성된 정상 밸류 수준",
-      "dividendYield": "0.5% (분배율)",
-      "dividendComment": "자본 이득 극대화 추구형 테마 ETF로 분배율은 보조적 수단",
-      "valuationState": "글로벌 우주 항공 산업 전반의 성장 분산 투자 구간",
-      "high52": "$38.50",
-      "low52": "$22.40",
-      "targetPrice": "$45.00",
-      "supply": {
-        "foreigner": "패시브 인덱스 연동 순매수 안정적 유입",
-        "institution": "글로벌 연기금 포트폴리오 다변화 자금 유입",
-        "individual": "개인 장기 적립식 매수 흐름 강함",
-        "program": "프로그램 매매 순유입 상태 유지",
-        "total": "장기 적립식 패시브 자금 주도의 안정적 지지 흐름"
-      }
-    },
-    {
       "name": "AST SpaceMobile (ASTS)",
       "type": "미국 주식",
       "reason": "글로벌 통신사 파트너십 기반 상용 위성 인터넷 서비스 및 일반 스마트폰 직접 연결 시장 선점",
@@ -291,6 +308,29 @@ const FALLBACK_REPORT = {
         "individual": "우주 탐사 이벤트 일정에 따른 높은 개인 거래량",
         "program": "이벤트 드리븐형 퀀트 수급 유입",
         "total": "정부/기관 중심의 장기 모멘텀 수급 지지세"
+      }
+    },
+    {
+      "name": "ARK Space Exploration ETF (ARKX)",
+      "type": "미국 상장 ETF",
+      "reason": "민간 양대 우주수송 기업 및 위성 통신 인프라 혁신 리더 기업에 투자하는 우주 전문 대표 ETF",
+      "price": "$35.42",
+      "per": "32.4배",
+      "perComment": "차세대 메가 트렌드(우주 항공) 평균 멀티플 반영 구간",
+      "pbr": "3.2배",
+      "pbrComment": "고성장 기술 하드웨어 기업으로 구성된 정상 밸류 수준",
+      "dividendYield": "0.5% (분배율)",
+      "dividendComment": "자본 이득 극대화 추구형 테마 ETF로 분배율은 보조적 수단",
+      "valuationState": "글로벌 우주 항공 산업 전반의 성장 분산 투자 구간",
+      "high52": "$38.50",
+      "low52": "$22.40",
+      "targetPrice": "$45.00",
+      "supply": {
+        "foreigner": "패시브 인덱스 연동 순매수 안정적 유입",
+        "institution": "글로벌 연기금 포트폴리오 다변화 자금 유입",
+        "individual": "개인 장기 적립식 매수 흐름 강함",
+        "program": "프로그램 매매 순유입 상태 유지",
+        "total": "장기 적립식 패시브 자금 주도의 안정적 지지 흐름"
       }
     },
     {
@@ -362,6 +402,48 @@ const FALLBACK_REPORT = {
         "total": "지정학적 갈등 강도에 따라 탄력적으로 상승하는 헤지성 매수 에너지 집중"
       }
     }
+  ],
+  "calendar": [
+    {
+      "date": "05월 28일",
+      "event": "미국 1분기 GDP 잠정치 발표",
+      "importance": "MEDIUM",
+      "term": "GDP (국내총생산)",
+      "termDefinition": "한 나라 영토 안에서 일어난 모든 생산 활동의 합계예요. 우리 경제 체력이 얼마나 튼튼한지 보여주는 가장 기본적인 성적표라고 보시면 돼요.",
+      "impact": "미국의 경기 둔화 속도가 과도하지 않다면, '연착륙' 신호로 해석되어 기술주 상방 흐름에 탄력을 줄 것입니다."
+    },
+    {
+      "date": "05월 29일",
+      "event": "미 연준 선호 4월 개인소비지출(PCE) 물가지수 발표",
+      "importance": "HIGH",
+      "term": "PCE 물가지수 (개인소비지출)",
+      "termDefinition": "소비자들이 진짜 많이 쓰는 품목들을 모아서 계산한 물가 지수예요. 미 연준이 금리를 올릴지 내릴지 결정할 때 CPI보다 더 중요하게 눈여겨보는 지표랍니다.",
+      "impact": "인플레이션 둔화 흐름 확인 시 미국채 10년물 금리가 하락 반전하며, 보유하고 계신 테슬라(TSLA), 로켓랩(RKLB) 등 성장주의 강한 상승 트리거가 될 예정입니다."
+    },
+    {
+      "date": "06월 12일",
+      "event": "FOMC 기준금리 결정 및 점도표 발표",
+      "importance": "HIGH",
+      "term": "FOMC (연방공개시장위원회)",
+      "termDefinition": "미국의 중앙은행인 연방준비제도(Fed)가 금리를 어떻게 할지 결정하는 정기 회의예요. 1년에 8번 열리는데, 전 세계 돈의 흐름을 쥐고 흔드는 가장 중요한 경제 이벤트랍니다.",
+      "impact": "연내 2회 인하 스탠스 유지 시 시장 안도감 형성. 채권 금리 안정화로 고배당주와 기술주 동반 랠리가 가능합니다."
+    },
+    {
+      "date": "06월 18일",
+      "event": "구글(알파벳) 연례 개발자 콘퍼런스 (I/O) 개막",
+      "importance": "MEDIUM",
+      "term": "AI 에이전트 & 생태계",
+      "termDefinition": "사람을 대신해 스스로 계획을 세우고 실행하는 똑똑한 인공지능 비서예요. 단순한 대답을 넘어 업무와 스마트폰 조작까지 대신해 주어 빅테크의 차세대 전장이 되고 있어요.",
+      "impact": "구글의 신형 AI 모델 및 기기 탑재 소식 발표 시 알파벳 주가 랠리와 함께 국내 인공지능/반도체 테마(삼성전자, SK하이닉스) 수급 호재 작용."
+    },
+    {
+      "date": "06월 24일",
+      "event": "테슬라 자율주행 로보택시(Robotaxi) 공식 공개 행사",
+      "importance": "HIGH",
+      "term": "로보택시 (Robotaxi)",
+      "termDefinition": "운전사 없이 100% 인공지능이 스스로 운전해서 승객을 실어 나르는 미래형 택시예요. 스마트폰 앱으로 호출하면 알아서 와서 태워다 주는 혁신 기술이랍니다.",
+      "impact": "테슬라(TSLA) 보유 포지션의 핵심 변곡점. 자율주행 상용화 실적이 가시화되면 밸류에이션 리레이팅이 본격화되며, 국내 조향/제동 부품 독점 공급망인 HL만도(204320) 주가의 폭발적 상승 연계 가능."
+    }
   ]
 };
 
@@ -391,9 +473,15 @@ function getValuationLabel(comment) {
 function App() {
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeNewsTab, setActiveNewsTab] = useState('korean'); // 'korean' or 'global'
+  const [activeNewsTab, setActiveNewsTab] = useState('korean'); // 'korean', 'global', or 'macro'
   const [expandedStock, setExpandedStock] = useState(0); // Index of expanded stock (offset 10+ for US)
   const [timeStr, setTimeStr] = useState('');
+  
+  // Custom interactive states for desktop/mobile viewport toggle
+  const [viewMode, setViewMode] = useState('web'); // 'web' or 'app'
+  const [activeAppTab, setActiveAppTab] = useState('home'); // 'home', 'news', 'calendar', 'copilot'
+  const [isCopilotOpen, setIsCopilotOpen] = useState(false);
+  const [expandedCalendarIndex, setExpandedCalendarIndex] = useState(-1);
 
   // Clock update effect
   useEffect(() => {
@@ -428,6 +516,501 @@ function App() {
     loadBriefing();
   }, []);
 
+  const activeReport = report || FALLBACK_REPORT;
+
+  // Header content toggle component for desktop
+  const renderViewModeToggle = () => (
+    <div className="view-mode-toggle-group">
+      <button 
+        className={`toggle-btn ${viewMode === 'web' ? 'active' : ''}`}
+        onClick={() => setViewMode('web')}
+        title="웹 와이드 대시보드로 보기"
+      >
+        💻 웹 뷰
+      </button>
+      <button 
+        className={`toggle-btn ${viewMode === 'app' ? 'active' : ''}`}
+        onClick={() => setViewMode('app')}
+        title="토스 스타일 스마트폰 앱 모드로 보기"
+      >
+        📱 앱 뷰
+      </button>
+    </div>
+  );
+
+  // Core Market Indices Ticker
+  const renderIndicesTicker = () => (
+    <section className="market-ticker-grid">
+      <div className="ticker-item">
+        <div className="ticker-name-wrap">
+          <span>코스피 (KOSPI)</span>
+          <span className="ticker-change up"><ArrowUpRight size={14} /> +0.54%</span>
+        </div>
+        <span className="ticker-value">2,682.42</span>
+      </div>
+      <div className="ticker-item">
+        <div className="ticker-name-wrap">
+          <span>코스닥 (KOSDAQ)</span>
+          <span className="ticker-change up"><ArrowUpRight size={14} /> +0.82%</span>
+        </div>
+        <span className="ticker-value">865.12</span>
+      </div>
+      <div className="ticker-item">
+        <div className="ticker-name-wrap">
+          <span>나스닥 (NASDAQ 100)</span>
+          <span className="ticker-change up"><ArrowUpRight size={14} /> +1.21%</span>
+        </div>
+        <span className="ticker-value">18,655.40</span>
+      </div>
+      <div className="ticker-item">
+        <div className="ticker-name-wrap">
+          <span>S&P 500</span>
+          <span className="ticker-change up"><ArrowUpRight size={14} /> +0.76%</span>
+        </div>
+        <span className="ticker-value">5,315.80</span>
+      </div>
+      <div className="ticker-item">
+        <div className="ticker-name-wrap">
+          <span>비트코인 (BTC/USD)</span>
+          <span className="ticker-change up"><ArrowUpRight size={14} /> +2.45%</span>
+        </div>
+        <span className="ticker-value">$90,250</span>
+      </div>
+    </section>
+  );
+
+  // Global Macro 4 Key Indicators Board
+  const renderMacroIndicatorsBoard = () => {
+    const macros = activeReport.macroIndicators || FALLBACK_REPORT.macroIndicators;
+    return (
+      <section className="macro-board-grid">
+        <div className="macro-board-card">
+          <span className="macro-board-title">원/달러 환율 (USD/KRW)</span>
+          <span className="macro-board-value">{macros.exchangeRate}</span>
+          <span className="macro-board-comment">글로벌 무역 및 외인 수급 척도</span>
+        </div>
+        <div className="macro-board-card">
+          <span className="macro-board-title">미 10년물 국채금리 (US 10Y)</span>
+          <span className="macro-board-value">{macros.bondYield}</span>
+          <span className="macro-board-comment">유동성 밸류에이션 할인율 기준</span>
+        </div>
+        <div className="macro-board-card">
+          <span className="macro-board-title">필라델피아 반도체 지수</span>
+          <span className="macro-board-value">{macros.semiconductorIndex}</span>
+          <span className="macro-board-comment">보유 기술 포트폴리오 핵심 지표</span>
+        </div>
+        <div className="macro-board-card">
+          <span className="macro-board-title">WTI 원유 선물 가격</span>
+          <span className="macro-board-value">{macros.crudeOil}</span>
+          <span className="macro-board-comment">지정학적 갈등 및 물가 선행지수</span>
+        </div>
+      </section>
+    );
+  };
+
+  // Toss-style Chronological Accordion Calendar
+  const renderTossEconCalendar = () => {
+    const calendarData = activeReport.calendar || FALLBACK_REPORT.calendar;
+    return (
+      <div className="calendar-section-card">
+        <h2 className="section-title">
+          <Calendar size={22} color="var(--colors-sig-coral)" />
+          토스 스타일 에디토리얼 증시 캘린더
+        </h2>
+        <p className="db-stock-reason" style={{ marginBottom: '8px', color: 'var(--colors-muted)' }}>
+          향후 1달간 포트폴리오와 시장 판도를 뒤흔들 핵심 일정과, 10년 차 주/미 전문가의 실전 대응 전술을 펼쳐보세요.
+        </p>
+
+        <div className="calendar-timeline">
+          {calendarData.map((item, idx) => {
+            const isExpanded = expandedCalendarIndex === idx;
+            const impClass = item.importance.toLowerCase();
+            return (
+              <div 
+                key={idx} 
+                className={`calendar-item-row ${isExpanded ? 'expanded' : ''}`}
+              >
+                {/* Header Row */}
+                <div 
+                  className="calendar-item-header"
+                  onClick={() => setExpandedCalendarIndex(isExpanded ? -1 : idx)}
+                >
+                  <div className="calendar-dot-marker">
+                    {idx + 1}
+                  </div>
+                  <div className="calendar-date-col">
+                    {item.date}
+                  </div>
+                  <span className={`calendar-importance-badge ${impClass}`}>
+                    {item.importance === 'HIGH' ? '🚨 HIGH' : item.importance === 'MEDIUM' ? '⚠️ MID' : 'LOW'}
+                  </span>
+                  <div className="calendar-event-title">
+                    {item.event}
+                  </div>
+                  <div className="calendar-arrow-icon">
+                    <ChevronDown size={18} />
+                  </div>
+                </div>
+
+                {/* Dropdown Accordion drawer */}
+                {isExpanded && (
+                  <div className="calendar-drawer-content">
+                    {/* Easy Term Definition Bubble */}
+                    <div className="calendar-definition-box">
+                      <div className="calendar-box-header">
+                        <BookOpen size={14} />
+                        <span>주린이를 위한 용어 돋보기</span>
+                        <span className="calendar-term-badge">{item.term}</span>
+                      </div>
+                      <p className="calendar-definition-text">
+                        {item.termDefinition}
+                      </p>
+                    </div>
+
+                    {/* Expert Investment Strategy Card */}
+                    <div className="calendar-strategy-box">
+                      <div className="calendar-strategy-header">
+                        <Award size={14} />
+                        <span>10년 차 전문가 자산 수혜/전술 팁</span>
+                      </div>
+                      <p className="calendar-strategy-text">
+                        {item.impact}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  // ----------------------------------------------------
+  // 📱 MOBILE SMARTPHONE APP VIEW LAYOUT
+  // ----------------------------------------------------
+  if (viewMode === 'app') {
+    return (
+      <div className="phone-mockup-frame">
+        <div className="phone-screen-container">
+          
+          {/* Simulated StatusBar */}
+          <div className="phone-status-bar">
+            <span className="phone-status-left">09:41</span>
+            <div className="phone-status-right">
+              <span style={{ fontSize: '11px' }}>5G</span>
+              <Clock size={12} style={{ display: 'inline', margin: '0 2px' }} />
+              <span>100%</span>
+            </div>
+          </div>
+
+          {/* App Header */}
+          <header className="app-header">
+            <h1>
+              <Sparkles size={20} color="var(--colors-sig-coral)" />
+              Stock Copilot
+            </h1>
+            {renderViewModeToggle()}
+          </header>
+
+          {/* App body with dynamic tab navigation */}
+          <div className="app-body-content">
+            
+            {/* Tab 1: HOME (Dashboard) */}
+            {activeAppTab === 'home' && (
+              <>
+                <section className="sig-cream-band" style={{ marginBottom: '8px', padding: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600, color: 'var(--colors-ink)', fontSize: '13.5px', marginBottom: '2px' }}>
+                    <Award size={15} />
+                    오늘의 전문가 바벨 포지션 제언
+                  </div>
+                  <p style={{ margin: 0, fontSize: '12.5px', lineHeight: 1.45, color: 'var(--colors-body)', wordBreak: 'keep-all' }}>
+                    반도체 핵심 공급 우위(삼성전자, 하이닉스)와 미국 기술 자산(TSLA, RKLB)을 한 축으로 삼고, 국내 배당주(KB금융)를 헤지 축으로 잡는 스마트 바벨 포지션을 권장합니다.
+                  </p>
+                </section>
+
+                {/* Index tickers */}
+                {renderIndicesTicker()}
+
+                {/* Macro Board */}
+                <h3 className="section-title" style={{ fontSize: '16px', margin: '12px 0 8px 0' }}>
+                  <Activity size={18} />
+                  거시경제 핵심 지표 4대 천왕
+                </h3>
+                {renderMacroIndicatorsBoard()}
+
+                {/* Stock lists */}
+                <h3 className="section-title" style={{ fontSize: '16px', margin: '24px 0 8px 0' }}>
+                  <TrendingUp size={18} />
+                  포트폴리오 맞춤형 자산 분석
+                </h3>
+                <div className="db-stocks-list">
+                  {/* Korean Stocks */}
+                  {activeReport.stocks.map((stock, idx) => {
+                    const isExpanded = expandedStock === idx;
+                    return (
+                      <div 
+                        key={idx} 
+                        className="db-stock-card"
+                        onClick={() => setExpandedStock(isExpanded ? -1 : idx)}
+                        style={{ padding: '12px' }}
+                      >
+                        <div className="db-stock-header" style={{ marginBottom: '6px' }}>
+                          <div className="db-stock-name-wrap">
+                            <h3 style={{ fontSize: '16px', margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              {stock.name.split(' ')[0]}
+                              {isExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+                            </h3>
+                            <span className="db-stock-type" style={{ fontSize: '11px' }}>{stock.type}</span>
+                          </div>
+                          <div className="db-stock-price-box">
+                            <span className="db-stock-price" style={{ fontSize: '16px' }}>{stock.price}</span>
+                          </div>
+                        </div>
+                        <p className="db-stock-reason" style={{ fontSize: '12.5px', lineHeight: 1.4, wordBreak: 'keep-all' }}>
+                          💡 {stock.reason}
+                        </p>
+                        {isExpanded && (
+                          <div className="db-stock-expanded" onClick={(e) => e.stopPropagation()} style={{ marginTop: '10px', paddingTop: '10px' }}>
+                            <div className="db-metrics-grid" style={{ gap: '8px' }}>
+                              <div className="db-metric-item" style={{ padding: '8px' }}>
+                                <span className="db-metric-label" style={{ fontSize: '10px' }}>PER</span>
+                                <span className="db-metric-value" style={{ fontSize: '14px' }}>{stock.per}</span>
+                                <span className="db-metric-comment" style={{ fontSize: '10.5px' }}>{stock.perComment}</span>
+                              </div>
+                              <div className="db-metric-item" style={{ padding: '8px' }}>
+                                <span className="db-metric-label" style={{ fontSize: '10px' }}>PBR</span>
+                                <span className="db-metric-value" style={{ fontSize: '14px' }}>{stock.pbr}</span>
+                                <span className="db-metric-comment" style={{ fontSize: '10.5px' }}>{stock.pbrComment}</span>
+                              </div>
+                            </div>
+                            <div className="db-supply-total" style={{ fontSize: '12px', marginTop: '8px', padding: '6px' }}>
+                              {stock.supply.total}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {/* US Stocks */}
+                  {activeReport.usStocks.map((stock, idx) => {
+                    const actualIdx = idx + 10;
+                    const isExpanded = expandedStock === actualIdx;
+                    return (
+                      <div 
+                        key={actualIdx} 
+                        className="db-stock-card"
+                        onClick={() => setExpandedStock(isExpanded ? -1 : actualIdx)}
+                        style={{ borderLeft: '3px solid var(--colors-sig-coral)', padding: '12px' }}
+                      >
+                        <div className="db-stock-header" style={{ marginBottom: '6px' }}>
+                          <div className="db-stock-name-wrap">
+                            <h3 style={{ fontSize: '16px', margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              {stock.name.split(',')[0].split(' ')[0]}
+                              {isExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+                            </h3>
+                            <span className="db-stock-type" style={{ fontSize: '11px' }}>{stock.type}</span>
+                          </div>
+                          <div className="db-stock-price-box">
+                            <span className="db-stock-price" style={{ fontSize: '16px', color: 'var(--colors-sig-coral)' }}>{stock.price}</span>
+                          </div>
+                        </div>
+                        <p className="db-stock-reason" style={{ fontSize: '12.5px', lineHeight: 1.4, wordBreak: 'keep-all' }}>
+                          💡 {stock.reason}
+                        </p>
+                        {isExpanded && (
+                          <div className="db-stock-expanded" onClick={(e) => e.stopPropagation()} style={{ marginTop: '10px', paddingTop: '10px' }}>
+                            <div className="db-metrics-grid" style={{ gap: '8px' }}>
+                              <div className="db-metric-item" style={{ padding: '8px' }}>
+                                <span className="db-metric-label" style={{ fontSize: '10px' }}>PER</span>
+                                <span className="db-metric-value" style={{ fontSize: '14px' }}>{stock.per}</span>
+                                <span className="db-metric-comment" style={{ fontSize: '10.5px' }}>{stock.perComment}</span>
+                              </div>
+                              <div className="db-metric-item" style={{ padding: '8px' }}>
+                                <span className="db-metric-label" style={{ fontSize: '10px' }}>PBR</span>
+                                <span className="db-metric-value" style={{ fontSize: '14px' }}>{stock.pbr}</span>
+                                <span className="db-metric-comment" style={{ fontSize: '10.5px' }}>{stock.pbrComment}</span>
+                              </div>
+                            </div>
+                            <div className="db-supply-total" style={{ fontSize: '12px', marginTop: '8px', padding: '6px' }}>
+                              {stock.supply.total}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {/* Tab 2: NEWS */}
+            {activeAppTab === 'news' && (
+              <div className="column-card" style={{ border: 'none', padding: 0 }}>
+                <h2 className="section-title" style={{ fontSize: '17px', marginBottom: '12px' }}>
+                  <Globe size={18} />
+                  전문가 스크랩 경제 시황 뉴스
+                </h2>
+                
+                {/* News 3-Tabs in Mobile view */}
+                <div className="news-tab-headers" style={{ marginBottom: '12px', padding: '3px' }}>
+                  <button 
+                    className={`news-tab-btn ${activeNewsTab === 'korean' ? 'active' : ''}`}
+                    onClick={() => setActiveNewsTab('korean')}
+                    style={{ fontSize: '12.5px', padding: '6px' }}
+                  >
+                    🇰🇷 국내
+                  </button>
+                  <button 
+                    className={`news-tab-btn ${activeNewsTab === 'global' ? 'active' : ''}`}
+                    onClick={() => setActiveNewsTab('global')}
+                    style={{ fontSize: '12.5px', padding: '6px' }}
+                  >
+                    🇺🇸 해외/우주
+                  </button>
+                  <button 
+                    className={`news-tab-btn ${activeNewsTab === 'macro' ? 'active' : ''}`}
+                    onClick={() => setActiveNewsTab('macro')}
+                    style={{ fontSize: '12.5px', padding: '6px' }}
+                  >
+                    🌍 거시시황
+                  </button>
+                </div>
+
+                <div className="db-news-list">
+                  {activeReport.news[activeNewsTab]?.map((item, idx) => (
+                    <div key={idx} className="db-news-card" style={{ padding: '12px' }}>
+                      <div className="db-news-header" style={{ marginBottom: '6px' }}>
+                        <h4 className="db-news-title" style={{ fontSize: '14.5px' }}>{item.title}</h4>
+                      </div>
+                      <p className="db-news-summary" style={{ fontSize: '13px', marginBottom: '8px' }}>
+                        {item.summary}
+                      </p>
+                      <div className="db-news-impact" style={{ padding: '8px', fontSize: '12px', marginBottom: '8px' }}>
+                        <strong>포트폴리오 영향:</strong> {item.impact}
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span className="db-news-source" style={{ fontSize: '10.5px', padding: '2px 6px' }}>{item.source}</span>
+                        {item.url && (
+                          <a 
+                            href={item.url} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="news-link-btn"
+                            style={{ fontSize: '10.5px', padding: '2px 6px' }}
+                          >
+                            원본 보기 <ArrowUpRight size={10} />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Tab 3: CALENDAR */}
+            {activeAppTab === 'calendar' && (
+              <div style={{ width: '100%' }}>
+                {renderTossEconCalendar()}
+              </div>
+            )}
+
+            {/* Tab 4: COPILOT Landing (with button to launch slideout drawer) */}
+            {activeAppTab === 'copilot' && (
+              <div className="column-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '32px 16px', border: 'none', background: 'transparent' }}>
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--colors-sig-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px', boxShadow: '0 4px 12px rgba(24, 29, 38, 0.05)' }}>
+                  <Sparkles size={32} color="var(--colors-sig-coral)" />
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--colors-ink)', margin: '0 0 8px 0' }}>
+                  실시간 포트폴리오 AI 비서
+                </h3>
+                <p style={{ fontSize: '13.5px', lineHeight: 1.5, color: 'var(--colors-body)', margin: '0 0 24px 0', wordBreak: 'keep-all' }}>
+                  현재 보유하신 HL만도, 삼성전자 등 국내 자산과 테슬라, 로켓랩 등 우주 혁신주 실시간 가격 정보, 거시 지표, 시황 뉴스를 바탕으로 궁금한 점을 질문해 보세요.
+                </p>
+                <button 
+                  className="btn-primary"
+                  onClick={() => setIsCopilotOpen(true)}
+                  style={{ width: '100%', justifyContent: 'center' }}
+                >
+                  <MessageSquare size={16} />
+                  AI 코파일럿과 채팅 시작하기
+                </button>
+
+                <div className="quick-prompts-area" style={{ marginTop: '32px', width: '100%', textAlign: 'left' }}>
+                  <span className="quick-title" style={{ fontSize: '12.5px' }}>💡 추천 질문 목록</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
+                    <button 
+                      onClick={() => {
+                        setIsCopilotOpen(true);
+                        // Trigger copilot with query via standard fab click
+                      }}
+                      className="btn-quick"
+                      style={{ fontSize: '12.5px', textAlign: 'left', padding: '10px' }}
+                    >
+                      🔥 오늘 수급 쏠림 국내종목 요약해줘
+                    </button>
+                    <button 
+                      onClick={() => setIsCopilotOpen(true)}
+                      className="btn-quick"
+                      style={{ fontSize: '12.5px', textAlign: 'left', padding: '10px' }}
+                    >
+                      🚀 테슬라/우주자산 바벨 전략 제언해줘
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+          </div>
+
+          {/* Simulated App Bottom Navigation Tab Bar */}
+          <div className="mobile-bottom-nav">
+            <button 
+              className={`nav-tab-item ${activeAppTab === 'home' ? 'active' : ''}`}
+              onClick={() => setActiveAppTab('home')}
+            >
+              <Home size={18} />
+              <span>홈</span>
+            </button>
+            <button 
+              className={`nav-tab-item ${activeAppTab === 'news' ? 'active' : ''}`}
+              onClick={() => setActiveAppTab('news')}
+            >
+              <Newspaper size={18} />
+              <span>거시 뉴스</span>
+            </button>
+            <button 
+              className={`nav-tab-item ${activeAppTab === 'calendar' ? 'active' : ''}`}
+              onClick={() => setActiveAppTab('calendar')}
+            >
+              <Calendar size={18} />
+              <span>증시 일정</span>
+            </button>
+            <button 
+              className={`nav-tab-item ${activeAppTab === 'copilot' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveAppTab('copilot');
+                setIsCopilotOpen(true); // Open drawer immediately on selection
+              }}
+            >
+              <MessageSquare size={18} />
+              <span>AI 코파일럿</span>
+            </button>
+          </div>
+
+        </div>
+
+        {/* AI Co-pilot Conversation Drawer & FAB */}
+        <AICopilot report={activeReport} isOpen={isCopilotOpen} setIsOpen={setIsCopilotOpen} />
+      </div>
+    );
+  }
+
+  // ----------------------------------------------------
+  // 💻 WEB WIDE DASHBOARD VIEW LAYOUT
+  // ----------------------------------------------------
   return (
     <div className="dashboard-container">
       
@@ -442,11 +1025,12 @@ function App() {
             <span className="live-badge">
               <span className="pulse-dot"></span> LIVE
             </span>
-            {loading ? '데이터 동기화 중...' : `${report?.date || FALLBACK_REPORT.date} 개장 전 자산 연계 맞춤형 브리핑`}
+            {loading ? '데이터 동기화 중...' : `${activeReport.date} 개장 전 자산 연계 맞춤형 브리핑`}
           </p>
         </div>
         
         <div className="db-actions">
+          {renderViewModeToggle()}
           <button className="btn-secondary" style={{ cursor: 'default' }}>
             <Clock size={16} />
             {timeStr}
@@ -469,45 +1053,18 @@ function App() {
       </section>
 
       {/* 3. Top Indices Ticker */}
-      <section className="market-ticker-grid">
-        <div className="ticker-item">
-          <div className="ticker-name-wrap">
-            <span>코스피 (KOSPI)</span>
-            <span className="ticker-change up"><ArrowUpRight size={14} /> +0.54%</span>
-          </div>
-          <span className="ticker-value">2,682.42</span>
-        </div>
-        <div className="ticker-item">
-          <div className="ticker-name-wrap">
-            <span>코스닥 (KOSDAQ)</span>
-            <span className="ticker-change up"><ArrowUpRight size={14} /> +0.82%</span>
-          </div>
-          <span className="ticker-value">865.12</span>
-        </div>
-        <div className="ticker-item">
-          <div className="ticker-name-wrap">
-            <span>나스닥 (NASDAQ 100)</span>
-            <span className="ticker-change up"><ArrowUpRight size={14} /> +1.21%</span>
-          </div>
-          <span className="ticker-value">18,655.40</span>
-        </div>
-        <div className="ticker-item">
-          <div className="ticker-name-wrap">
-            <span>S&P 500</span>
-            <span className="ticker-change up"><ArrowUpRight size={14} /> +0.76%</span>
-          </div>
-          <span className="ticker-value">5,315.80</span>
-        </div>
-        <div className="ticker-item">
-          <div className="ticker-name-wrap">
-            <span>비트코인 (BTC/USD)</span>
-            <span className="ticker-change up"><ArrowUpRight size={14} /> +2.45%</span>
-          </div>
-          <span className="ticker-value">$90,250</span>
-        </div>
-      </section>
+      {renderIndicesTicker()}
 
-      {/* 4. Brand Voltage - Airtable Signature Cream Band for Global Market Summary */}
+      {/* 4. Global Macro 4 Key Indicators Board (Wall Street Terminals) */}
+      <div className="canvas-panel" style={{ border: 'none', background: 'transparent' }}>
+        <h3 className="section-title" style={{ margin: '0 0 var(--spacing-sm) 0' }}>
+          <Activity size={22} color="var(--colors-primary)" />
+          글로벌 거시경제 핵심 지표 4대 천왕
+        </h3>
+        {renderMacroIndicatorsBoard()}
+      </div>
+
+      {/* 5. Brand Voltage - Airtable Signature Cream Band for Global Market Summary */}
       <section className="sig-cream-band">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: 'var(--colors-ink)', marginBottom: '4px', fontSize: '15px' }}>
           <Award size={18} />
@@ -520,7 +1077,7 @@ function App() {
         </p>
       </section>
 
-      {/* 5. Dashboard Core Layout */}
+      {/* 6. Dashboard Core Layout */}
       {loading ? (
         <div className="canvas-panel loading-box">
           <div className="spinner"></div>
@@ -537,7 +1094,7 @@ function App() {
                 보유 자산 연계 핵심 뉴스
               </h2>
               
-              {/* News Tab Headers */}
+              {/* News Tab Headers - Expanded to 3 Tabs */}
               <div className="news-tab-headers">
                 <button 
                   className={`news-tab-btn ${activeNewsTab === 'korean' ? 'active' : ''}`}
@@ -549,13 +1106,19 @@ function App() {
                   className={`news-tab-btn ${activeNewsTab === 'global' ? 'active' : ''}`}
                   onClick={() => setActiveNewsTab('global')}
                 >
-                  🇺🇸 글로벌 / 우주 / 크립토
+                  🇺🇸 글로벌 / 우주
+                </button>
+                <button 
+                  className={`news-tab-btn ${activeNewsTab === 'macro' ? 'active' : ''}`}
+                  onClick={() => setActiveNewsTab('macro')}
+                >
+                  🌍 헤드라인 & 거시시황
                 </button>
               </div>
 
               {/* News List */}
               <div className="db-news-list">
-                {report?.news && report.news[activeNewsTab].map((item, idx) => (
+                {activeReport.news[activeNewsTab]?.map((item, idx) => (
                   <div key={idx} className="db-news-card">
                     <div className="db-news-header">
                       <h4 className="db-news-title">{item.title}</h4>
@@ -594,11 +1157,11 @@ function App() {
               {/* Korean Stocks Section */}
               <h2 className="section-title">
                 <TrendingUp size={22} />
-                국내 자산 추천 및 퀀트 분석 ({(report?.stocks || FALLBACK_REPORT.stocks).length}選)
+                국내 자산 추천 및 퀀트 분석 ({activeReport.stocks.length}選)
               </h2>
 
               <div className="db-stocks-list">
-                {report?.stocks && report.stocks.map((stock, idx) => {
+                {activeReport.stocks.map((stock, idx) => {
                   const isExpanded = expandedStock === idx;
                   return (
                     <div 
@@ -714,11 +1277,11 @@ function App() {
               {/* US & Space Innovation Stocks Section */}
               <h2 className="section-title" style={{ marginTop: '48px', borderTop: '1px solid var(--colors-hairline)', paddingTop: '32px' }}>
                 <Rocket size={22} color="var(--colors-sig-coral)" />
-                미국 및 우주 혁신 자산 분석 ({(report?.usStocks || FALLBACK_REPORT.usStocks).length}選)
+                미국 및 우주 혁신 자산 분석 ({activeReport.usStocks.length}선)
               </h2>
 
               <div className="db-stocks-list">
-                {(report?.usStocks || FALLBACK_REPORT.usStocks).map((stock, idx) => {
+                {activeReport.usStocks.map((stock, idx) => {
                   const actualIdx = idx + 10; // Avoid state key conflicts
                   const isExpanded = expandedStock === actualIdx;
                   return (
@@ -839,7 +1402,10 @@ function App() {
         </main>
       )}
 
-      {/* 6. Footer */}
+      {/* 7. Toss-style Econ Calendar (Full-width row at bottom of wide view) */}
+      {!loading && renderTossEconCalendar()}
+
+      {/* 8. Footer */}
       <footer className="db-footer">
         <p>© 2026 <span className="db-footer-brand">Smart Economic Intelligence System</span>. All rights reserved.</p>
         <p style={{ marginTop: '4px', fontSize: '12px', color: 'var(--colors-muted)' }}>
@@ -847,8 +1413,8 @@ function App() {
         </p>
       </footer>
 
-      {/* 7. AI Portfolio Co-pilot Conversation Drawer & FAB */}
-      <AICopilot report={report || FALLBACK_REPORT} />
+      {/* 9. AI Portfolio Co-pilot Conversation Drawer & FAB */}
+      <AICopilot report={activeReport} isOpen={isCopilotOpen} setIsOpen={setIsCopilotOpen} />
 
     </div>
   );

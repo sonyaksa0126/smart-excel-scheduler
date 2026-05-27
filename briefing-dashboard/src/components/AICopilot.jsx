@@ -86,8 +86,10 @@ const formatResponseText = (text) => {
   return resultHtml.join('');
 };
 
-export default function AICopilot({ report }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function AICopilot({ report, isOpen: externalIsOpen, setIsOpen: externalSetIsOpen }) {
+  const [localIsOpen, setLocalIsOpen] = useState(false);
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : localIsOpen;
+  const setIsOpen = externalSetIsOpen !== undefined ? externalSetIsOpen : setLocalIsOpen;
   const [apiKey, setApiKey] = useState('');
   const [tempKey, setTempKey] = useState('');
   const [showSettings, setShowSettings] = useState(false);
