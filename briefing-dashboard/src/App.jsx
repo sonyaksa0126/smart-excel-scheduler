@@ -516,7 +516,20 @@ function App() {
     loadBriefing();
   }, []);
 
-  const activeReport = report || FALLBACK_REPORT;
+  // CRITICAL RESILIENCE GUARD: Fall back to specific keys if cloud report loaded old JSON missing them
+  const exchangeRate = report?.macroIndicators?.exchangeRate || FALLBACK_REPORT.macroIndicators.exchangeRate;
+  const bondYield = report?.macroIndicators?.bondYield || FALLBACK_REPORT.macroIndicators.bondYield;
+  const semiconductorIndex = report?.macroIndicators?.semiconductorIndex || FALLBACK_REPORT.macroIndicators.semiconductorIndex;
+  const crudeOil = report?.macroIndicators?.crudeOil || FALLBACK_REPORT.macroIndicators.crudeOil;
+
+  const calendarData = report?.calendar || FALLBACK_REPORT.calendar;
+  const krStocks = report?.stocks || FALLBACK_REPORT.stocks;
+  const usStocks = report?.usStocks || FALLBACK_REPORT.usStocks;
+
+  const getNewsFeed = () => {
+    const news = report?.news || FALLBACK_REPORT.news;
+    return news[activeNewsTab] || FALLBACK_REPORT.news[activeNewsTab] || [];
+  };
 
   // Header content toggle component for desktop
   const renderViewModeToggle = () => (
@@ -580,112 +593,159 @@ function App() {
   );
 
   // Global Macro 4 Key Indicators Board
-  const renderMacroIndicatorsBoard = () => {
-    const macros = activeReport.macroIndicators || FALLBACK_REPORT.macroIndicators;
-    return (
-      <section className="macro-board-grid">
-        <div className="macro-board-card">
-          <span className="macro-board-title">원/달러 환율 (USD/KRW)</span>
-          <span className="macro-board-value">{macros.exchangeRate}</span>
-          <span className="macro-board-comment">글로벌 무역 및 외인 수급 척도</span>
-        </div>
-        <div className="macro-board-card">
-          <span className="macro-board-title">미 10년물 국채금리 (US 10Y)</span>
-          <span className="macro-board-value">{macros.bondYield}</span>
-          <span className="macro-board-comment">유동성 밸류에이션 할인율 기준</span>
-        </div>
-        <div className="macro-board-card">
-          <span className="macro-board-title">필라델피아 반도체 지수</span>
-          <span className="macro-board-value">{macros.semiconductorIndex}</span>
-          <span className="macro-board-comment">보유 기술 포트폴리오 핵심 지표</span>
-        </div>
-        <div className="macro-board-card">
-          <span className="macro-board-title">WTI 원유 선물 가격</span>
-          <span className="macro-board-value">{macros.crudeOil}</span>
-          <span className="macro-board-comment">지정학적 갈등 및 물가 선행지수</span>
-        </div>
-      </section>
-    );
-  };
+  const renderMacroIndicatorsBoard = () => (
+    <section className="macro-board-grid">
+      <div className="macro-board-card">
+        <span className="macro-board-title">원/달러 환율 (USD/KRW)</span>
+        <span className="macro-board-value">{exchangeRate}</span>
+        <span className="macro-board-comment">글로벌 무역 및 외인 수급 척도</span>
+      </div>
+      <div className="macro-board-card">
+        <span className="macro-board-title">미 10년물 국채금리 (US 10Y)</span>
+        <span className="macro-board-value">{bondYield}</span>
+        <span className="macro-board-comment">유동성 밸류에이션 할인율 기준</span>
+      </div>
+      <div className="macro-board-card">
+        <span className="macro-board-title">필라델피아 반도체 지수</span>
+        <span className="macro-board-value">{semiconductorIndex}</span>
+        <span className="macro-board-comment">보유 기술 포트폴리오 핵심 지표</span>
+      </div>
+      <div className="macro-board-card">
+        <span className="macro-board-title">WTI 원유 선물 가격</span>
+        <span className="macro-board-value">{crudeOil}</span>
+        <span className="macro-board-comment">지정학적 갈등 및 물가 선행지수</span>
+      </div>
+    </section>
+  );
 
-  // Toss-style Chronological Accordion Calendar
-  const renderTossEconCalendar = () => {
-    const calendarData = activeReport.calendar || FALLBACK_REPORT.calendar;
+  // PREMIUM STUNNING BLOOMBERG VALUATION TABLE (계량 비교 표)
+  const renderValuationTable = () => {
+    const allStocks = [...krStocks, ...usStocks];
     return (
-      <div className="calendar-section-card">
-        <h2 className="section-title">
-          <Calendar size={22} color="var(--colors-sig-coral)" />
-          토스 스타일 에디토리얼 증시 캘린더
-        </h2>
-        <p className="db-stock-reason" style={{ marginBottom: '8px', color: 'var(--colors-muted)' }}>
-          향후 1달간 포트폴리오와 시장 판도를 뒤흔들 핵심 일정과, 10년 차 주/미 전문가의 실전 대응 전술을 펼쳐보세요.
+      <div className="quant-table-container">
+        <h3 className="section-title" style={{ fontSize: '18px', margin: '0 0 var(--spacing-sm) 0' }}>
+          <TrendingUp size={22} color="var(--colors-sig-coral)" />
+          자산 포트폴리오 계량 밸류에이션 종합 비교 표 (Valuation Table)
+        </h3>
+        <p className="db-stock-reason" style={{ color: 'var(--colors-muted)', marginBottom: '16px' }}>
+          보유하신 한국 및 미국 상장 종목들의 현재가, PER, PBR, 배당 수익률 및 저평가 강도를 한눈에 계량 비교해 드립니다.
         </p>
-
-        <div className="calendar-timeline">
-          {calendarData.map((item, idx) => {
-            const isExpanded = expandedCalendarIndex === idx;
-            const impClass = item.importance.toLowerCase();
-            return (
-              <div 
-                key={idx} 
-                className={`calendar-item-row ${isExpanded ? 'expanded' : ''}`}
-              >
-                {/* Header Row */}
-                <div 
-                  className="calendar-item-header"
-                  onClick={() => setExpandedCalendarIndex(isExpanded ? -1 : idx)}
-                >
-                  <div className="calendar-dot-marker">
-                    {idx + 1}
-                  </div>
-                  <div className="calendar-date-col">
-                    {item.date}
-                  </div>
-                  <span className={`calendar-importance-badge ${impClass}`}>
-                    {item.importance === 'HIGH' ? '🚨 HIGH' : item.importance === 'MEDIUM' ? '⚠️ MID' : 'LOW'}
-                  </span>
-                  <div className="calendar-event-title">
-                    {item.event}
-                  </div>
-                  <div className="calendar-arrow-icon">
-                    <ChevronDown size={18} />
-                  </div>
-                </div>
-
-                {/* Dropdown Accordion drawer */}
-                {isExpanded && (
-                  <div className="calendar-drawer-content">
-                    {/* Easy Term Definition Bubble */}
-                    <div className="calendar-definition-box">
-                      <div className="calendar-box-header">
-                        <BookOpen size={14} />
-                        <span>주린이를 위한 용어 돋보기</span>
-                        <span className="calendar-term-badge">{item.term}</span>
-                      </div>
-                      <p className="calendar-definition-text">
-                        {item.termDefinition}
-                      </p>
-                    </div>
-
-                    {/* Expert Investment Strategy Card */}
-                    <div className="calendar-strategy-box">
-                      <div className="calendar-strategy-header">
-                        <Award size={14} />
-                        <span>10년 차 전문가 자산 수혜/전술 팁</span>
-                      </div>
-                      <p className="calendar-strategy-text">
-                        {item.impact}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+        <div style={{ overflowX: 'auto' }}>
+          <table className="quant-table">
+            <thead>
+              <tr>
+                <th>분류</th>
+                <th>종목명 (심볼)</th>
+                <th style={{ textAlign: 'right' }}>실시간 현재가</th>
+                <th style={{ textAlign: 'center' }}>PER</th>
+                <th style={{ textAlign: 'center' }}>PBR</th>
+                <th style={{ textAlign: 'center' }}>배당 / 분배율</th>
+                <th style={{ textAlign: 'center' }}>AI 밸류에이션 판정</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allStocks.map((stock, idx) => {
+                const valClass = getValuationClass(stock.perComment);
+                const valLabel = getValuationLabel(stock.perComment);
+                const isUS = stock.type.includes('미국');
+                return (
+                  <tr key={idx} className="quant-table-row">
+                    <td style={{ fontWeight: 500, color: 'var(--colors-muted)' }}>{stock.type}</td>
+                    <td style={{ fontWeight: 600, color: 'var(--colors-ink)' }}>{stock.name}</td>
+                    <td style={{ textAlign: 'right', fontWeight: 700, color: isUS ? 'var(--colors-sig-coral)' : 'var(--colors-ink)' }}>{stock.price}</td>
+                    <td style={{ textAlign: 'center', fontFamily: 'monospace' }}>{stock.per}</td>
+                    <td style={{ textAlign: 'center', fontFamily: 'monospace' }}>{stock.pbr}</td>
+                    <td style={{ textAlign: 'center', color: 'var(--colors-success)', fontWeight: 600 }}>{stock.dividendYield}</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className={`db-stock-valuation-label ${valClass}`} style={{ marginTop: 0 }}>
+                        {valLabel}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     );
   };
+
+  // Toss-style Chronological Accordion Calendar
+  const renderTossEconCalendar = () => (
+    <div className="calendar-section-card">
+      <h2 className="section-title">
+        <Calendar size={22} color="var(--colors-sig-coral)" />
+        토스 스타일 에디토리얼 증시 캘린더
+      </h2>
+      <p className="db-stock-reason" style={{ marginBottom: '8px', color: 'var(--colors-muted)' }}>
+        향후 1달간 포트폴리오와 시장 판도를 뒤흔들 핵심 일정과, 10년 차 주/미 전문가의 실전 대응 전술을 펼쳐보세요.
+      </p>
+
+      <div className="calendar-timeline">
+        {calendarData.map((item, idx) => {
+          const isExpanded = expandedCalendarIndex === idx;
+          const impClass = item.importance.toLowerCase();
+          return (
+            <div 
+              key={idx} 
+              className={`calendar-item-row ${isExpanded ? 'expanded' : ''}`}
+            >
+              {/* Header Row */}
+              <div 
+                className="calendar-item-header"
+                onClick={() => setExpandedCalendarIndex(isExpanded ? -1 : idx)}
+              >
+                <div className="calendar-dot-marker">
+                  {idx + 1}
+                </div>
+                <div className="calendar-date-col">
+                  {item.date}
+                </div>
+                <span className={`calendar-importance-badge ${impClass}`}>
+                  {item.importance === 'HIGH' ? '🚨 HIGH' : item.importance === 'MEDIUM' ? '⚠️ MID' : 'LOW'}
+                </span>
+                <div className="calendar-event-title">
+                  {item.event}
+                </div>
+                <div className="calendar-arrow-icon">
+                  <ChevronDown size={18} />
+                </div>
+              </div>
+
+              {/* Dropdown Accordion drawer */}
+              {isExpanded && (
+                <div className="calendar-drawer-content">
+                  {/* Easy Term Definition Bubble */}
+                  <div className="calendar-definition-box">
+                    <div className="calendar-box-header">
+                      <BookOpen size={14} />
+                      <span>주린이를 위한 용어 돋보기</span>
+                      <span className="calendar-term-badge">{item.term}</span>
+                    </div>
+                    <p className="calendar-definition-text">
+                      {item.termDefinition}
+                    </p>
+                  </div>
+
+                  {/* Expert Investment Strategy Card */}
+                  <div className="calendar-strategy-box">
+                    <div className="calendar-strategy-header">
+                      <Award size={14} />
+                      <span>10년 차 전문가 자산 수혜/전술 팁</span>
+                    </div>
+                    <p className="calendar-strategy-text">
+                      {item.impact}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 
   // ----------------------------------------------------
   // 📱 MOBILE SMARTPHONE APP VIEW LAYOUT
@@ -740,14 +800,17 @@ function App() {
                 </h3>
                 {renderMacroIndicatorsBoard()}
 
+                {/* Quant Valuation Table */}
+                {renderValuationTable()}
+
                 {/* Stock lists */}
                 <h3 className="section-title" style={{ fontSize: '16px', margin: '24px 0 8px 0' }}>
                   <TrendingUp size={18} />
-                  포트폴리오 맞춤형 자산 분석
+                  포트폴리오 맞춤형 개별 분석 (Cards)
                 </h3>
                 <div className="db-stocks-list">
                   {/* Korean Stocks */}
-                  {activeReport.stocks.map((stock, idx) => {
+                  {krStocks.map((stock, idx) => {
                     const isExpanded = expandedStock === idx;
                     return (
                       <div 
@@ -794,7 +857,7 @@ function App() {
                     );
                   })}
                   {/* US Stocks */}
-                  {activeReport.usStocks.map((stock, idx) => {
+                  {usStocks.map((stock, idx) => {
                     const actualIdx = idx + 10;
                     const isExpanded = expandedStock === actualIdx;
                     return (
@@ -879,7 +942,7 @@ function App() {
                 </div>
 
                 <div className="db-news-list">
-                  {activeReport.news[activeNewsTab]?.map((item, idx) => (
+                  {getNewsFeed().map((item, idx) => (
                     <div key={idx} className="db-news-card" style={{ padding: '12px' }}>
                       <div className="db-news-header" style={{ marginBottom: '6px' }}>
                         <h4 className="db-news-title" style={{ fontSize: '14.5px' }}>{item.title}</h4>
@@ -944,7 +1007,6 @@ function App() {
                     <button 
                       onClick={() => {
                         setIsCopilotOpen(true);
-                        // Trigger copilot with query via standard fab click
                       }}
                       className="btn-quick"
                       style={{ fontSize: '12.5px', textAlign: 'left', padding: '10px' }}
@@ -992,7 +1054,7 @@ function App() {
               className={`nav-tab-item ${activeAppTab === 'copilot' ? 'active' : ''}`}
               onClick={() => {
                 setActiveAppTab('copilot');
-                setIsCopilotOpen(true); // Open drawer immediately on selection
+                setIsCopilotOpen(true);
               }}
             >
               <MessageSquare size={18} />
@@ -1064,8 +1126,11 @@ function App() {
         {renderMacroIndicatorsBoard()}
       </div>
 
-      {/* 5. Brand Voltage - Airtable Signature Cream Band for Global Market Summary */}
-      <section className="sig-cream-band">
+      {/* 5. Stunning Bloomberg Valuation comparison Table (Web view) */}
+      {renderValuationTable()}
+
+      {/* 6. Brand Voltage - Airtable Signature Cream Band for Global Market Summary */}
+      <section className="sig-cream-band" style={{ marginTop: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: 'var(--colors-ink)', marginBottom: '4px', fontSize: '15px' }}>
           <Award size={18} />
           금일 마켓 뷰 및 투자 바벨 전략 제언
@@ -1077,7 +1142,7 @@ function App() {
         </p>
       </section>
 
-      {/* 6. Dashboard Core Layout */}
+      {/* 7. Dashboard Core Layout */}
       {loading ? (
         <div className="canvas-panel loading-box">
           <div className="spinner"></div>
@@ -1118,7 +1183,7 @@ function App() {
 
               {/* News List */}
               <div className="db-news-list">
-                {activeReport.news[activeNewsTab]?.map((item, idx) => (
+                {getNewsFeed().map((item, idx) => (
                   <div key={idx} className="db-news-card">
                     <div className="db-news-header">
                       <h4 className="db-news-title">{item.title}</h4>
@@ -1157,11 +1222,11 @@ function App() {
               {/* Korean Stocks Section */}
               <h2 className="section-title">
                 <TrendingUp size={22} />
-                국내 자산 추천 및 퀀트 분석 ({activeReport.stocks.length}選)
+                국내 자산 추천 및 퀀트 분석 ({krStocks.length}選)
               </h2>
 
               <div className="db-stocks-list">
-                {activeReport.stocks.map((stock, idx) => {
+                {krStocks.map((stock, idx) => {
                   const isExpanded = expandedStock === idx;
                   return (
                     <div 
@@ -1277,12 +1342,12 @@ function App() {
               {/* US & Space Innovation Stocks Section */}
               <h2 className="section-title" style={{ marginTop: '48px', borderTop: '1px solid var(--colors-hairline)', paddingTop: '32px' }}>
                 <Rocket size={22} color="var(--colors-sig-coral)" />
-                미국 및 우주 혁신 자산 분석 ({activeReport.usStocks.length}선)
+                미국 및 우주 혁신 자산 분석 ({usStocks.length}선)
               </h2>
 
               <div className="db-stocks-list">
-                {activeReport.usStocks.map((stock, idx) => {
-                  const actualIdx = idx + 10; // Avoid state key conflicts
+                {usStocks.map((stock, idx) => {
+                  const actualIdx = idx + 10;
                   const isExpanded = expandedStock === actualIdx;
                   return (
                     <div 
@@ -1402,10 +1467,10 @@ function App() {
         </main>
       )}
 
-      {/* 7. Toss-style Econ Calendar (Full-width row at bottom of wide view) */}
+      {/* 8. Toss-style Econ Calendar (Full-width row at bottom of wide view) */}
       {!loading && renderTossEconCalendar()}
 
-      {/* 8. Footer */}
+      {/* 9. Footer */}
       <footer className="db-footer">
         <p>© 2026 <span className="db-footer-brand">Smart Economic Intelligence System</span>. All rights reserved.</p>
         <p style={{ marginTop: '4px', fontSize: '12px', color: 'var(--colors-muted)' }}>
@@ -1413,7 +1478,7 @@ function App() {
         </p>
       </footer>
 
-      {/* 9. AI Portfolio Co-pilot Conversation Drawer & FAB */}
+      {/* 10. AI Portfolio Co-pilot Conversation Drawer & FAB */}
       <AICopilot report={activeReport} isOpen={isCopilotOpen} setIsOpen={setIsCopilotOpen} />
 
     </div>
