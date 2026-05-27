@@ -510,7 +510,7 @@ const CalendarGrid = ({ calendarData, onSelectEvent, expandedCalendarIndex }) =>
           return (
             <div 
               key={`day-${day}`} 
-              className={`calendar-cell day ${hasEvent ? 'has-event' : ''} ${isSelected ? 'selected' : ''}`}
+              className={`calendar-cell calendar-day-cell ${hasEvent ? 'has-event' : ''} ${isSelected ? 'selected' : ''}`}
               onClick={() => hasEvent && onSelectEvent(dayEventIndex)}
             >
               <span className="day-number">{day}</span>
@@ -736,7 +736,7 @@ function App() {
     <div className="calendar-section-card">
       <h2 className="section-title">
         <Calendar size={22} color="var(--colors-sig-coral)" />
-        종합 에디토리얼 증시 & 지표 캘린더
+        <span>종합 에디토리얼 증시 & 지표 캘린더</span>
       </h2>
       <p className="db-stock-reason" style={{ marginBottom: '16px', color: 'var(--colors-muted)', textAlign: 'left' }}>
         아래 달력에서 하이라이트된 날짜를 누르시거나 타임라인 아코디언을 클릭하여 주/미 경제 용어사전과 10년 차 전문가 전략 팁을 확인하세요.

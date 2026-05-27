@@ -1350,33 +1350,35 @@ body, html {
   background: var(--colors-surface-soft);
 }
 
-/* 8. Mini Monthly Calendar Grid Styles */
+/* 8. Mini Monthly Calendar Grid Styles - Toss Premium Redesign */
 .mini-calendar-card {
-  background: var(--colors-surface-soft);
+  background: var(--colors-canvas);
   border: 1px solid var(--colors-hairline);
-  border-radius: var(--rounded-md);
-  padding: var(--spacing-md);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
-  max-width: 380px;
+  width: 100%;
+  max-width: 520px; /* Enlarged for a more confident premium display */
   margin: 0 auto var(--spacing-lg) auto;
+  box-shadow: 0 4px 20px rgba(24, 29, 38, 0.03);
 }
 
 .mini-calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--colors-hairline);
-  padding-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--colors-surface-soft);
+  padding-bottom: var(--spacing-md);
 }
 
 .month-toggle-btn {
-  background: var(--colors-canvas);
+  background: var(--colors-surface-soft);
   border: 1px solid var(--colors-hairline);
-  padding: 4px 12px;
-  font-size: 12px;
+  padding: 6px 14px;
+  font-size: 12.5px;
   font-weight: 600;
-  border-radius: var(--rounded-sm);
+  border-radius: var(--rounded-md);
   cursor: pointer;
   color: var(--colors-ink);
   transition: var(--transition-smooth);
@@ -1389,25 +1391,27 @@ body, html {
 }
 
 .month-title {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--colors-ink);
+  letter-spacing: -0.4px;
 }
 
 .calendar-grid-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--colors-muted);
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: 6px;
 }
 
 .calendar-grid-cells {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
+  gap: 8px; /* More breathing room */
   text-align: center;
 }
 
@@ -1417,8 +1421,9 @@ body, html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: var(--rounded-sm);
-  font-size: 13px;
+  border-radius: 50%; /* Perfect circle for modern calendar */
+  font-size: 15.5px; /* Enlarged from 14.5px */
+  font-weight: 600; /* Bold numbers for better readability */
   position: relative;
   transition: var(--transition-smooth);
 }
@@ -1428,34 +1433,44 @@ body, html {
   cursor: default;
 }
 
-.calendar-cell.day {
+.calendar-cell.calendar-day-cell {
   cursor: pointer;
-  color: var(--colors-body);
-  background: var(--colors-canvas);
+  color: var(--colors-ink) !important;
+  background: var(--colors-surface-soft) !important; /* Soft gray circles */
   border: 1px solid transparent;
 }
 
-.calendar-cell.day:hover {
-  background: var(--colors-surface-strong);
+.calendar-cell.calendar-day-cell:hover {
+  background: var(--colors-surface-strong) !important;
+  transform: scale(1.05);
 }
 
 .calendar-cell.has-event {
   font-weight: 700;
-  border-color: rgba(24, 29, 38, 0.15);
+  background: var(--colors-canvas) !important;
+  border: 1.5px solid var(--colors-hairline) !important;
+  color: var(--colors-ink) !important;
+}
+
+.calendar-cell.has-event:hover {
+  border-color: var(--colors-ink) !important;
+  background: var(--colors-surface-soft) !important;
 }
 
 .calendar-cell.selected {
-  background: var(--colors-primary) !important;
+  background: var(--colors-sig-coral) !important; /* Premium brand Oxide Coral highlight */
   color: white !important;
-  border-color: var(--colors-primary);
+  border-color: var(--colors-sig-coral) !important;
+  box-shadow: 0 4px 12px rgba(170, 45, 0, 0.25);
+  font-weight: 700;
 }
 
 .event-dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   position: absolute;
-  bottom: 4px;
+  bottom: 6px;
 }
 
 .event-dot.high {
@@ -1468,6 +1483,10 @@ body, html {
 
 .event-dot.low {
   background: var(--colors-muted);
+}
+
+.calendar-cell.selected .event-dot {
+  background: white; /* Dot is white when cell is selected */
 }
 
 /* 9. Top Navigation Tab Bar for Web view */
@@ -1509,4 +1528,46 @@ body, html {
   color: var(--colors-ink);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--colors-hairline);
+}
+
+/* Mobile & tablet top tab bar 2x2 layout & mobile calendar optimization */
+@media (max-width: 1024px) {
+  .web-top-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+    border-radius: var(--rounded-md);
+  }
+  
+  .web-tab-btn {
+    font-size: 13px !important;
+    padding: 10px 8px !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: var(--rounded-sm) !important;
+  }
+  
+  /* Enlarge monthly calendar on mobile viewports by optimizing card padding */
+  .mini-calendar-card {
+    padding: var(--spacing-sm) !important; /* 12px padding to expand grid */
+    margin-bottom: var(--spacing-md) !important;
+    max-width: 100% !important; /* Fully stretch within container limits */
+  }
+  
+  .calendar-grid-cells {
+    gap: 6px !important; /* Tighter gap to make circles as large as possible */
+  }
+  
+  .calendar-cell {
+    font-size: 15px !important; /* Bold, clear number visibility */
+  }
+  
+  /* Prevent section title text wrapping character-by-character */
+  .section-title {
+    font-size: 19px !important;
+    word-break: keep-all !important;
+    line-height: 1.35 !important;
+  }
 }
