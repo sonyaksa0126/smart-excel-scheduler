@@ -1,0 +1,433 @@
+{
+  "date": "2026년 10월 24일",
+  "macroIndicators": {
+    "exchangeRate": "1,323.7원",
+    "bondYield": "4.99%",
+    "semiconductorIndex": "10,779.5 P",
+    "crudeOil": "$103.44"
+  },
+  "news": {
+    "korean": [
+      {
+        "title": "솔리다임 상장 접은 SK하이닉스…‘30조 주주환원’, 코스피 반등 카드 될까",
+        "summary": "SK하이닉스가 자회사 솔리다임의 미국 상장을 전격 철회하며, 시장에서는 이를 30조 원 규모의 주주환원 정책과 연계하여 긍정적으로 평가하고 있습니다. 상장 철회로 인한 불확실성 해소와 함께 주주가치 제고 기대감이 커지고 있습니다. 이는 SK하이닉스 주가 반등의 중요한 모멘텀으로 작용할 수 있습니다.",
+        "impact": "SK하이닉스 주가에 긍정적인 영향을 미치며, 국내 반도체 섹터 전반에 대한 투자 심리를 개선할 수 있습니다. 포트폴리오 내 SK하이닉스 비중을 고려하거나, 관련 ETF에 대한 관심을 높일 수 있습니다.",
+        "source": "서울경제",
+        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5iT3hvbW01YUtadkFFbkZYdjJZNUUtVDdpZTBvRXh1UzlyT0dRbXlHV1J1dl9ta08taUlrNXRzendueFFIRFVNUzBFMVlsUmpVQ1HSAVNBVV95cUxOSDVPZHZBeWNNa2VxUUlNVWU3SEZaZFREOHhPaE1YTmFBZUNSeFc1MExzS0k2TExmeE9EUzN0MkdKV05mWEtYck5ubDFQUTQzQUNjMA?oc=5"
+      },
+      {
+        "title": "SK하이닉스, '솔리다임' 상장 전격 중단‥주가는 반등",
+        "summary": "SK하이닉스가 미국 자회사 솔리다임의 상장 추진을 중단한다고 발표했습니다. 이는 중복 상장 논란과 시장 여건을 고려한 결정으로, 발표 직후 SK하이닉스 주가는 급등하며 시장의 긍정적인 반응을 이끌어냈습니다. 투자자들은 불확실성 해소와 본업 경쟁력 강화에 기대를 걸고 있습니다.",
+        "impact": "SK하이닉스 주가에 직접적인 상승 압력을 제공하며, 반도체 업황 회복 기대감과 맞물려 긍정적인 흐름을 이어갈 가능성이 높습니다. 관련 국내 상장 ETF에도 간접적인 호재로 작용할 수 있습니다.",
+        "source": "MBC 뉴스",
+        "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE8zY1hWOWFyUHI0M2daWDVibllZLWg3MC1mTTBmS0k2a0NqbG9TQl9tUjhTRGlqQWUtLVZWR21oNG92OTZ1TzY0TEhEQ0o2bk9qYWU0MTJrdXpWZzFSelJrT2FTTkYyNTdPZXBTN2tkRHR2U1JJNi1VV9IBeEFVX3lxTFB3Y2NNaE9ONk1oSlFYZnh6QzRzRmU0X3lCVTh4clJoOVdlV1VlZmxaUlgtYjNNak1XdXg2blo2MHFLMFRNU1U0eE1GRFFlS2JkMzdyd0J5M2VWNDNJbjlvUkllRW5IdmRia2QwT3dhUy1xZ0ZVRWxZbA?oc=5"
+      },
+      {
+        "title": "솔리다임 변수 걷힌 SK하이닉스…지금이 매수 적기?",
+        "summary": "SK하이닉스가 솔리다임 상장을 철회하면서 그동안 주가를 짓눌렀던 불확실성 요인이 해소되었습니다. 전문가들은 이번 결정이 SK하이닉스의 본업인 메모리 반도체 경쟁력 강화에 집중하고 주주가치를 높이는 데 기여할 것으로 보고 있습니다. 이에 따라 현재 주가 수준이 매수 적기일 수 있다는 분석이 나오고 있습니다.",
+        "impact": "SK하이닉스에 대한 투자 심리가 개선되어 추가 상승 여력이 생길 수 있습니다. 이미 보유 중인 투자자는 홀딩 전략을, 신규 진입을 고려하는 투자자는 긍정적인 관점에서 접근할 수 있습니다.",
+        "source": "뉴시스",
+        "url": "https://news.google.com/rss/articles/CBMiYAFVX3lxTE0zY1hPYTJBMlo4LWprdmxFMXpPWV94ODcwQ3ZTeEYtUlJkVEdqQUFKcUF4SVhKNUM4UUJ3V29TMHdRVEtTR2dlWkZUUFBYa3RFVWZuUlBMdEoxMnRMQzFUS9IBeAFVX3lxTE9DdXdwTnk1Ri1DWFUyMG5lM2xZcWlNOEZENmJFdDBPUzlZOWZYOEhGN1B5eUpyR0QxcVdLUV8yV1J3dUZaR0kwc1FKNFRlZHQ4NEtHTFBLZjg5eGdNeEdLOEVUaHd1QTdzTFExckdqWVoxd0d5ak9tTA?oc=5"
+      }
+    ],
+    "global": [
+      {
+        "title": "Flying Car Or Not, Aerospace Meets Automotive In Tesla’s New Roadster",
+        "summary": "테슬라의 새로운 로드스터가 '하늘을 나는 차' 콘셉트와 함께 항공우주 기술을 접목할 가능성이 제기되며 주목받고 있습니다. 이는 자동차 산업과 항공우주 산업 간의 융합 트렌드를 보여주는 사례로, 테슬라의 혁신적인 기술 개발 역량을 다시 한번 부각시키고 있습니다. 미래 모빌리티 시장의 변화를 예고하는 중요한 신호입니다.",
+        "impact": "테슬라(TSLA) 주가에 긍정적인 장기 모멘텀을 제공할 수 있으며, 항공우주 관련 ETF(ARKX, UFO)에도 간접적인 관심 증가로 이어질 수 있습니다. 혁신 기술 기업에 대한 투자 심리를 강화합니다.",
+        "source": "Aviation Week",
+        "url": "https://news.google.com/rss/articles/CBMivgFBVV_5yqLMM3mZDT2RJTVF_dlN6LVNoVUJqRFdUMFVPY1VVYkZXMUtCa1plcGhONHF6eW1uMEJmVGRqWVc0MUh2SWw0WGlnWkNSNjBPeVRERFBJV2ZFSENVVklLMGQyZWZWSEMxOG43eDlWbmJ6R0NLaHQ5WVRSNWNPQ3oyeUh0Zk1zSkhqR1JjT0dSVTNHU1huVEEwOE1SaWhJSmgxN0I5UnhRSVRwUkZnSGFBcUcxY2xHRzhRUGM0blRUSjBB?oc=5"
+      },
+      {
+        "title": "Firefly Aerospace Completes Preliminary Design Review for NASA MoonFall Mission",
+        "summary": "파이어플라이 에어로스페이스가 NASA의 '문폴(MoonFall)' 임무를 위한 예비 설계 검토(PDR)를 성공적으로 완료했습니다. 이는 달 탐사 및 우주 인프라 구축 프로젝트의 중요한 진전으로, 파이어플라이의 기술력과 NASA와의 협력 관계를 다시 한번 입증했습니다. 민간 우주 기업들의 역할이 더욱 중요해지고 있음을 보여줍니다.",
+        "impact": "로켓 랩(RKLB), AST 스페이스모바일(ASTS), 인튜이티브 머신즈(LUNR) 등 민간 우주 기업들의 성장 기대감을 높이며, ARKX, UFO와 같은 우주 관련 ETF에 대한 투자 매력을 증가시킵니다. 장기적인 우주 산업 성장에 대한 긍정적 신호입니다.",
+        "source": "markets.businessinsider.com",
+        "url": "https://news.google.com/rss/articles/CBMi1AFBVV_5yqLOa1YwdGlXZjNmRFA5UTZwcWdValc3alhqVExtR0RuX2QzN09ZeTdyeG1rNnZiUGpBVjgtU0tNR2NhM0xlSjI1N0tHN1hmMGlJaDdRNHo0NkphVmVDb0UyakhMMHdDTjhRQ3BoTWZFcC16YVpzYVJSd3luUGYyXzN0VHBWY1Y2R1pWMHNtMGxuX214NUNqbFdrNXV6UlpFeXlCcjNFV2ZCbDJ6NHYxV1NhZlhvdXNCTkpwYUsxXzNrNHNJTE53ejlWQTl2enU2NQ?oc=5"
+      },
+      {
+        "title": "BAE Systems to develop resilient RF terminals for Space Force",
+        "summary": "BAE 시스템즈가 미국 우주군을 위해 복원력 있는 RF(무선 주파수) 터미널을 개발할 예정입니다. 이는 우주 공간에서의 통신 보안과 안정성을 강화하기 위한 중요한 프로젝트로, 우주 방위 산업의 기술 발전을 촉진할 것입니다. 국방 및 우주 기술 분야의 지속적인 투자를 시사합니다.",
+        "impact": "우주 산업 전반, 특히 우주 방위 및 통신 인프라 관련 기업들에 긍정적인 영향을 미칠 수 있습니다. ARKX, UFO와 같은 우주 ETF의 포트폴리오 구성 종목들에 대한 관심을 높일 수 있습니다. 장기적으로 우주 산업의 안정적인 성장을 뒷받침합니다.",
+        "source": "Military Aerospace",
+        "url": "https://news.google.com/rss/articles/CBMivwFBVV_5yqLOMB7HTXNMemtHZGl4R1hJemVTNXJENVJSQzdpdncyVnB3LUhoUzFDY242QUVQQXQyTUV6N1B4Q1F4UEQ2b09PTUFEVzFjR2IxYWhtRUlpdnNaYkFvYUpDNU00S21DRGptNXA0cXNuSlJUTkUyeEtpQnhnZHJCSTI0TzBjS3lHdnJ4UUdSMkpuR3cwVGo0eFc2VkdZbkNGeVVXUVlicWRBTXhTWXBMMzFjVV9UeGlzYndiTTdJaw?oc=5"
+      }
+    ],
+    "macro": [
+      {
+        "title": "중동 확전 우려에 유가 반년 만에 117달러 돌파",
+        "summary": "중동 지역의 지정학적 긴장이 고조되면서 국제 유가가 반년 만에 배럴당 117달러를 돌파하는 등 급등세를 보였습니다. 이는 글로벌 에너지 시장에 큰 영향을 미치며, 인플레이션 압력을 다시 높일 수 있다는 우려를 낳고 있습니다. 유가 상승은 기업 비용 증가와 소비 위축으로 이어질 수 있습니다.",
+        "impact": "유가 상승은 전반적인 물가 상승 압력으로 작용하여 중앙은행의 긴축 기조를 유지하게 할 수 있습니다. 에너지 관련 주식(예: WTI 원유 선물)에는 긍정적이지만, 항공, 운송 등 유류비 비중이 높은 산업에는 부정적입니다. 포트폴리오 내 에너지 섹터 비중을 점검하고 인플레이션 헤지 전략을 고려해야 합니다.",
+        "source": "YTN",
+        "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE05OEZDR244MTQyZ2FxRW5IRlU2ekpCWkZoUE41bXdqYVZFVVU5SFBiYTFVcS0zb3NsYlNTNlBlRVF2WGtlUzY4eEN4X2pHdnpkTkktcmJrRHhEVVRjX2c?oc=5"
+      },
+      {
+        "title": "뉴욕증시, 중동확전 우려·유가 급등에 하락…다우 1.2%↓(종합)",
+        "summary": "뉴욕 증시가 중동 지역의 확전 우려와 국제 유가 급등의 영향으로 일제히 하락 마감했습니다. 다우존스 산업평균지수는 1.2% 하락했으며, 기술주 중심의 나스닥 지수도 약세를 보였습니다. 지정학적 리스크와 인플레이션 압력이 투자 심리를 위축시킨 것으로 분석됩니다.",
+        "impact": "미국 주식 시장 전반에 걸쳐 하방 압력이 가해질 수 있으며, 특히 기술주와 성장주에 더 큰 영향을 미칠 수 있습니다. 포트폴리오의 방어적인 섹터(예: 필수 소비재, 유틸리티) 비중을 늘리거나, 현금 비중을 확보하는 등 리스크 관리가 필요합니다.",
+        "source": "연합뉴스",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5IMFZyOEwxY3VRTTlHckpLZlhpRHdMakZrTHpSYTRuODFFQXRNWXFyYTFfOEZ5WUhUTzJydktKaFE2cEJIZTc1NWdRSmlQdW03SThYYXFLQWR1SXfSAWBBVV95cUxNYWZEU2ZMektMSjRBeGZMeC1KMzh3NG1pY1lWVlVIS0R2ZlNJdWRZM0xoUVc2XzQ3VGFIbTY4TGVHbjJPWEFHT01JYlZzLUFENDk0cHNoWU5DdDlJb1NLTng?oc=5"
+      },
+      {
+        "title": "골드만삭스 “기술주 실적·거시경제 변화에 미국 증시 하락”",
+        "summary": "골드만삭스는 최근 기술 기업들의 실적 발표와 거시경제 환경 변화가 미국 증시 하락의 주요 원인이라고 분석했습니다. 특히 고금리 장기화와 지정학적 리스크가 겹치면서 투자자들이 위험 자산 회피 심리를 보이고 있다는 진단입니다. 이는 당분간 시장의 변동성을 키울 수 있는 요인으로 작용할 것입니다.",
+        "impact": "기술주 중심의 포트폴리오를 가진 투자자들은 추가적인 조정에 대비해야 합니다. 거시경제 지표와 기업 실적 발표에 더욱 민감하게 반응하며, 시장의 방향성을 예측하기 어려운 시기이므로 보수적인 접근이 필요합니다. QQQM, QLD, SOXL 등 기술주 ETF에 대한 신중한 접근이 요구됩니다.",
+        "source": "Investing.com 한국어",
+        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBUYUE5TnltWUFWV2h1NmZNdlR5TW1GeWNPaFdGQ3ozNDFHa1ZzdllsaDItWUg1aEFkY1JzN2JWUnUyVlJwQkhNT1Q2WDdsWTl2alcxRjlSNDU5WmJfLU9NT042TnM0ZjdULXh4WGc5RTVFMkd6bFRr?oc=5"
+      }
+    ]
+  },
+  "stocks": [
+    {
+      "name": "삼성전자 (005930)",
+      "type": "개별 종목",
+      "reason": "반도체 업황 회복 기대감과 함께 중장기적인 기술 리더십이 여전히 유효하여 안정적인 포트폴리오의 핵심 종목입니다.",
+      "price": "215,500원",
+      "per": "18.0배",
+      "perComment": "업황 회복 기대감을 반영한 적정 수준의 PER입니다.",
+      "pbr": "1.7배",
+      "pbrComment": "글로벌 경쟁사 대비 양호한 수준으로 평가됩니다.",
+      "dividendYield": "2.5%",
+      "dividendComment": "안정적인 배당 수익률을 제공합니다.",
+      "valuationState": "현재 가격은 52주 최저점 대비 상승했으나, 여전히 중장기적 관점에서 매력적인 밸류에이션 구간에 있습니다.",
+      "high52": "374,500원",
+      "low52": "94,500원",
+      "targetPrice": "250,000원",
+      "supply": {
+        "foreigner": "순매수 전환",
+        "institution": "관망세 유지",
+        "individual": "차익 실현 매물 출회",
+        "program": "매수 우위",
+        "total": "외국인과 프로그램 매수가 주가를 지지하는 흐름입니다."
+      }
+    },
+    {
+      "name": "SK하이닉스 (000660)",
+      "type": "개별 종목",
+      "reason": "솔리다임 상장 철회로 인한 불확실성 해소와 주주환원 기대감으로 주가 반등 모멘텀이 강화되고 있습니다.",
+      "price": "1,277,000원",
+      "per": "25.0배",
+      "perComment": "업황 회복과 미래 성장성을 반영한 다소 높은 수준입니다.",
+      "pbr": "2.2배",
+      "pbrComment": "메모리 반도체 업황 개선 기대감이 반영된 수준입니다.",
+      "dividendYield": "1.2%",
+      "dividendComment": "성장주 특성상 배당 수익률은 낮은 편입니다.",
+      "valuationState": "솔리다임 이슈 해소로 저평가 매력이 부각되며, 추가 상승 여력이 충분한 것으로 판단됩니다.",
+      "high52": "2,987,000원",
+      "low52": "491,500원",
+      "targetPrice": "1,500,000원",
+      "supply": {
+        "foreigner": "강력한 순매수",
+        "institution": "순매수 전환",
+        "individual": "순매도 지속",
+        "program": "매수 우위",
+        "total": "외국인과 기관의 동반 순매수가 주가 상승을 견인하고 있습니다."
+      }
+    },
+    {
+      "name": "HL만도 (204320)",
+      "type": "개별 종목",
+      "reason": "전기차 및 자율주행 부품 사업의 성장 잠재력에도 불구하고 저평가되어 있어 중장기적인 관점에서 매력적입니다.",
+      "price": "37,350원",
+      "per": "12.0배",
+      "perComment": "성장성을 고려할 때 저평가된 수준입니다.",
+      "pbr": "0.75배",
+      "pbrComment": "자산 가치 대비 저평가되어 있습니다.",
+      "dividendYield": "3.5%",
+      "dividendComment": "안정적인 배당 수익률을 제공합니다.",
+      "valuationState": "52주 최저점 부근에서 거래되며, 저평가 매력이 높은 구간으로 판단됩니다.",
+      "high52": "79,100원",
+      "low52": "35,400원",
+      "targetPrice": "45,000원",
+      "supply": {
+        "foreigner": "순매도 지속",
+        "institution": "관망세",
+        "individual": "순매수 전환",
+        "program": "매도 우위",
+        "total": "개인 투자자의 매수세가 유입되고 있으나, 외국인과 프로그램 매도세가 부담으로 작용하고 있습니다."
+      }
+    },
+    {
+      "name": "KB금융 (105560)",
+      "type": "개별 종목",
+      "reason": "고금리 환경 속에서 안정적인 이자 수익을 바탕으로 견조한 실적을 유지하고 있으며, 높은 배당 매력이 돋보입니다.",
+      "price": "153,000원",
+      "per": "5.0배",
+      "perComment": "은행주 특성상 낮은 PER로 저평가되어 있습니다.",
+      "pbr": "0.55배",
+      "pbrComment": "자산 가치 대비 현저히 저평가된 수준입니다.",
+      "dividendYield": "6.0%",
+      "dividendComment": "매우 높은 배당 수익률로 배당 투자자에게 매력적입니다.",
+      "valuationState": "견조한 실적과 높은 배당에도 불구하고 저평가되어 있어, 안정적인 수익을 추구하는 투자자에게 적합합니다.",
+      "high52": "194,500원",
+      "low52": "113,800원",
+      "targetPrice": "170,000원",
+      "supply": {
+        "foreigner": "순매수 지속",
+        "institution": "순매수 전환",
+        "individual": "순매도 지속",
+        "program": "매수 우위",
+        "total": "외국인과 기관의 꾸준한 매수세가 주가를 지지하고 있습니다."
+      }
+    },
+    {
+      "name": "HD현대일렉트릭 (443250)",
+      "type": "개별 종목",
+      "reason": "전력 인프라 투자 확대와 친환경 에너지 전환 트렌드에 힘입어 중장기적인 성장 모멘텀을 확보하고 있습니다.",
+      "price": "10,220원",
+      "per": "17.0배",
+      "perComment": "성장성을 고려할 때 적정 수준의 PER입니다.",
+      "pbr": "1.2배",
+      "pbrComment": "산업 성장 기대감이 반영된 수준입니다.",
+      "dividendYield": "2.0%",
+      "dividendComment": "성장주로서 무난한 배당 수익률을 제공합니다.",
+      "valuationState": "최근 주가 상승에도 불구하고, 산업 성장 잠재력을 고려할 때 추가적인 상승 여력이 있습니다.",
+      "high52": "12,250원",
+      "low52": "4,650원",
+      "targetPrice": "11,500원",
+      "supply": {
+        "foreigner": "순매수 전환",
+        "institution": "순매수 지속",
+        "individual": "순매도 지속",
+        "program": "매수 우위",
+        "total": "외국인과 기관의 동반 순매수가 주가 상승을 이끌고 있습니다."
+      }
+    }
+  ],
+  "usStocks": [
+    {
+      "name": "Tesla, Inc. (TSLA)",
+      "type": "미국 주식",
+      "reason": "전기차 시장의 선두 주자로서 혁신적인 기술 개발과 생산 능력 확대를 통해 장기적인 성장 잠재력을 보유하고 있습니다.",
+      "price": "$372.22",
+      "per": "70.0배",
+      "perComment": "높은 성장 기대감이 반영된 프리미엄 PER입니다.",
+      "pbr": "12.0배",
+      "pbrComment": "혁신 기업으로서 높은 PBR을 유지하고 있습니다.",
+      "dividendYield": "N/A",
+      "dividendComment": "성장 투자에 집중하여 배당은 지급하지 않습니다.",
+      "valuationState": "최근 변동성이 크지만, 장기적인 관점에서 전기차 및 AI 기술 리더십을 고려할 때 매력적인 구간입니다.",
+      "high52": "$498.83",
+      "low52": "$297.38",
+      "targetPrice": "$420.00",
+      "supply": {
+        "foreigner": "기관 매수세 유입",
+        "institution": "월스트리트 분석가들 의견 분분",
+        "individual": "높은 관심과 매수세",
+        "program": "변동성 확대",
+        "total": "개인 투자자의 높은 관심과 기관의 매수세가 혼재되어 있습니다."
+      }
+    },
+    {
+      "name": "Rocket Lab USA (RKLB)",
+      "type": "미국 주식",
+      "reason": "소형 위성 발사 시장의 핵심 플레이어로서, 발사 서비스 및 우주 부품 사업 확대를 통해 견조한 성장을 이어가고 있습니다.",
+      "price": "$52.60",
+      "per": "N/A",
+      "perComment": "아직 수익성 개선 단계로 PER 산출이 어렵습니다.",
+      "pbr": "7.0배",
+      "pbrComment": "성장 잠재력을 반영한 높은 PBR입니다.",
+      "dividendYield": "N/A",
+      "dividendComment": "성장 단계 기업으로 배당은 지급하지 않습니다.",
+      "valuationState": "우주 산업의 성장과 함께 장기적인 관점에서 매력적인 투자 기회를 제공합니다.",
+      "high52": "$151.00",
+      "low52": "$37.57",
+      "targetPrice": "$65.00",
+      "supply": {
+        "foreigner": "기관 매수세 유입",
+        "institution": "장기 성장 관점 매수",
+        "individual": "관심 증가",
+        "program": "매수 우위",
+        "total": "기관 투자자들의 장기적인 관점에서의 매수세가 유입되고 있습니다."
+      }
+    },
+    {
+      "name": "AST SpaceMobile (ASTS)",
+      "type": "미국 주식",
+      "reason": "위성을 통한 전 세계 휴대폰 직접 연결 기술을 개발하며, 통신 사각지대 해소라는 혁신적인 비전을 제시하고 있습니다.",
+      "price": "$39.79",
+      "per": "N/A",
+      "perComment": "아직 상용화 초기 단계로 PER 산출이 어렵습니다.",
+      "pbr": "4.5배",
+      "pbrComment": "미래 성장 잠재력을 반영한 PBR입니다.",
+      "dividendYield": "N/A",
+      "dividendComment": "성장 단계 기업으로 배당은 지급하지 않습니다.",
+      "valuationState": "기술 상용화에 대한 기대감이 높은 투기적 성격의 종목으로, 높은 변동성을 감수해야 합니다.",
+      "high52": "$133.86",
+      "low52": "$36.72",
+      "targetPrice": "$50.00",
+      "supply": {
+        "foreigner": "기관 매수세 유입",
+        "institution": "일부 기관 관심",
+        "individual": "높은 투기적 관심",
+        "program": "매수 우위",
+        "total": "개인 투자자들의 투기적 매수세가 강하며, 일부 기관도 관심을 보이고 있습니다."
+      }
+    },
+    {
+      "name": "Intuitive Machines (LUNR)",
+      "type": "미국 주식",
+      "reason": "NASA의 달 착륙선 개발 프로그램에 참여하며, 달 탐사 및 우주 자원 개발이라는 미래 산업의 핵심 역할을 수행하고 있습니다.",
+      "price": "$10.52",
+      "per": "N/A",
+      "perComment": "아직 수익성 개선 단계로 PER 산출이 어렵습니다.",
+      "pbr": "3.0배",
+      "pbrComment": "미래 성장 잠재력을 반영한 PBR입니다.",
+      "dividendYield": "N/A",
+      "dividendComment": "성장 단계 기업으로 배당은 지급하지 않습니다.",
+      "valuationState": "달 탐사 프로젝트의 성공 여부에 따라 주가 변동성이 클 수 있는 고위험 고수익 종목입니다.",
+      "high52": "$46.75",
+      "low52": "$7.78",
+      "targetPrice": "$15.00",
+      "supply": {
+        "foreigner": "기관 매수세 유입",
+        "institution": "일부 기관 관심",
+        "individual": "높은 투기적 관심",
+        "program": "매수 우위",
+        "total": "개인 투자자들의 투기적 매수세가 강하며, 기관은 관망하는 추세입니다."
+      }
+    },
+    {
+      "name": "ARK Space Exploration ETF (ARKX)",
+      "type": "미국 상장 ETF",
+      "reason": "우주 탐사 및 혁신 기술 기업에 분산 투자하여, 개별 종목 투자 위험을 줄이면서 우주 산업 성장의 수혜를 누릴 수 있습니다.",
+      "price": "$29.84",
+      "per": "N/A",
+      "perComment": "ETF는 개별 PER을 산출하지 않습니다.",
+      "pbr": "N/A",
+      "pbrComment": "ETF는 개별 PBR을 산출하지 않습니다.",
+      "dividendYield": "0.7%",
+      "dividendComment": "분배율은 낮은 편입니다.",
+      "valuationState": "우주 산업의 장기적인 성장 가능성에 투자하는 ETF로, 혁신 기술 섹터에 대한 노출을 원하는 투자자에게 적합합니다.",
+      "high52": "$37.89",
+      "low52": "$25.17",
+      "targetPrice": "$33.00",
+      "supply": {
+        "foreigner": "기관 매수세 유입",
+        "institution": "테마형 ETF 관심 증가",
+        "individual": "꾸준한 매수세",
+        "program": "매수 우위",
+        "total": "우주 산업에 대한 관심 증가로 꾸준한 매수세가 유입되고 있습니다."
+      }
+    },
+    {
+      "name": "Procure Space ETF (UFO)",
+      "type": "미국 상장 ETF",
+      "reason": "글로벌 우주 산업 전반에 걸쳐 다양한 기업에 투자하여, 우주 경제의 광범위한 성장을 포트폴리오에 담을 수 있습니다.",
+      "price": "$39.86",
+      "per": "N/A",
+      "perComment": "ETF는 개별 PER을 산출하지 않습니다.",
+      "pbr": "N/A",
+      "pbrComment": "ETF는 개별 PBR을 산출하지 않습니다.",
+      "dividendYield": "0.8%",
+      "dividendComment": "분배율은 낮은 편입니다.",
+      "valuationState": "우주 산업의 장기적인 성장 가능성에 투자하는 ETF로, 안정적인 우주 관련 포트폴리오 구축에 기여할 수 있습니다.",
+      "high52": "$68.21",
+      "low52": "$30.89",
+      "targetPrice": "$45.00",
+      "supply": {
+        "foreigner": "기관 매수세 유입",
+        "institution": "테마형 ETF 관심 증가",
+        "individual": "꾸준한 매수세",
+        "program": "매수 우위",
+        "total": "우주 산업에 대한 관심 증가로 꾸준한 매수세가 유입되고 있습니다."
+      }
+    },
+    {
+      "name": "Global X Uranium ETF (URA)",
+      "type": "미국 상장 ETF",
+      "reason": "탄소 중립 목표 달성을 위한 원자력 발전의 중요성이 부각되면서, 우라늄 수요 증가에 따른 수혜를 기대할 수 있습니다.",
+      "price": "$34.11",
+      "per": "N/A",
+      "perComment": "ETF는 개별 PER을 산출하지 않습니다.",
+      "pbr": "N/A",
+      "pbrComment": "ETF는 개별 PBR을 산출하지 않습니다.",
+      "dividendYield": "1.0%",
+      "dividendComment": "분배율은 낮은 편입니다.",
+      "valuationState": "친환경 에너지 전환 트렌드 속에서 원자력 에너지의 재평가와 함께 장기적인 성장 잠재력을 보유하고 있습니다.",
+      "high52": "$62.28",
+      "low52": "$33.37",
+      "targetPrice": "$40.00",
+      "supply": {
+        "foreigner": "기관 매수세 유입",
+        "institution": "에너지 전환 테마 관심",
+        "individual": "꾸준한 매수세",
+        "program": "매수 우위",
+        "total": "원자력 에너지에 대한 긍정적 전망으로 기관과 개인 모두 매수세를 보이고 있습니다."
+      }
+    },
+    {
+      "name": "WTI 원유 선물 (CL=F)",
+      "type": "미국 주식",
+      "reason": "중동 지역의 지정학적 긴장 고조와 글로벌 경기 회복 기대감으로 인해 원유 수요가 증가하며 가격 상승 압력을 받고 있습니다.",
+      "price": "$103.44",
+      "per": "N/A",
+      "perComment": "원자재는 PER을 산출하지 않습니다.",
+      "pbr": "N/A",
+      "pbrComment": "원자재는 PBR을 산출하지 않습니다.",
+      "dividendYield": "N/A",
+      "dividendComment": "원자재는 배당을 지급하지 않습니다.",
+      "valuationState": "지정학적 리스크와 공급 불안정으로 인해 높은 변동성을 보이며, 단기적인 가격 상승 가능성이 있습니다.",
+      "high52": "$119.48",
+      "low52": "$54.98",
+      "targetPrice": "$110.00",
+      "supply": {
+        "foreigner": "기관 매수세 유입",
+        "institution": "지정학적 리스크 반영 매수",
+        "individual": "관심 증가",
+        "program": "매수 우위",
+        "total": "지정학적 긴장 고조로 인해 매수세가 강하게 유입되고 있습니다."
+      }
+    }
+  ],
+  "calendar": [
+    {
+      "date": "10월 26일",
+      "event": "구글(Alphabet) 3분기 실적 발표",
+      "importance": "HIGH",
+      "term": "실적발표(Earnings)",
+      "termDefinition": "이것은 회사가 일정 기간 동안 얼마나 돈을 벌고 썼는지, 즉 사업 성적표를 공개하는 것을 뜻해요. 투자자들은 이 성적표를 보고 회사가 잘하고 있는지, 앞으로 더 잘할지 판단해요.",
+      "impact": "구글의 실적은 광고 시장 및 클라우드 산업의 전반적인 건전성을 보여주는 지표입니다. 실적이 예상치를 상회하면 기술주 전반에 긍정적인 영향을 미쳐 QQQM, QLD 등 기술주 ETF에 호재로 작용할 수 있습니다. 반대로 부진하면 시장 전반의 투자 심리가 위축될 수 있으니, 발표 내용과 가이던스를 면밀히 확인해야 합니다."
+    },
+    {
+      "date": "10월 28일",
+      "event": "테슬라 3분기 실적 발표",
+      "importance": "HIGH",
+      "term": "실적발표(Earnings)",
+      "termDefinition": "이것은 회사가 일정 기간 동안 얼마나 돈을 벌고 썼는지, 즉 사업 성적표를 공개하는 것을 뜻해요. 투자자들은 이 성적표를 보고 회사가 잘하고 있는지, 앞으로 더 잘할지 판단해요.",
+      "impact": "테슬라의 실적은 전기차 시장의 성장세와 마진율, 그리고 자율주행 등 신기술 개발 현황을 가늠할 수 있는 중요한 지표입니다. 실적 발표에 따라 테슬라(TSLA) 주가는 물론, 관련 전기차 및 배터리 섹터, 그리고 혁신 기술 ETF(ARKX)에도 큰 영향을 미칠 수 있습니다. 인도량, 마진, 미래 가이던스에 주목하세요."
+    },
+    {
+      "date": "11월 01일",
+      "event": "미국 FOMC 정례회의",
+      "importance": "HIGH",
+      "term": "FOMC (연방공개시장위원회)",
+      "termDefinition": "이것은 미국 중앙은행(연준)에서 가장 중요한 회의예요. 여기서 미국의 기준금리를 올릴지, 내릴지, 아니면 그대로 둘지 결정해요. 이 결정은 전 세계 경제와 주식 시장에 엄청난 영향을 줘요.",
+      "impact": "FOMC의 금리 결정과 향후 통화 정책 방향에 대한 성명은 글로벌 금융 시장의 가장 큰 변수입니다. 금리 인상 또는 동결 여부, 그리고 연준 의장의 발언에 따라 주식, 채권, 환율 등 모든 자산 시장이 크게 요동칠 수 있습니다. 포트폴리오의 현금 비중을 조절하거나, 금리 변화에 민감한 성장주(미국 기술주)와 가치주(한국 금융주)의 비중을 미리 조정하는 전략이 필요합니다."
+    },
+    {
+      "date": "11월 10일",
+      "event": "미국 10월 소비자물가지수(CPI) 발표",
+      "importance": "HIGH",
+      "term": "CPI (소비자물가지수)",
+      "termDefinition": "이것은 우리가 일상생활에서 자주 사는 물건이나 서비스 가격이 얼마나 올랐는지(또는 내렸는지) 보여주는 지표예요. 쉽게 말해 '장바구니 물가'가 얼마나 변했는지 알려주는 숫자죠.",
+      "impact": "CPI는 인플레이션의 핵심 지표로, 연준의 금리 정책 결정에 직접적인 영향을 미칩니다. CPI가 예상보다 높게 나오면 금리 인상 압력이 커져 주식 시장에 부정적일 수 있고, 낮게 나오면 금리 인하 기대감으로 긍정적일 수 있습니다. 발표 전후로 시장 변동성이 커질 수 있으니, 인플레이션 헤지 자산(예: 원자재 ETF)과 금리 민감 자산(기술주, 채권)의 비중을 점검해야 합니다."
+    },
+    {
+      "date": "11월 15일",
+      "event": "미국 10월 생산자물가지수(PPI) 발표",
+      "importance": "MEDIUM",
+      "term": "PPI (생산자물가지수)",
+      "termDefinition": "이것은 공장에서 물건을 만들 때 드는 비용(원자재 가격, 인건비 등)이 얼마나 올랐는지(또는 내렸는지) 보여주는 지표예요. 소비자물가(CPI)가 오르기 전에 미리 신호를 주는 경우가 많아요.",
+      "impact": "PPI는 미래 CPI의 선행 지표 역할을 하므로, PPI 상승은 향후 소비자 물가 상승 압력을 시사할 수 있습니다. 이는 연준의 금리 정책에 영향을 미쳐 시장에 간접적인 영향을 줍니다. CPI와 함께 인플레이션 추세를 파악하는 데 중요한 자료이므로, 발표 내용을 확인하고 포트폴리오에 미칠 영향을 예측하는 것이 좋습니다."
+    },
+    {
+      "date": "11월 29일",
+      "event": "미국 10월 개인소비지출(PCE) 물가지수 발표",
+      "importance": "HIGH",
+      "term": "PCE 물가지수",
+      "termDefinition": "이것은 미국 사람들이 물건을 사고 서비스를 이용하는 데 얼마나 돈을 썼는지, 그리고 그 가격이 얼마나 변했는지 보여주는 지표예요. 연준이 가장 중요하게 생각하는 물가 지표 중 하나예요.",
+      "impact": "PCE 물가지수는 연준이 선호하는 인플레이션 지표로, FOMC의 금리 결정에 매우 중요한 영향을 미칩니다. 예상치를 상회하는 PCE는 긴축 장기화 우려를 키워 주식 시장에 부담을 줄 수 있습니다. 발표 결과에 따라 시장의 금리 인하 기대감이 조정될 수 있으므로, 발표 내용을 확인하고 시장의 반응을 주시하며 포트폴리오 전략을 유연하게 가져가야 합니다."
+    }
+  ]
+}
